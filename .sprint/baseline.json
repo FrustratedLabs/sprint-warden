@@ -1,17 +1,17 @@
 {
   "schema": 1,
-  "created": "2026-10-12T10:00:53.514Z",
-  "reason": "close S04",
-  "sprint": "S04",
-  "run": "20261012T100053511Z-4c57",
+  "created": "2026-10-12T10:16:34.682Z",
+  "reason": "close S05",
+  "sprint": "S05",
+  "run": "20261012T101634679Z-7e66",
   "git": {
-    "head": "c66ebb648a46cdc744c773137cf8e0ed3b0fb5c7",
+    "head": "62da88818980c6b82f9def11fe113d88bd389bfc",
     "branch": "main"
   },
   "totals": {
-    "total": 300,
-    "passed": 299,
-    "skipped": 1
+    "total": 315,
+    "passed": 313,
+    "skipped": 2
   },
   "tests": {
     "tests.test_s01_attribution.test_S01_ac_satisfied_failing_and_no_tests": "passed",
@@ -313,6 +313,21 @@
     "tests.test_s04_lifecycle.test_S04_start_activates_exactly_one_sprint": "passed",
     "tests.test_s04_lifecycle.test_S04_start_sets_current_dates_and_refreshes_agent_rules": "passed",
     "tests.test_s04_lifecycle.test_S04_status_and_doctor_flag_inconsistent_sprint_state": "passed",
-    "tests.test_s04_lifecycle.test_S04_status_shows_sprint_acs_and_regressions_per_sprint": "passed"
+    "tests.test_s04_lifecycle.test_S04_status_shows_sprint_acs_and_regressions_per_sprint": "passed",
+    "tests.test_s05_dashboard.test_S05_api_no_external_resources_in_static_files": "passed",
+    "tests.test_s05_dashboard.test_S05_api_project_detail_has_sprints_acs_and_latest_run": "passed",
+    "tests.test_s05_dashboard.test_S05_api_projects_lists_every_registered_project": "passed",
+    "tests.test_s05_dashboard.test_S05_api_runs_newest_first_with_limit_and_single_run": "passed",
+    "tests.test_s05_dashboard.test_S05_api_unknown_project_is_404": "passed",
+    "tests.test_s05_dashboard.test_S05_browser_five_views_render": "skipped",
+    "tests.test_s05_dashboard.test_S05_browser_views_render_in_headless_chrome": "passed",
+    "tests.test_s05_dashboard.test_S05_portfolio_detail_of_a_broken_project_reports_the_error": "passed",
+    "tests.test_s05_dashboard.test_S05_portfolio_status_and_ordering": "passed",
+    "tests.test_s05_dashboard.test_S05_security_is_read_only": "passed",
+    "tests.test_s05_dashboard.test_S05_security_refuses_non_localhost_bind": "passed",
+    "tests.test_s05_dashboard.test_S05_security_rejects_foreign_host_headers": "passed",
+    "tests.test_s05_dashboard.test_S05_security_static_files_only_from_the_whitelist": "passed",
+    "tests.test_s05_env_skips.test_S05_ordinary_skip_allowance_expires_at_the_next_baseline": "passed",
+    "tests.test_s05_env_skips.test_S05_permanent_skip_survives_rebaselines_for_environment_dependent_tests": "passed"
   }
 }
