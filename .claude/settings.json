@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sprint gate --hook",
+            "timeout": 1800
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sprint hook session-start",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
