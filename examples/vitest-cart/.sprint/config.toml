@@ -1,0 +1,15 @@
+[project]
+name = "vitest-cart"
+key  = "CART"
+mode = "sprints"
+stack = "vitest"
+
+[test]
+command  = "npx vitest run --reporter=default --reporter=junit --outputFile.junit=.sprint/out/junit.xml"
+reports  = [".sprint/out/junit.xml"]
+timeout_minutes = 10
+clean_reports_before_run = true
+sources = ["**/*.test.*"]
+
+[sprint]
+current = "S02"

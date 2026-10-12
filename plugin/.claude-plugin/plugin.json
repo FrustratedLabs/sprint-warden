@@ -1,6 +1,6 @@
 {
   "name": "sprintwarden",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Test ratchet for AI coding agents: Claude can't finish while tests that existed before are deleted, skipped or failing. Stop hook, optional edit guard, session briefing and /sprintwarden:sprint-status.",
   "author": { "name": "sprintwarden contributors" },
   "homepage": "https://github.com/sprintwarden/sprintwarden",

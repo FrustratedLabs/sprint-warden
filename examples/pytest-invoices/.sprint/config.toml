@@ -1,0 +1,24 @@
+[project]
+name = "pytest-invoices"
+key  = "PYINV"
+mode = "sprints"
+stack = "pytest"
+
+[test]
+command  = "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml"
+reports  = [".sprint/out/junit.xml"]
+timeout_minutes = 10
+clean_reports_before_run = true
+sources = ["**/test_*.py"]
+
+[sprint]
+current = "S02"
+
+[gate]
+fail_on_new_skips = true
+fail_on_missing_tests = true
+require_current_sprint_tests = true
+
+[hooks]
+claude_stop_hook = true
+git_pre_push = true

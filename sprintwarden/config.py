@@ -121,6 +121,7 @@ class Config:
     stop_hook_max_blocks: int
     git_pre_push: bool
     history_in_git: bool
+    latest_in_git: bool
     history_keep: int
     allure_url: str
     warnings: list[str] = field(default_factory=list)
@@ -190,7 +191,7 @@ _KNOWN: dict[str, set[str]] = {
         "stop_hook_max_blocks",
         "git_pre_push",
     },
-    "history": {"in_git", "keep"},
+    "history": {"in_git", "keep", "latest_in_git"},
     "ui": {"allure_url"},
 }
 _SUITE_KEYS = {"name", "command", "command_windows", "reports", "cwd", "timeout_minutes", "env"}
@@ -323,6 +324,7 @@ def config_from_dict(root: Path, raw: dict[str, Any], source: str = "config.toml
         stop_hook_max_blocks=int(_num(hooks, "stop_hook_max_blocks", 3, source)),
         git_pre_push=_bool(hooks, "git_pre_push", True, source),
         history_in_git=_bool(history, "in_git", True, source),
+        latest_in_git=_bool(history, "latest_in_git", False, source),
         history_keep=int(_num(history, "keep", 0, source)),
         allure_url=_str(ui, "allure_url", "", source),
         warnings=warnings,

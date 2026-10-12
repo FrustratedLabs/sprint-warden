@@ -66,11 +66,15 @@ def load_run(paths: Paths, run_id: str) -> dict[str, Any] | None:
 
 
 def load_latest(paths: Paths) -> dict[str, Any] | None:
+    """latest.json, or (fresh clone, latest.json not committed) the newest run file."""
     try:
         data = read_json(paths.latest)
     except Exception:
-        return None
-    return data if isinstance(data, dict) else None
+        data = None
+    if isinstance(data, dict):
+        return data
+    newest = list_runs(paths, 5)
+    return next((r for r in newest if not r.get("bypassed")), None)
 
 
 def cap_lists(record: dict[str, Any], cap: int = LIST_CAP) -> dict[str, Any]:
