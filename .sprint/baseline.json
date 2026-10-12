@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "created": "2026-10-12T09:54:42.057Z",
-  "reason": "close S03",
-  "sprint": "S03",
-  "run": "20261012T095442053Z-71c1",
+  "created": "2026-10-12T10:00:53.514Z",
+  "reason": "close S04",
+  "sprint": "S04",
+  "run": "20261012T100053511Z-4c57",
   "git": {
-    "head": "f1165b6296e901af21685ad67074bb66bda73f63",
+    "head": "c66ebb648a46cdc744c773137cf8e0ed3b0fb5c7",
     "branch": "main"
   },
   "totals": {
-    "total": 278,
-    "passed": 277,
+    "total": 300,
+    "passed": 299,
     "skipped": 1
   },
   "tests": {
@@ -211,6 +211,7 @@
     "tests.test_s02_units.test_S02_baseline_file_is_sorted_one_test_per_line": "passed",
     "tests.test_s02_units.test_S02_cap_lists_keeps_counts_honest": "passed",
     "tests.test_s02_units.test_S02_effective_acceptances_follow_the_baseline": "passed",
+    "tests.test_s02_units.test_S02_history_files_stay_small_for_long_projects": "passed",
     "tests.test_s02_units.test_S02_run_files_are_sharded_by_month": "passed",
     "tests.test_s02_units.test_S02_run_ids_sort_chronologically_within_a_second": "passed",
     "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env0-human]": "passed",
@@ -291,6 +292,27 @@
     "tests.test_s03_packaging.test_S03_action_metadata": "passed",
     "tests.test_s03_packaging.test_S03_ci_templates_ship_in_the_package": "passed",
     "tests.test_s03_packaging.test_S03_plugin_and_marketplace_are_consistent": "passed",
-    "tests.test_s03_packaging.test_S03_plugin_launcher_finds_the_cli": "passed"
+    "tests.test_s03_packaging.test_S03_plugin_launcher_finds_the_cli": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_baselines_tags_and_updates_changelog": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_creates_a_changelog_and_supports_no_commit_no_tag": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_is_human_only_and_needs_a_clean_head": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_no_run_rejects_a_stale_gate": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_no_run_reuses_a_matching_gate_run": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_refuses_a_failing_gate": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_refuses_if_the_tag_exists": "passed",
+    "tests.test_s04_lifecycle.test_S04_close_refuses_unsatisfied_acs": "passed",
+    "tests.test_s04_lifecycle.test_S04_export_includes_full_sprints_and_history": "passed",
+    "tests.test_s04_lifecycle.test_S04_full_lifecycle_across_sprints": "passed",
+    "tests.test_s04_lifecycle.test_S04_gate_computes_ac_state_from_passing_tests": "passed",
+    "tests.test_s04_lifecycle.test_S04_gate_labels_regressions_from_earlier_and_closed_sprints": "passed",
+    "tests.test_s04_lifecycle.test_S04_gate_requires_tests_for_the_active_sprint": "passed",
+    "tests.test_s04_lifecycle.test_S04_gate_unsatisfied_acs_alone_do_not_fail_the_gate": "passed",
+    "tests.test_s04_lifecycle.test_S04_new_creates_the_next_numbered_planned_sprint": "passed",
+    "tests.test_s04_lifecycle.test_S04_new_requires_sprints_mode": "passed",
+    "tests.test_s04_lifecycle.test_S04_note_appends_with_agent_name": "passed",
+    "tests.test_s04_lifecycle.test_S04_start_activates_exactly_one_sprint": "passed",
+    "tests.test_s04_lifecycle.test_S04_start_sets_current_dates_and_refreshes_agent_rules": "passed",
+    "tests.test_s04_lifecycle.test_S04_status_and_doctor_flag_inconsistent_sprint_state": "passed",
+    "tests.test_s04_lifecycle.test_S04_status_shows_sprint_acs_and_regressions_per_sprint": "passed"
   }
 }
