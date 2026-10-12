@@ -8,6 +8,30 @@
       "at": "2026-10-12T10:15:06.206Z",
       "git_head": "16d048435a6ce8e3b143e85b2bbf63f98a8f16a5",
       "permanent": true
+    },
+    {
+      "id": "tests.test_s06_examples.test_S06_example_vitest_regression_is_caught",
+      "reason": "opt-in (SPRINT_EXAMPLES=1) and toolchain-dependent; the Examples workflow runs them per stack",
+      "by": "sprintwarden contributors (--i-am-human, in claude-code)",
+      "at": "2026-10-12T10:27:08.021Z",
+      "git_head": "923d92e2744ad332174406ada163dbf503351684",
+      "permanent": true
+    },
+    {
+      "id": "tests.test_s06_examples.test_S06_example_go_regression_is_caught",
+      "reason": "opt-in (SPRINT_EXAMPLES=1) and toolchain-dependent; the Examples workflow runs them per stack",
+      "by": "sprintwarden contributors (--i-am-human, in claude-code)",
+      "at": "2026-10-12T10:27:08.021Z",
+      "git_head": "923d92e2744ad332174406ada163dbf503351684",
+      "permanent": true
+    },
+    {
+      "id": "tests.test_s06_examples.test_S06_example_gradle_regression_is_caught",
+      "reason": "opt-in (SPRINT_EXAMPLES=1) and toolchain-dependent; the Examples workflow runs them per stack",
+      "by": "sprintwarden contributors (--i-am-human, in claude-code)",
+      "at": "2026-10-12T10:27:08.021Z",
+      "git_head": "923d92e2744ad332174406ada163dbf503351684",
+      "permanent": true
     }
   ]
 }
