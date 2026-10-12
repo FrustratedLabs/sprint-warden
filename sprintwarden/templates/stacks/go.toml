@@ -1,0 +1,14 @@
+# Go with go-junit-report (go install github.com/jstemmer/go-junit-report/v2@latest).
+# Name tests Test_S01_DoesThing, or use subtests: t.Run("S01 does thing", ...).
+name = "go"
+label = "Go"
+priority = 50
+example_test = "Test_S01_DoesThing"
+
+[[detect]]
+file = "go.mod"
+
+[test]
+command = "go test ./... -v 2>&1 | go-junit-report > .sprint/out/junit.xml"
+reports = [".sprint/out/junit.xml"]
+sources = ["**/*_test.go"]

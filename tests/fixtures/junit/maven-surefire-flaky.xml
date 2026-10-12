@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.example.sprintdemo.AppTest" time="0.003" tests="8" errors="1" skipped="1" failures="1" flakes="1">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.version" value="17.0.15"/>
+  </properties>
+  <testcase name="healthCheck" classname="com.example.sprintdemo.AppTest" time="0.012"/>
+  <testcase name="S01_loginSucceeds" classname="com.example.sprintdemo.AppTest" time="0.002"/>
+  <testcase name="S02_crashes" classname="com.example.sprintdemo.AppTest" time="0.002">
+    <error message="boom" type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: boom
+	at com.example.sprintdemo.AppTest.S02_crashes(AppTest.java:61)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></error>
+    <rerunError message="boom" type="java.lang.IllegalStateException">
+      <stackTrace><![CDATA[java.lang.IllegalStateException: boom
+	at com.example.sprintdemo.AppTest.S02_crashes(AppTest.java:61)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></stackTrace>
+    </rerunError>
+    <rerunError message="boom" type="java.lang.IllegalStateException">
+      <stackTrace><![CDATA[java.lang.IllegalStateException: boom
+	at com.example.sprintdemo.AppTest.S02_crashes(AppTest.java:61)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></stackTrace>
+    </rerunError>
+  </testcase>
+  <testcase name="S01_logoutClearsSession" classname="com.example.sprintdemo.AppTest" time="0.0"/>
+  <testcase name="S01_flakyRefresh" classname="com.example.sprintdemo.AppTest" time="0.001">
+    <flakyFailure message="session refresh timed out" type="org.opentest4j.AssertionFailedError">
+      <stackTrace><![CDATA[org.opentest4j.AssertionFailedError: session refresh timed out
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.example.sprintdemo.AppTest.S01_flakyRefresh(AppTest.java:39)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></stackTrace>
+    </flakyFailure>
+  </testcase>
+  <testcase name="S02_invoiceRounds" classname="com.example.sprintdemo.AppTest" time="0.003">
+    <failure message="expected 10 but was 11 ==&gt; expected: &lt;10&gt; but was: &lt;11&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected 10 but was 11 ==> expected: <10> but was: <11>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at com.example.sprintdemo.AppTest.S02_invoiceRounds(AppTest.java:46)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></failure>
+    <rerunFailure message="expected 10 but was 11 ==&gt; expected: &lt;10&gt; but was: &lt;11&gt;" type="org.opentest4j.AssertionFailedError">
+      <stackTrace><![CDATA[org.opentest4j.AssertionFailedError: expected 10 but was 11 ==> expected: <10> but was: <11>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at com.example.sprintdemo.AppTest.S02_invoiceRounds(AppTest.java:46)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></stackTrace>
+    </rerunFailure>
+    <rerunFailure message="expected 10 but was 11 ==&gt; expected: &lt;10&gt; but was: &lt;11&gt;" type="org.opentest4j.AssertionFailedError">
+      <stackTrace><![CDATA[org.opentest4j.AssertionFailedError: expected 10 but was 11 ==> expected: <10> but was: <11>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at com.example.sprintdemo.AppTest.S02_invoiceRounds(AppTest.java:46)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></stackTrace>
+    </rerunFailure>
+  </testcase>
+  <testcase name="S03_exportProducesPdf" classname="com.example.sprintdemo.AppTest" time="0.001"/>
+  <testcase name="S02_invoicePdf" classname="com.example.sprintdemo.AppTest" time="0.0">
+    <skipped message="not ready"/>
+  </testcase>
+</testsuite>

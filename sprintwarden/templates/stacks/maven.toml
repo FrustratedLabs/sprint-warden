@@ -1,0 +1,13 @@
+# Maven Surefire (JUnit 4/5, TestNG).
+name = "maven"
+label = "Maven"
+priority = 55
+example_test = "S01_doesThing"
+
+[[detect]]
+file = "pom.xml"
+
+[test]
+command = "mvn -q test"
+reports = ["**/target/surefire-reports/*.xml"]
+sources = ["**/src/test/**"]

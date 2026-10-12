@@ -1,0 +1,10 @@
+# Any runner that writes JUnit XML. Set the command and where the XML lands.
+name = "custom"
+label = "Custom"
+priority = 0
+example_test = "S01_doesThing"
+
+[test]
+command = ""
+reports = []
+sources = []

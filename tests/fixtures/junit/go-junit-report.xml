@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="8" failures="2" skipped="1">
+	<testsuite name="example.com/sprintdemo/auth" tests="2" failures="0" errors="0" id="0" hostname="localhost" time="0.609" timestamp="2026-10-12T14:41:26+00:00">
+		<testcase name="Test_S01_LoginSucceeds" classname="example.com/sprintdemo/auth" time="0.000"></testcase>
+		<testcase name="Test_S01_LogoutClearsSession" classname="example.com/sprintdemo/auth" time="0.000"></testcase>
+	</testsuite>
+	<testsuite name="example.com/sprintdemo/export" tests="2" failures="0" errors="0" id="1" hostname="localhost" time="0.597" timestamp="2026-10-12T14:41:26+00:00">
+		<testcase name="TestExport" classname="example.com/sprintdemo/export" time="0.000"></testcase>
+		<testcase name="TestExport/S03_export_produces_pdf" classname="example.com/sprintdemo/export" time="0.000"></testcase>
+	</testsuite>
+	<testsuite name="example.com/sprintdemo/health" tests="1" failures="0" errors="0" id="2" hostname="localhost" time="0.600" timestamp="2026-10-12T14:41:26+00:00">
+		<testcase name="TestHealthCheck" classname="example.com/sprintdemo/health" time="0.000"></testcase>
+	</testsuite>
+	<testsuite name="example.com/sprintdemo/invoice" tests="3" failures="2" errors="0" id="3" hostname="localhost" skipped="1" time="0.591" timestamp="2026-10-12T14:41:26+00:00">
+		<testcase name="Test_S02_InvoiceRounds" classname="example.com/sprintdemo/invoice" time="0.000">
+			<failure message="Failed"><![CDATA[    invoice_test.go:7: expected 10 but was 11]]></failure>
+		</testcase>
+		<testcase name="Test_S02_InvoicePdf" classname="example.com/sprintdemo/invoice" time="0.000">
+			<skipped message="Skipped"><![CDATA[    invoice_test.go:12: not ready]]></skipped>
+		</testcase>
+		<testcase name="Test_S02_Crashes" classname="example.com/sprintdemo/invoice" time="0.000">
+			<failure message="Failed"></failure>
+		</testcase>
+		<system-out><![CDATA[panic: boom [recovered]
+	panic: boom
+
+goroutine 36 [running]:
+testing.tRunner.func1.2({0x100b10380, 0x100b3efb0})
+	/usr/local/go/src/testing/testing.go:1734 +0x1ac
+testing.tRunner.func1()
+	/usr/local/go/src/testing/testing.go:1737 +0x334
+panic({0x100b10380?, 0x100b3efb0?})
+	/usr/local/go/src/runtime/panic.go:792 +0x124
+example.com/sprintdemo/invoice.Test_S02_Crashes(0x1400012a8c0?)
+	/home/dev/project/invoice/invoice_test.go:16 +0x2c
+testing.tRunner(0x1400012a8c0, 0x100b3e560)
+	/usr/local/go/src/testing/testing.go:1792 +0xe4
+created by testing.(*T).Run in goroutine 1
+	/usr/local/go/src/testing/testing.go:1851 +0x374]]></system-out>
+	</testsuite>
+</testsuites>

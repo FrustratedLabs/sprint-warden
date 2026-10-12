@@ -1,0 +1,27 @@
+# pytest. Test functions need the test_ prefix, so name them test_S01_does_thing.
+name = "pytest"
+label = "pytest"
+priority = 40
+example_test = "test_S01_does_thing"
+
+[[detect]]
+file = "pytest.ini"
+[[detect]]
+file = "conftest.py"
+[[detect]]
+file = "pyproject.toml"
+contains = "pytest"
+[[detect]]
+file = "setup.cfg"
+contains = "pytest"
+[[detect]]
+file = "tox.ini"
+contains = "pytest"
+[[detect]]
+file = "requirements*.txt"
+contains = "pytest"
+
+[test]
+command = "pytest --junitxml=.sprint/out/junit.xml"
+reports = [".sprint/out/junit.xml"]
+sources = ["**/test_*.py", "**/*_test.py", "**/tests/**/*.py", "**/conftest.py"]

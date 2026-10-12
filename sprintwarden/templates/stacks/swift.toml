@@ -1,0 +1,13 @@
+# Swift Package Manager (XCTest / swift-testing). Name tests test_S01_doesThing.
+name = "swift"
+label = "Swift"
+priority = 50
+example_test = "test_S01_doesThing"
+
+[[detect]]
+file = "Package.swift"
+
+[test]
+command = "swift test --parallel --xunit-output .sprint/out/junit.xml"
+reports = [".sprint/out/junit*.xml"]
+sources = ["**/Tests/**/*.swift"]

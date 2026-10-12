@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="1" tests="7" time="0.020" timestamp="2026-10-12T14:39:00.033315+00:00" hostname="localhost"><testcase classname="tests.test_auth" name="test_S01_login_succeeds" time="0.000" /><testcase classname="tests.test_auth" name="test_S01_logout_clears_session" time="0.000" /><testcase classname="tests.test_export" name="test_S03_export[pdf]" time="0.000" /><testcase classname="tests.test_health" name="test_health_check" time="0.000" /><testcase classname="tests.test_invoice" name="test_S02_invoice_rounds" time="0.000"><failure message="AssertionError: expected 10 but was 11&#10;assert 11 == 10">def test_S02_invoice_rounds():
+        total = invoice_total(10.5)
+&gt;       assert total == 10, f"expected 10 but was {total}"
+E       AssertionError: expected 10 but was 11
+E       assert 11 == 10
+
+tests/test_invoice.py:8: AssertionError</failure></testcase><testcase classname="tests.test_invoice" name="test_S02_invoice_pdf" time="0.000"><skipped type="pytest.skip" message="not ready">/home/dev/project/tests/test_invoice.py:11: not ready</skipped></testcase><testcase classname="tests.test_invoice" name="test_S02_crashes" time="0.000"><failure message="RuntimeError: boom">def test_S02_crashes():
+&gt;       raise RuntimeError("boom")
+E       RuntimeError: boom
+
+tests/test_invoice.py:17: RuntimeError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,47 @@
+<testsuites>
+  <testsuite name="SprintDemo.Tests.dll" tests="7" skipped="1" failures="2" errors="0" time="0.012141" timestamp="2026-10-12T09:16:21" hostname="localhost" id="0" package="SprintDemo.Tests.dll">
+    <properties />
+    <testcase classname="SprintDemo.Tests.HealthTests" name="HealthCheck" time="0.0019712" />
+    <testcase classname="SprintDemo.Tests.ExportTests" name="S03_ExportProducesPdf" time="0.0024107" />
+    <testcase classname="SprintDemo.Tests.AuthTests" name="S01_LoginSucceeds" time="0.0021894" />
+    <testcase classname="SprintDemo.Tests.InvoiceTests" name="S02_InvoicePdf" time="0.0000001">
+      <skipped />
+    </testcase>
+    <testcase classname="SprintDemo.Tests.AuthTests" name="S01_LogoutClearsSession" time="0.0000836" />
+    <testcase classname="SprintDemo.Tests.InvoiceTests" name="S02_InvoiceRounds" time="0.0051733">
+      <failure type="failure" message="expected 10 but was 11&#xA;Expected: True&#xA;Actual:   False">at SprintDemo.Tests.InvoiceTests.S02_InvoiceRounds() in /home/dev/project/tests/SprintDemo.Tests/InvoiceTests.cs:line 9
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</failure>
+    </testcase>
+    <testcase classname="SprintDemo.Tests.InvoiceTests" name="S02_Crashes" time="0.0003128">
+      <failure type="failure" message="System.InvalidOperationException : boom">at SprintDemo.Tests.InvoiceTests.S02_Crashes() in /home/dev/project/tests/SprintDemo.Tests/InvoiceTests.cs:line 20
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</failure>
+    </testcase>
+    <system-out>
+Test Framework Informational Messages:
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 8.0.21)
+[xUnit.net 00:00:00.05]   Discovering: SprintDemo.Tests
+[xUnit.net 00:00:00.08]   Discovered:  SprintDemo.Tests
+[xUnit.net 00:00:00.09]   Starting:    SprintDemo.Tests
+[xUnit.net 00:00:00.16]   Finished:    SprintDemo.Tests
+</system-out>
+    <system-err>Warning - [xUnit.net 00:00:00.13]     SprintDemo.Tests.InvoiceTests.S02_InvoicePdf [SKIP]
+Warning - [xUnit.net 00:00:00.13]       not ready
+Error - [xUnit.net 00:00:00.14]     SprintDemo.Tests.InvoiceTests.S02_InvoiceRounds [FAIL]
+Error - [xUnit.net 00:00:00.14]       expected 10 but was 11
+Error - [xUnit.net 00:00:00.14]       Expected: True
+Error - [xUnit.net 00:00:00.14]       Actual:   False
+Error - [xUnit.net 00:00:00.14]       Stack Trace:
+Error - [xUnit.net 00:00:00.14]         /home/dev/project/tests/SprintDemo.Tests/InvoiceTests.cs(9,0): at SprintDemo.Tests.InvoiceTests.S02_InvoiceRounds()
+Error - [xUnit.net 00:00:00.14]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+Error - [xUnit.net 00:00:00.14]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Error - [xUnit.net 00:00:00.14]     SprintDemo.Tests.InvoiceTests.S02_Crashes [FAIL]
+Error - [xUnit.net 00:00:00.14]       System.InvalidOperationException : boom
+Error - [xUnit.net 00:00:00.14]       Stack Trace:
+Error - [xUnit.net 00:00:00.14]         /home/dev/project/tests/SprintDemo.Tests/InvoiceTests.cs(20,0): at SprintDemo.Tests.InvoiceTests.S02_Crashes()
+Error - [xUnit.net 00:00:00.14]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+Error - [xUnit.net 00:00:00.14]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+</system-err>
+  </testsuite>
+</testsuites>

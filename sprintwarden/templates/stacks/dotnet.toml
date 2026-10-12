@@ -1,0 +1,19 @@
+# .NET with JunitXml.TestLogger (dotnet add package JunitXml.TestLogger).
+name = "dotnet"
+label = ".NET"
+priority = 50
+example_test = "S01_DoesThing"
+
+[[detect]]
+file = "*.sln"
+[[detect]]
+file = "*.slnx"
+[[detect]]
+file = "*.csproj"
+[[detect]]
+file = "*.fsproj"
+
+[test]
+command = "dotnet test --logger \"junit;LogFilePath=../.sprint/out/junit.xml\""
+reports = [".sprint/out/junit.xml"]
+sources = ["**/*Tests/**/*.cs", "**/*Test/**/*.cs", "**/*.Tests/**", "**/*Tests.cs", "**/*Test.cs"]
