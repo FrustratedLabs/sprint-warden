@@ -132,15 +132,19 @@ class Acceptance:
     by: str
     at: str
     git_head: str | None = None
+    permanent: bool = False  # e.g. a test that only runs on some OSes/toolchains
 
     def to_json(self) -> dict[str, Any]:
-        return {
+        data: dict[str, Any] = {
             "id": self.id,
             "reason": self.reason,
             "by": self.by,
             "at": self.at,
             "git_head": self.git_head,
         }
+        if self.permanent:
+            data["permanent"] = True
+        return data
 
 
 def _load_list(path: Path, key: str) -> list[Acceptance]:
@@ -160,6 +164,7 @@ def _load_list(path: Path, key: str) -> list[Acceptance]:
                 by=str(item.get("by", "")),
                 at=str(item.get("at", "")),
                 git_head=item.get("git_head"),
+                permanent=bool(item.get("permanent", False)),
             )
         )
     return out
@@ -201,19 +206,30 @@ def effective(items: list[Acceptance], baseline: Baseline | None) -> dict[str, A
     out = {}
     for a in items:
         at = parse_iso(a.at)
-        if at is None or at >= created:
+        if a.permanent or at is None or at >= created:
             out[a.id] = a
     return out
 
 
 def add(
-    items: list[Acceptance], ids: list[str], *, reason: str, by: str, git_head: str | None
+    items: list[Acceptance],
+    ids: list[str],
+    *,
+    reason: str,
+    by: str,
+    git_head: str | None,
+    permanent: bool = False,
 ) -> list[str]:
-    """Record acceptances; re-accepting refreshes the entry. Returns the ids written."""
+    """Record acceptances; re-accepting refreshes the entry. Returns the ids written.
+
+    ``permanent`` acceptances apply to every baseline, past and future: meant for
+    tests that legitimately can't run everywhere (OS- or toolchain-specific)."""
     at = iso_ms()
     index = {a.id: i for i, a in enumerate(items)}
     for test in ids:
-        entry = Acceptance(id=test, reason=reason, by=by, at=at, git_head=git_head)
+        entry = Acceptance(
+            id=test, reason=reason, by=by, at=at, git_head=git_head, permanent=permanent
+        )
         if test in index:
             items[index[test]] = entry
         else:

@@ -456,18 +456,28 @@ def cmd_allow_skip(env: Env, args: Any) -> Outcome:
         raise SprintError("name the test ids to allow, or pass --all-new")
     ids, unmatched = _expand(specs, sorted((full.get("tests") or {}).keys()))
     items = bl.load_skips(cfg.paths)
-    bl.add(items, ids, reason=reason, by=by, git_head=gitutil.head(cfg.root))
+    permanent = bool(getattr(args, "permanent", False))
+    bl.add(items, ids, reason=reason, by=by, git_head=gitutil.head(cfg.root), permanent=permanent)
     bl.save_skips(cfg.paths, items)
     st = env.style
-    lines = [f"{st.ok} allowed {plural(len(ids), 'skip')} ({reason})"] + [
+    kind = "permanent skip" if permanent else "skip"
+    lines = [f"{st.ok} allowed {plural(len(ids), kind)} ({reason})"] + [
         f"     {i}" for i in ids[:50]
     ]
+    if permanent:
+        lines.append(st.dim("  stays allowed across future baselines (environment-dependent test)"))
     for u in unmatched:
         lines.append(f"{st.warn} {u} was not in the latest run (recorded anyway)")
     lines.append("Commit .sprint/skips.json.")
     return Outcome(
         EXIT_OK,
-        {"allowed": ids, "unmatched": unmatched, "reason": reason, "by": by},
+        {
+            "allowed": ids,
+            "unmatched": unmatched,
+            "reason": reason,
+            "by": by,
+            "permanent": permanent,
+        },
         "\n".join(lines),
     )
 
