@@ -217,6 +217,11 @@ loops.
 (the baseline records them as skipped, so only *new* skips fail), then
 `sprint baseline`.
 
+**Tests that only run on some machines** (other OS, no browser, missing
+toolchain)? A human allows them once with
+`sprint allow-skip <test> --permanent --reason "…"`, and the allowance survives
+future baselines.
+
 **Flaky tests?** Retried-and-passed tests (e.g. Surefire `flakyFailure`) count as
 passed and are flagged as flaky. A duplicate result counts as failed if any run
 failed.

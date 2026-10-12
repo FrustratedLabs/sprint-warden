@@ -189,3 +189,13 @@ with VHS for places that need one.
 
 `sprint init` adds the project to `~/.sprintwarden/registry.toml` (spec §8) so
 `sprint ui` finds it. Tests and demos isolate this with `SPRINT_HOME`.
+
+## D-021 · Permanent skip allowances for environment-dependent tests
+
+Found while dogfooding S05: a browser test that runs in CI but is skipped on a
+laptop without Playwright's Chromium. With time-scoped allowances (D-005) it
+would need re-allowing after every baseline. `sprint allow-skip --permanent`
+(human-only, reason required) records `"permanent": true`, and that allowance
+applies to every baseline. Use it for OS- or toolchain-specific tests only; an
+ordinary allowance still expires at the next baseline, so a skip that was
+meant to be temporary can't become permanent by accident.
