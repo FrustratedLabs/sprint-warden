@@ -26,7 +26,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from sprintwarden import __version__, agentdetect, baseline as bl, gitutil, runs
+from sprintwarden import __version__, agentdetect, gitutil, runs
+from sprintwarden import baseline as bl
 from sprintwarden.attribution import (
     LEGACY,
     ACResult,
@@ -38,8 +39,17 @@ from sprintwarden.attribution import (
 )
 from sprintwarden.config import Config
 from sprintwarden.globs import find_files, relpath
-from sprintwarden.junit import FAILED, PASSED, SKIPPED, ParseResult, TestCase, merge, parse_file
-from sprintwarden.junit import JUnitParseError, NotJUnitError
+from sprintwarden.junit import (
+    FAILED,
+    PASSED,
+    SKIPPED,
+    JUnitParseError,
+    NotJUnitError,
+    ParseResult,
+    TestCase,
+    merge,
+    parse_file,
+)
 from sprintwarden.runner import RunnerResult, clean_reports, run_all
 from sprintwarden.sprintfile import Sprint, load_sprints
 from sprintwarden.util import SprintError, iso, plural, read_json, utcnow, write_json
@@ -178,7 +188,9 @@ def check_runner(ctx: Context, ev: Evaluation) -> Check:
     for r in ctx.runner:
         if r.error:
             problems.append(f"suite {r.suite!r}: {r.error}")
-    for sr, r in zip(ctx.collected.suites, ctx.runner or [None] * len(ctx.collected.suites), strict=False):
+    for sr, r in zip(
+        ctx.collected.suites, ctx.runner or [None] * len(ctx.collected.suites), strict=False
+    ):
         if not sr.files:
             globs = ", ".join(next(s.reports for s in ctx.cfg.suites if s.name == sr.name))
             problems.append(f"suite {sr.name!r}: no JUnit XML found matching {globs}")
@@ -205,7 +217,9 @@ def check_runner(ctx: Context, ev: Evaluation) -> Check:
     if not problems:
         return Check("runner", True, True, base)
     detail_lines = list(problems)
-    tails = [r for r in ctx.runner if r.tail and (r.exit_code not in (0, None) or r.error or not files)]
+    tails = [
+        r for r in ctx.runner if r.tail and (r.exit_code not in (0, None) or r.error or not files)
+    ]
     for r in tails:
         detail_lines.append(f"--- last lines of {r.suite!r} output ({r.command}) ---")
         detail_lines.extend(r.tail[-20:])
@@ -326,7 +340,9 @@ def evaluate(ctx: Context) -> Evaluation:
     by_sprint: dict[str, dict[str, int]] = {}
     for t in tests.values():
         totals[t.outcome] += 1
-        bucket = by_sprint.setdefault(t.sprint, {"total": 0, "passed": 0, "failed": 0, "skipped": 0})
+        bucket = by_sprint.setdefault(
+            t.sprint, {"total": 0, "passed": 0, "failed": 0, "skipped": 0}
+        )
         bucket["total"] += 1
         bucket[t.outcome] += 1
     by_sprint = {k: by_sprint[k] for k in sort_sprint_keys(by_sprint)}
@@ -452,7 +468,9 @@ def gate_lock(cfg: Config, *, wait_s: float | None = None) -> Iterator[None]:
                     lock.unlink()
                 continue
             if time.monotonic() > deadline:
-                raise SprintError(f"another gate run holds {lock}", hint="delete it if no gate is running")
+                raise SprintError(
+                    f"another gate run holds {lock}", hint="delete it if no gate is running"
+                ) from None
             if not announced:
                 print("sprintwarden: waiting for another gate run in this tree…", file=sys.stderr)
                 announced = True
@@ -579,7 +597,9 @@ def build_record(
             "new_tests": len(ev.new_tests),
             "flaky": sum(1 for t in ctx.tests.values() if t.flaky),
         },
-        "baseline": (base.summary() | ({"ref": baseline_ref} if baseline_ref else {})) if base else None,
+        "baseline": (base.summary() | ({"ref": baseline_ref} if baseline_ref else {}))
+        if base
+        else None,
         "runner": [r.to_json() for r in ctx.runner],
         "reports": len(ctx.collected.parse.files),
         "version": __version__,

@@ -15,7 +15,9 @@ from sprintwarden.util import SprintError
 STATE_EXCLUDES = (".sprint/runs", ".sprint/latest.json", ".sprint/out")
 
 
-def git(root: Path, *args: str, check: bool = False, input: str | None = None) -> subprocess.CompletedProcess:
+def git(
+    root: Path, *args: str, check: bool = False, input: str | None = None
+) -> subprocess.CompletedProcess:
     try:
         proc = subprocess.run(
             ["git", *args],
@@ -32,7 +34,9 @@ def git(root: Path, *args: str, check: bool = False, input: str | None = None) -
             raise SprintError("git is not installed or not on PATH") from exc
         return subprocess.CompletedProcess(["git", *args], 127, "", "git not found")
     if check and proc.returncode != 0:
-        raise SprintError(f"git {' '.join(args)} failed: {proc.stderr.strip() or proc.stdout.strip()}")
+        raise SprintError(
+            f"git {' '.join(args)} failed: {proc.stderr.strip() or proc.stdout.strip()}"
+        )
     return proc
 
 
@@ -70,7 +74,9 @@ def _pathspec(exclude_state: bool) -> list[str]:
 
 def status_entries(root: Path, *, exclude_state: bool = True) -> list[tuple[str, str]] | None:
     """``[(XY, path)]`` from ``git status --porcelain``, paths relative to the repo top."""
-    proc = git(root, "status", "--porcelain=v1", "-z", "--untracked-files=all", *_pathspec(exclude_state))
+    proc = git(
+        root, "status", "--porcelain=v1", "-z", "--untracked-files=all", *_pathspec(exclude_state)
+    )
     if proc.returncode != 0:
         return None
     entries: list[tuple[str, str]] = []

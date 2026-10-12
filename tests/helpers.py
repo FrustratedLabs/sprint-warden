@@ -13,7 +13,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
-FAKE_RUNNER = r'''
+FAKE_RUNNER = r"""
 import json, pathlib, sys
 from xml.sax.saxutils import quoteattr
 sc = json.loads(pathlib.Path("scenario.json").read_text(encoding="utf-8"))
@@ -40,7 +40,7 @@ for t in sc["tests"]:
 out.write_text('<?xml version="1.0"?>\n<testsuites><testsuite name="fake">%s</testsuite></testsuites>'
                % "".join(cases), encoding="utf-8")
 sys.exit(sc.get("exit", 1 if failed else 0))
-'''
+"""
 
 
 def T(classname: str, name: str, outcome: str = "passed", message: str = "") -> dict:
@@ -85,7 +85,9 @@ class FakeProject:
         return f'"{sys.executable}" fake_runner.py'
 
     def git(self, *args: str, check: bool = True) -> subprocess.CompletedProcess:
-        return subprocess.run(["git", *args], cwd=self.root, capture_output=True, text=True, check=check)
+        return subprocess.run(
+            ["git", *args], cwd=self.root, capture_output=True, text=True, check=check
+        )
 
     def scenario(self, tests: list[dict] | None = None, **extra) -> None:
         data = {"tests": tests if tests is not None else BASE_TESTS, **extra}
@@ -96,7 +98,9 @@ class FakeProject:
         self.git("commit", "-q", "--allow-empty", "-m", message)
 
     def env(self, agent: str = "human", **extra: str) -> dict:
-        env = {k: v for k, v in os.environ.items() if not k.startswith(("CLAUDE", "CURSOR", "CODEX"))}
+        env = {
+            k: v for k, v in os.environ.items() if not k.startswith(("CLAUDE", "CURSOR", "CODEX"))
+        }
         env.pop("AI_AGENT", None)
         env.pop("CI", None)
         env.pop("GITHUB_ACTIONS", None)
@@ -106,10 +110,19 @@ class FakeProject:
         env["NO_COLOR"] = "1"
         env["PYTHONPATH"] = str(REPO) + os.pathsep + env.get("PYTHONPATH", "")
         env["PYTHONDONTWRITEBYTECODE"] = "1"
+        # git hooks call `sprint`: make sure it's this checkout's
+        env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env.get("PATH", "")
         env.update(extra)
         return env
 
-    def sprint(self, *args: str, agent: str = "human", stdin: str | None = None, cwd: Path | None = None, **env) -> Result:
+    def sprint(
+        self,
+        *args: str,
+        agent: str = "human",
+        stdin: str | None = None,
+        cwd: Path | None = None,
+        **env,
+    ) -> Result:
         proc = subprocess.run(
             [sys.executable, "-m", "sprintwarden", *args],
             cwd=cwd or self.root,
@@ -127,8 +140,15 @@ class FakeProject:
         if self.git_enabled:
             self.commit("initial")
         return self.sprint(
-            "init", "--stack", "custom", "--command", self.command,
-            "--reports", ".sprint/out/junit.xml", "--yes", *extra,
+            "init",
+            "--stack",
+            "custom",
+            "--command",
+            self.command,
+            "--reports",
+            ".sprint/out/junit.xml",
+            "--yes",
+            *extra,
         )
 
     def read_json(self, rel: str):

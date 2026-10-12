@@ -38,8 +38,17 @@ def test_S02_init_ratchet_only_is_useful_in_one_command(proj):
     base = proj.read_json(".sprint/baseline.json")
     assert base["reason"] == "init" and len(base["tests"]) == 5
     assert base["tests"]["AuthTest.S01_login"] == "passed"
-    for rel in [".sprint/config.toml", ".sprint/removals.json", ".sprint/skips.json", ".sprint/latest.json",
-                ".sprint/README.md", "AGENTS.md", "CLAUDE.md", ".gitignore", ".gitattributes"]:
+    for rel in [
+        ".sprint/config.toml",
+        ".sprint/removals.json",
+        ".sprint/skips.json",
+        ".sprint/latest.json",
+        ".sprint/README.md",
+        "AGENTS.md",
+        "CLAUDE.md",
+        ".gitignore",
+        ".gitattributes",
+    ]:
         assert (proj.root / rel).exists(), rel
     assert not (proj.root / ".sprint" / "sprints").exists()
     assert ".sprint/out/" in (proj.root / ".gitignore").read_text()
@@ -54,7 +63,9 @@ def test_S02_init_ratchet_only_is_useful_in_one_command(proj):
 
 def test_S02_init_is_idempotent_and_never_overwrites(proj):
     ratchet_project(proj)
-    (proj.root / "AGENTS.md").write_text("# My rules\n\nkeep me\n" + (proj.root / "AGENTS.md").read_text())
+    (proj.root / "AGENTS.md").write_text(
+        "# My rules\n\nkeep me\n" + (proj.root / "AGENTS.md").read_text()
+    )
     before = (proj.root / ".sprint" / "config.toml").read_text()
     r = proj.sprint("init", "--ratchet-only", "--no-hooks", "--yes")
     assert r.code == 0, r.out + r.err
@@ -78,7 +89,9 @@ def test_S02_init_appends_to_existing_agent_files(proj):
 
 
 def test_S02_init_refuses_baseline_when_tests_fail(proj):
-    r = proj.init("--ratchet-only", "--no-hooks", tests=[T("A", "ok"), T("A", "broken", "failed", "nope")])
+    r = proj.init(
+        "--ratchet-only", "--no-hooks", tests=[T("A", "ok"), T("A", "broken", "failed", "nope")]
+    )
     assert r.code == 1
     assert "Baseline NOT written" in r.out and "fail today" in r.out
     assert not (proj.root / ".sprint" / "baseline.json").exists()
@@ -87,8 +100,17 @@ def test_S02_init_refuses_baseline_when_tests_fail(proj):
 def test_S02_init_without_xml_explains_runner_problem(proj):
     proj.scenario(BASE_TESTS, no_xml=True)
     proj.commit()
-    r = proj.sprint("init", "--ratchet-only", "--no-hooks", "--stack", "custom", "--command", proj.command,
-                    "--reports", "build/*.xml")
+    r = proj.sprint(
+        "init",
+        "--ratchet-only",
+        "--no-hooks",
+        "--stack",
+        "custom",
+        "--command",
+        proj.command,
+        "--reports",
+        "build/*.xml",
+    )
     assert r.code == 1
     assert "no JUnit XML found matching build/*.xml" in r.out
     assert "BUILD FAILED" in r.out, "stderr tail of the runner is shown"
@@ -150,10 +172,14 @@ def test_S02_deleted_test_fails_until_a_human_accepts_it(proj):
     assert "ratchet    4 < 5" in r.out
 
     # an agent can't accept it
-    r = proj.sprint("accept-removal", "InvoiceTest.S02_roundsToPaise", "--reason", "merged", agent="claude-code")
+    r = proj.sprint(
+        "accept-removal", "InvoiceTest.S02_roundsToPaise", "--reason", "merged", agent="claude-code"
+    )
     assert r.code == 2 and "human-only" in r.err
     # a human can, with a reason
-    r = proj.sprint("accept-removal", "InvoiceTest.S02_roundsToPaise", "--reason", "merged into roundsToCents")
+    r = proj.sprint(
+        "accept-removal", "InvoiceTest.S02_roundsToPaise", "--reason", "merged into roundsToCents"
+    )
     assert r.code == 0, r.err
     removals = proj.read_json(".sprint/removals.json")["removals"]
     assert removals[0]["id"] == "InvoiceTest.S02_roundsToPaise" and removals[0]["by"] == "Dev Human"
@@ -223,7 +249,9 @@ def test_S02_no_xml_marks_other_checks_not_evaluated(proj):
 def test_S02_stale_reports_are_cleaned_but_tracked_files_are_not(proj):
     ratchet_project(proj)
     out = proj.root / ".sprint" / "out"
-    (out / "stale.xml").write_text('<testsuite name="old"><testcase classname="Old" name="S01_ghost"/></testsuite>')
+    (out / "stale.xml").write_text(
+        '<testsuite name="old"><testcase classname="Old" name="S01_ghost"/></testsuite>'
+    )
     proj.config_set("test", "reports", [".sprint/out/*.xml", "fixtures/*.xml"])
     fixture = proj.root / "fixtures" / "keep.xml"
     fixture.parent.mkdir()
@@ -286,7 +314,14 @@ def test_S02_baseline_refuses_failing_suite(proj):
 
 def test_S02_i_am_human_overrides_the_guard_and_is_recorded(proj):
     ratchet_project(proj)
-    r = proj.sprint("allow-skip", "AuthTest.S01_login", "--reason", "quarantine", "--i-am-human", agent="claude-code")
+    r = proj.sprint(
+        "allow-skip",
+        "AuthTest.S01_login",
+        "--reason",
+        "quarantine",
+        "--i-am-human",
+        agent="claude-code",
+    )
     assert r.code == 0, r.err
     entry = proj.read_json(".sprint/skips.json")["skips"][0]
     assert entry["by"] == "Dev Human (--i-am-human, in claude-code)"
@@ -367,7 +402,9 @@ def test_S02_baseline_ref_ignores_tampered_branch_baseline(proj):
     proj.commit("sneaky")
     assert proj.sprint("gate").code == 0, "locally the tampered baseline hides it"
     rec = proj.sprint("gate", "--baseline-ref", "main", "--json").json()
-    assert rec["result"] == "fail" and [m["id"] for m in rec["missing"]] == ["HealthTest.healthCheck"]
+    assert rec["result"] == "fail" and [m["id"] for m in rec["missing"]] == [
+        "HealthTest.healthCheck"
+    ]
     assert rec["baseline"]["ref"] == "main"
     # an acceptance added on the branch is honoured, and surfaced for review
     assert proj.sprint("accept-removal", "HealthTest.healthCheck", "--reason", "obsolete").code == 0
@@ -383,9 +420,13 @@ def test_S02_multiple_suites_are_merged(proj):
     web = proj.root / "web"
     web.mkdir()
     (web / "fake_runner.py").write_text((proj.root / "fake_runner.py").read_text())
-    (web / "scenario.json").write_text(json.dumps({"tests": [T("web", "[S02] renders invoice")], "out": "../.sprint/out/web.xml"}))
+    (web / "scenario.json").write_text(
+        json.dumps({"tests": [T("web", "[S02] renders invoice")], "out": "../.sprint/out/web.xml"})
+    )
     cfg = (proj.root / ".sprint" / "config.toml").read_text()
-    cfg = cfg.replace('reports  = [".sprint/out/junit.xml"]', 'reports  = [".sprint/out/junit.xml"]')
+    cfg = cfg.replace(
+        'reports  = [".sprint/out/junit.xml"]', 'reports  = [".sprint/out/junit.xml"]'
+    )
     cfg += f'\n[[test.suites]]\nname = "web"\ncwd = "web"\ncommand = {json.dumps(proj.command)}\nreports = [".sprint/out/web.xml"]\n'
     (proj.root / ".sprint" / "config.toml").write_text(cfg)
     rec = proj.sprint("gate", "--json").json()

@@ -1,0 +1,142 @@
+name: sprintwarden gate
+description: >-
+  Test ratchet for AI coding agents. Fails the job when a test that exists in the
+  committed baseline is deleted, newly skipped or failing, on any stack that writes JUnit XML.
+author: sprintwarden contributors
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  working-directory:
+    description: Directory containing .sprint/ (the project root).
+    default: "."
+  args:
+    description: Extra arguments for `sprint gate`, e.g. `--no-run` if an earlier step already ran the tests.
+    default: ""
+  baseline-ref:
+    description: >-
+      Git ref whose committed baseline is the authority. `auto` (default) uses the pull
+      request's base branch, so editing .sprint/baseline.json on a branch can't hide a
+      deleted test; `none` uses the baseline in the checkout.
+    default: auto
+  python-version:
+    description: Python used to run sprintwarden (the project's own toolchain is up to you).
+    default: "3.12"
+  setup-python:
+    description: Set to `false` if Python 3.11+ is already on PATH.
+    default: "true"
+  version:
+    description: sprintwarden version from PyPI (e.g. `0.1.0`). Empty installs the action's own source.
+    default: ""
+  upload-artifacts:
+    description: Upload latest.json, the full gate JSON and the JUnit XML as a workflow artifact.
+    default: "true"
+  artifact-name:
+    description: Name of the uploaded artifact.
+    default: sprintwarden-gate
+
+outputs:
+  result:
+    description: "`pass` or `fail`"
+    value: ${{ steps.gate.outputs.result }}
+  regressions:
+    description: Number of failing tests that used to pass.
+    value: ${{ steps.gate.outputs.regressions }}
+  missing:
+    description: Number of baseline tests missing.
+    value: ${{ steps.gate.outputs.missing }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      if: inputs.setup-python == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install sprintwarden
+      shell: bash
+      env:
+        SW_VERSION: ${{ inputs.version }}
+        SW_SOURCE: ${{ github.action_path }}
+      run: |
+        if [ -n "$SW_VERSION" ]; then
+          python -m pip install --disable-pip-version-check -q "sprintwarden==$SW_VERSION"
+        else
+          python -m pip install --disable-pip-version-check -q "$SW_SOURCE"
+        fi
+        sprint --version
+
+    - name: Run the gate
+      id: gate
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        SW_BASELINE_REF: ${{ inputs.baseline-ref }}
+        SW_ARGS: ${{ inputs.args }}
+        SW_BASE_BRANCH: ${{ github.base_ref }}
+      run: |
+        set +e
+        ref="$SW_BASELINE_REF"
+        if [ "$ref" = "auto" ]; then
+          ref=""
+          if [ -n "$SW_BASE_BRANCH" ] && git fetch --no-tags --depth=1 origin \
+              "+refs/heads/$SW_BASE_BRANCH:refs/remotes/origin/$SW_BASE_BRANCH" >/dev/null 2>&1; then
+            ref="origin/$SW_BASE_BRANCH"
+          fi
+        elif [ "$ref" = "none" ]; then
+          ref=""
+        fi
+        out="$RUNNER_TEMP/sprintwarden-gate.json"
+        set -- gate --json --trigger ci --collect-reports .sprint/out/artifacts
+        [ -n "$ref" ] && set -- "$@" --baseline-ref "$ref"
+        # shellcheck disable=SC2086
+        sprint "$@" $SW_ARGS > "$out"
+        code=$?
+        python - "$out" <<'PY'
+        import json, os, sys
+        from sprintwarden.report import render_markdown
+        try:
+            record = json.load(open(sys.argv[1], encoding="utf-8"))
+        except Exception as exc:
+            print(f"::error title=sprintwarden::could not read the gate output ({exc})")
+            sys.exit(0)
+        if record.get("ok") is False:  # config/usage error
+            print(f"::error title=sprintwarden::{record.get('error')} {record.get('hint') or ''}")
+            md, result, counts = f"## ❌ sprintwarden: {record.get('error')}\n", "fail", {}
+        else:
+            md, result, counts = render_markdown(record), record.get("result", "fail"), record.get("counts") or {}
+            for f in (record.get("failing") or [])[:10]:
+                kind = "REGRESSION" if f.get("regression") else "failing"
+                print(f"::error title=sprintwarden {kind} [{f['sprint']}]::{f['id']}: {f.get('message', '')[:300]}")
+            for m in (record.get("missing") or [])[:10]:
+                print(f"::error title=sprintwarden missing test [{m['sprint']}]::{m['id']} is in the baseline but no longer exists")
+            for s in (record.get("new_skips") or [])[:10]:
+                print(f"::error title=sprintwarden new skip [{s['sprint']}]::{s['id']} is newly skipped")
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as fh:
+            fh.write(md)
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"result={result}\nregressions={counts.get('regressions', 0)}\nmissing={counts.get('missing', 0)}\n")
+        PY
+        echo "exit-code=$code" >> "$GITHUB_OUTPUT"
+        exit 0
+
+    - name: Upload gate artifacts
+      if: always() && inputs.upload-artifacts == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          ${{ inputs.working-directory }}/.sprint/latest.json
+          ${{ inputs.working-directory }}/.sprint/out/artifacts/
+          ${{ runner.temp }}/sprintwarden-gate.json
+        if-no-files-found: warn
+
+    - name: Fail on gate failure
+      if: steps.gate.outputs.exit-code != '0'
+      shell: bash
+      run: |
+        echo "::error title=sprintwarden gate failed::See the job summary. Tests that existed before must still exist, run and pass."
+        exit 1

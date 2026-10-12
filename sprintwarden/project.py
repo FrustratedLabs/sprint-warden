@@ -66,7 +66,11 @@ def render_config(
     env = ""
     if stack.env:
         env = "\n[test.env]\n" + "".join(f"{k} = {toml_literal(v)}\n" for k, v in stack.env.items())
-    windows = f"command_windows = {toml_literal(stack.command_windows)}\n" if stack.command_windows else ""
+    windows = (
+        f"command_windows = {toml_literal(stack.command_windows)}\n"
+        if stack.command_windows
+        else ""
+    )
     sprint_section = f"""
 [sprint]                            # ignored in ratchet-only mode
 current = {toml_literal(current)}
@@ -125,7 +129,9 @@ def _render_agents(cfg: Config, example: str) -> str:
     return f"{BEGIN}\n{body.rstrip()}\n{END}\n"
 
 
-def write_agents_md(cfg: Config, example: str = "S01_doesThing", *, refresh: bool = True) -> Changes:
+def write_agents_md(
+    cfg: Config, example: str = "S01_doesThing", *, refresh: bool = True
+) -> Changes:
     """Insert or refresh the managed block in AGENTS.md. Content outside it is never touched."""
     ch = Changes()
     path = cfg.root / "AGENTS.md"
@@ -217,7 +223,9 @@ def merge_claude_settings(
         if _has_command(entries, command):
             ch.skipped.append(f".claude/settings.json already runs `{command}` on {event}")
             continue
-        entry: dict[str, Any] = {"hooks": [{"type": "command", "command": command, "timeout": timeout}]}
+        entry: dict[str, Any] = {
+            "hooks": [{"type": "command", "command": command, "timeout": timeout}]
+        }
         if matcher:
             entry = {"matcher": matcher, **entry}
         entries.append(entry)
@@ -333,7 +341,9 @@ def update_gitignore(root: Path, *, history_in_git: bool = True) -> Changes:
     if not missing:
         ch.skipped.append(".gitignore already ignores .sprint/out/")
         return ch
-    block = ("" if GITIGNORE_HEADER in text else GITIGNORE_HEADER + "\n") + "\n".join(missing) + "\n"
+    block = (
+        ("" if GITIGNORE_HEADER in text else GITIGNORE_HEADER + "\n") + "\n".join(missing) + "\n"
+    )
     sep = "" if not text or text.endswith("\n") else "\n"
     write_text(path, text + sep + block)
     ch.done.append("updated .gitignore (" + ", ".join(missing) + ")")
@@ -345,7 +355,10 @@ def update_gitattributes(root: Path) -> Changes:
     ch = Changes()
     path = root / ".gitattributes"
     text = read_text(path) or ""
-    lines = [f"{SPRINT_DIR}/runs/** linguist-generated=true", f"{SPRINT_DIR}/latest.json linguist-generated=true"]
+    lines = [
+        f"{SPRINT_DIR}/runs/** linguist-generated=true",
+        f"{SPRINT_DIR}/latest.json linguist-generated=true",
+    ]
     missing = [line for line in lines if line not in text]
     if not missing:
         return ch

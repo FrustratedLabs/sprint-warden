@@ -16,7 +16,15 @@ from typing import Any
 
 from sprintwarden import gitutil
 from sprintwarden.config import Paths
-from sprintwarden.util import SprintError, dumps_json, iso_ms, parse_iso, read_json, write_json, write_text
+from sprintwarden.util import (
+    SprintError,
+    dumps_json,
+    iso_ms,
+    parse_iso,
+    read_json,
+    write_json,
+    write_text,
+)
 
 SCHEMA = 1
 
@@ -126,7 +134,13 @@ class Acceptance:
     git_head: str | None = None
 
     def to_json(self) -> dict[str, Any]:
-        return {"id": self.id, "reason": self.reason, "by": self.by, "at": self.at, "git_head": self.git_head}
+        return {
+            "id": self.id,
+            "reason": self.reason,
+            "by": self.by,
+            "at": self.at,
+            "git_head": self.git_head,
+        }
 
 
 def _load_list(path: Path, key: str) -> list[Acceptance]:
@@ -134,7 +148,7 @@ def _load_list(path: Path, key: str) -> list[Acceptance]:
     if data is None:
         return []
     if not isinstance(data, dict) or not isinstance(data.get(key), list):
-        raise SprintError(f"{path}: expected {{\"{key}\": [...]}}")
+        raise SprintError(f'{path}: expected {{"{key}": [...]}}')
     out = []
     for item in data[key]:
         if not isinstance(item, dict) or "id" not in item:
@@ -192,7 +206,9 @@ def effective(items: list[Acceptance], baseline: Baseline | None) -> dict[str, A
     return out
 
 
-def add(items: list[Acceptance], ids: list[str], *, reason: str, by: str, git_head: str | None) -> list[str]:
+def add(
+    items: list[Acceptance], ids: list[str], *, reason: str, by: str, git_head: str | None
+) -> list[str]:
     """Record acceptances; re-accepting refreshes the entry. Returns the ids written."""
     at = iso_ms()
     index = {a.id: i for i, a in enumerate(items)}

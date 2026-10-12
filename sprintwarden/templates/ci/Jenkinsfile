@@ -1,0 +1,22 @@
+// Jenkins declarative pipeline stage. The agent needs your toolchain plus Python 3.11+.
+pipeline {
+  agent any
+  stages {
+    stage('sprintwarden gate') {
+      steps {
+        script {
+          def ref = env.CHANGE_TARGET ? "origin/${env.CHANGE_TARGET}" : ""
+          withEnv(["BASELINE_REF=${ref}"]) {
+            sh 'sh sprint-gate.sh'   // copy from sprintwarden/templates/ci/sprint-gate.sh
+          }
+        }
+      }
+      post {
+        always {
+          archiveArtifacts artifacts: '.sprint/latest.json, .sprint/out/artifacts/**', allowEmptyArchive: true
+          junit allowEmptyResults: true, testResults: '.sprint/out/artifacts/**/*.xml'
+        }
+      }
+    }
+  }
+}

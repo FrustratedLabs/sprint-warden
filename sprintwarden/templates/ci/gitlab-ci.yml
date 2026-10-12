@@ -1,0 +1,15 @@
+# Add to .gitlab-ci.yml. The image needs your project's toolchain plus Python 3.11+.
+sprint-gate:
+  stage: test
+  variables:
+    GIT_DEPTH: "50"
+  script:
+    - export BASELINE_REF="${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:+origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    - sh sprint-gate.sh   # copy from sprintwarden/templates/ci/sprint-gate.sh
+  artifacts:
+    when: always
+    paths:
+      - .sprint/latest.json
+      - .sprint/out/artifacts/
+    reports:
+      junit: .sprint/out/artifacts/**/*.xml

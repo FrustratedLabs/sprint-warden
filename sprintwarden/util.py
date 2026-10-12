@@ -36,8 +36,8 @@ def iso(ts: dt.datetime | None = None) -> str:
 
 def iso_ms(ts: dt.datetime | None = None) -> str:
     """UTC timestamp with milliseconds, for ordering events within one second."""
-    ts = ts or dt.datetime.now(dt.timezone.utc)
-    ts = ts.astimezone(dt.timezone.utc)
+    ts = ts or dt.datetime.now(dt.UTC)
+    ts = ts.astimezone(dt.UTC)
     return ts.strftime("%Y-%m-%dT%H:%M:%S.") + f"{ts.microsecond // 1000:03d}Z"
 
 

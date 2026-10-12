@@ -43,8 +43,14 @@ def test_S02_effective_acceptances_follow_the_baseline():
 
 def test_S02_baseline_file_is_sorted_one_test_per_line(tmp_path):
     paths = Paths(tmp_path)
-    bl.write_baseline(paths, {"z.b": "passed", "a.a": "skipped", "m.x": "failed"},
-                      reason="t", sprint=None, git={}, run=None)
+    bl.write_baseline(
+        paths,
+        {"z.b": "passed", "a.a": "skipped", "m.x": "failed"},
+        reason="t",
+        sprint=None,
+        git={},
+        run=None,
+    )
     text = paths.baseline.read_text()
     assert text.index('"a.a"') < text.index('"z.b"') and '"m.x"' not in text
     assert bl.load_baseline(paths).total == 2

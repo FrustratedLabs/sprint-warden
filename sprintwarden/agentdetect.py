@@ -29,11 +29,19 @@ _TRUTHY = {"1", "true", "yes", "on"}
 _MARKERS: list[tuple[str, list[tuple[str, str | None]]]] = [
     (
         "claude-code",
-        [("CLAUDECODE", "1"), ("CLAUDE_CODE_CHILD_SESSION", None), ("CLAUDE_CODE_ENTRYPOINT", None)],
+        [
+            ("CLAUDECODE", "1"),
+            ("CLAUDE_CODE_CHILD_SESSION", None),
+            ("CLAUDE_CODE_ENTRYPOINT", None),
+        ],
     ),
     (
         "cursor",
-        [("CURSOR_AGENT", None), ("CURSOR_SANDBOX", None), ("CURSOR_EXTENSION_HOST_ROLE", "agent-exec")],
+        [
+            ("CURSOR_AGENT", None),
+            ("CURSOR_SANDBOX", None),
+            ("CURSOR_EXTENSION_HOST_ROLE", "agent-exec"),
+        ],
     ),
     (
         "codex",
@@ -65,8 +73,17 @@ _MARKERS: list[tuple[str, list[tuple[str, str | None]]]] = [
 ]
 
 _CI_VARS = (
-    "GITHUB_ACTIONS", "GITLAB_CI", "CIRCLECI", "TRAVIS", "BUILDKITE", "TF_BUILD",
-    "BITBUCKET_COMMIT", "TEAMCITY_VERSION", "CODEBUILD_BUILD_ARN", "DRONE", "JENKINS_URL",
+    "GITHUB_ACTIONS",
+    "GITLAB_CI",
+    "CIRCLECI",
+    "TRAVIS",
+    "BUILDKITE",
+    "TF_BUILD",
+    "BITBUCKET_COMMIT",
+    "TEAMCITY_VERSION",
+    "CODEBUILD_BUILD_ARN",
+    "DRONE",
+    "JENKINS_URL",
 )
 
 

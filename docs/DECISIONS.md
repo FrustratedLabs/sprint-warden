@@ -153,3 +153,39 @@ with) works on all three OSes. All logic is Python. An existing hook is moved to
 - go-junit-report emits the parent of subtests as its own test case.
 - jest-junit uses the title as both classname and name; IDs look like
   `S01_x.S01_x`. They are stable, which is what matters.
+
+## D-017 · Stop hook verified live against Claude Code
+
+The Stop hook contract was checked against the current docs and then end to end
+with Claude Code in a throwaway repo: the agent answered without tools, the hook
+blocked with exit 2 ("REGRESSIONS … [S01] …"), Claude fixed the code and ran the
+gate, and the next stop was allowed from the cached pass. Claude Code labels
+**any** Stop-hook block "Stop hook error occurred" in its notification, whether
+it's exit 2 or JSON `decision: block`, so we keep exit 2 + stderr as the spec says.
+When the loop guard lets the agent go, a JSON `systemMessage` on exit 0 tells the
+human.
+
+A second copy of the hook (project settings + plugin) fires for the same stop with
+an identical payload. Identical payloads within 2 s count once toward the loop
+guard. A genuine retry needs a model turn, so it is always counted.
+
+## D-018 · Agent-run closes in this repository are labelled
+
+While building sprintwarden, Claude Code built the phases and closed the dogfood
+sprints with `sprint close --i-am-human`, at the maintainer's request (spec §13:
+"each phase is a sprint"). sprintwarden records that override in the close
+commit ("Closed by: … (--i-am-human, in claude-code)"), so it shows in history.
+That's the intended behaviour: the guard is a speed bump, and an override leaves a trace.
+
+## D-019 · README demo is an animated SVG generated from the real demo
+
+`docs/demo.sh` runs the real scenario (an agent deletes an old test; plain pytest
+goes green; `sprint gate` blocks with "REGRESSION from sprint S01" and "missing vs
+baseline"). `docs/make_demo_svg.py` renders its actual output as an animated SVG,
+a few KB, crisp, and regenerated in one command. `docs/demo.tape` produces a GIF
+with VHS for places that need one.
+
+## D-020 · Init registers the project globally
+
+`sprint init` adds the project to `~/.sprintwarden/registry.toml` (spec §8) so
+`sprint ui` finds it. Tests and demos isolate this with `SPRINT_HOME`.
