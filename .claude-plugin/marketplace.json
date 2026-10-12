@@ -7,7 +7,7 @@
       "name": "sprintwarden",
       "source": "./plugin",
       "description": "Test ratchet for AI coding agents: Claude can't finish while old tests are deleted, skipped or failing.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "testing",
       "tags": ["testing", "regression", "ratchet", "sprints"]
     }

@@ -42,7 +42,7 @@ removals/skips ►└───────────────────�
 | `.sprint/baseline.json` | `init`, `baseline`, `close`: `{tests: {id: "passed"\|"skipped"}}`, sorted, one per line | yes |
 | `.sprint/removals.json`, `skips.json` | `accept-removal`, `allow-skip`: `{id, reason, by, at, git_head}` | yes |
 | `.sprint/runs/YYYY-MM/<id>.json` | every gate run (lists capped at 200) | yes (`[history] in_git`) |
-| `.sprint/latest.json` | every gate run: the run record + `acs_all` | yes |
+| `.sprint/latest.json` | every gate run: the run record + `acs_all` | no by default (`[history] latest_in_git`) |
 | `.sprint/out/` | raw XML, `runner.log`, `latest-full.json`, `hook-state.json`, `gate.lock` | no |
 | `~/.sprintwarden/registry.toml` | `init`, `register` | n/a |
 

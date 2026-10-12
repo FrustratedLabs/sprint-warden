@@ -183,6 +183,15 @@ history (`[ui] allure_url`).
 ![Portfolio: one card per project, failing first, with gate status, AC progress and the last run](docs/dashboard.png)
 ![Regression matrix: sprints × runs; the S01 cell turns red when a later sprint breaks it](docs/dashboard-matrix.png)
 
+## Examples
+
+[`examples/`](examples) has tiny real projects for **pytest, Vitest, Go and
+Gradle**, each with two sprints and a scripted branch where an agent's S02 change
+breaks S01. `sh examples/run-all.sh` runs them all and asserts that the gate
+labels the break **REGRESSION from sprint S01**, and that deleting the failing
+test to get green is caught as **missing vs baseline**. CI runs them on Linux,
+macOS and Windows.
+
 ## How it compares
 
 sprintwarden is deliberately narrow, and complements the tools you already use:

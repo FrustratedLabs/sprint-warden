@@ -11,7 +11,7 @@ Everything here is plain text; review changes to it like code.
 | `removals.json` | tests a human accepted as intentionally removed, with reasons | `sprint accept-removal` (human-only) |
 | `skips.json` | tests a human allowed to be skipped, with reasons | `sprint allow-skip` (human-only) |
 | `runs/` | one JSON record per gate run (history) | `sprint gate` |
-| `latest.json` | the most recent gate run | `sprint gate` |
+| `latest.json` | the most recent gate run (local cache, gitignored by default) | `sprint gate` |
 | `out/` | raw reports, logs, hook state (gitignored) | `sprint gate` |
 
 A shrinking `baseline.json` or new entries in `removals.json`/`skips.json` in a

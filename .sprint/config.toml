@@ -15,7 +15,7 @@ clean_reports_before_run = true     # deletes stale, untracked JUnit XML before 
 sources = ["**/test_*.py", "**/*_test.py", "**/tests/**/*.py", "**/conftest.py"]   # test files, for the optional PreToolUse guard
 
 [sprint]                            # ignored in ratchet-only mode
-current = ""
+current = "S06"
 # id_pattern = '(?i)(?<![A-Za-z0-9])S(\d{2,})(?=[_\]\s:.()\[/-]|$)'   # group 1 = sprint number
 
 [gate]

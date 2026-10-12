@@ -199,3 +199,14 @@ would need re-allowing after every baseline. `sprint allow-skip --permanent`
 applies to every baseline. Use it for OS- or toolchain-specific tests only; an
 ordinary allowance still expires at the next baseline, so a skip that was
 meant to be temporary can't become permanent by accident.
+
+## D-022 · latest.json is a local cache, not committed by default
+
+The spec commits `latest.json`. Running the example scenarios showed the cost:
+every gate run rewrites that tracked file, so `git checkout other-branch` fails
+with "local changes would be overwritten", and parallel branches and agents get
+merge conflicts on it all the time. The durable history lives in `runs/`, which
+is committed: one uniquely named file per run, so it never conflicts.
+`latest.json` is now gitignored by default. Readers (status, hooks, the
+dashboard) fall back to the newest committed run when it's absent, e.g. in a
+fresh clone. `[history] latest_in_git = true` restores the spec's behaviour.

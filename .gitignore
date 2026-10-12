@@ -20,3 +20,4 @@ examples/**/build/
 examples/**/target/
 # sprintwarden: gate scratch space and hook state
 .sprint/out/
+.sprint/latest.json
