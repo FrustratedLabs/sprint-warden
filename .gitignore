@@ -18,3 +18,5 @@ examples/**/node_modules/
 examples/**/.gradle/
 examples/**/build/
 examples/**/target/
+# sprintwarden: gate scratch space and hook state
+.sprint/out/
