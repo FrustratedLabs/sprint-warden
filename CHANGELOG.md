@@ -6,16 +6,6 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-### Sprint S06: Multi-stack proof (v0.2) (2026-10-12)
-
-Goal: Real example projects on several stacks prove the S01-regression story end to end
-
-- AC1: pytest example: 2 sprints; an S01 regression branch is labelled 'REGRESSION from sprint S01'; deleting the S01 test is caught
-- AC2: Vitest, Go and Gradle examples pass the same scenario (where the toolchain is installed)
-- AC3: The dashboard shows every example with the right status, matrix and trends
-
-Tests: 320 (+5 since the previous baseline) · tag `sprint-S06`
-
 ## [0.2.0] - 2026-10-12
 
 The full layer cake: sprints and computed "done", the dashboard, and proof on
