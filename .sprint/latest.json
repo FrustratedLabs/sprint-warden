@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "id": "20261012T100053511Z-4c57",
+  "id": "20261012T101240028Z-6907",
   "project": "sprintwarden",
   "key": "SW",
   "mode": "sprints",
-  "sprint": "S04",
-  "sprint_title": "Sprints layer",
-  "timestamp": "2026-10-12T09:59:36Z",
+  "sprint": "S05",
+  "sprint_title": "Dashboard",
+  "timestamp": "2026-10-12T10:11:14Z",
   "git": {
-    "head": "c66ebb648a46cdc744c773137cf8e0ed3b0fb5c7",
+    "head": "45faf4be965aed0e53a04b0c8a391d06dc90e63f",
     "branch": "main",
     "dirty": false,
-    "fingerprint": "c3ef386ccca961f08759"
+    "fingerprint": "7ef419a3a66c3828993b"
   },
   "agent": "claude-code",
   "trigger": "close",
   "bypassed": false,
   "ran": true,
-  "duration_s": 77.18,
-  "result": "pass",
+  "duration_s": 85.51,
+  "result": "fail",
   "checks": [
     {
       "id": "runner",
       "ok": true,
       "blocking": true,
-      "summary": "300 tests parsed from 1 file (77.1s)",
+      "summary": "313 tests parsed from 1 file (85.5s)",
       "detail": ""
     },
     {
@@ -43,38 +43,38 @@
     },
     {
       "id": "skips",
-      "ok": true,
+      "ok": false,
       "blocking": true,
-      "summary": "no new skips",
+      "summary": "1 new skip",
       "detail": ""
     },
     {
       "id": "ratchet",
       "ok": true,
       "blocking": true,
-      "summary": "300 ≥ 278 (+22 new)",
+      "summary": "313 ≥ 300 (+13 new)",
       "detail": ""
     },
     {
       "id": "sprint_tests",
       "ok": true,
       "blocking": true,
-      "summary": "21 tests named for S04",
+      "summary": "13 tests named for S05",
       "detail": ""
     },
     {
       "id": "acs",
-      "ok": true,
+      "ok": false,
       "blocking": false,
-      "summary": "5/5 acceptance criteria satisfied",
+      "summary": "3/4 acceptance criteria satisfied",
       "detail": ""
     }
   ],
   "totals": {
-    "total": 300,
-    "passed": 299,
+    "total": 313,
+    "passed": 311,
     "failed": 0,
-    "skipped": 1
+    "skipped": 2
   },
   "by_sprint": {
     "S01": {
@@ -100,154 +100,130 @@
       "passed": 21,
       "failed": 0,
       "skipped": 0
+    },
+    "S05": {
+      "total": 13,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 1
     }
   },
   "acs": [
     {
-      "sprint": "S04",
+      "sprint": "S05",
       "id": "AC1",
-      "desc": "`sprint new` creates the next numbered sprint; `sprint start` activates exactly one sprint",
+      "desc": "Registry-backed read-only JSON API: /api/projects, /api/projects/<key>, /api/projects/<key>/runs",
       "satisfied": true,
       "state": "satisfied",
       "tests": [
         {
-          "id": "tests.test_s04_lifecycle.test_S04_new_creates_the_next_numbered_planned_sprint",
+          "id": "tests.test_s05_dashboard.test_S05_api_projects_lists_every_registered_project",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_new_requires_sprints_mode",
+          "id": "tests.test_s05_dashboard.test_S05_api_project_detail_has_sprints_acs_and_latest_run",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_start_activates_exactly_one_sprint",
+          "id": "tests.test_s05_dashboard.test_S05_api_runs_newest_first_with_limit_and_single_run",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_start_sets_current_dates_and_refreshes_agent_rules",
+          "id": "tests.test_s05_dashboard.test_S05_api_unknown_project_is_404",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_no_external_resources_in_static_files",
           "outcome": "passed"
         }
       ]
     },
     {
-      "sprint": "S04",
+      "sprint": "S05",
       "id": "AC2",
-      "desc": "The gate computes AC state from passing tests and labels regressions from closed sprints",
+      "desc": "Portfolio status is correct: pass, fail, stale (run older than HEAD), none, error; failing first",
       "satisfied": true,
       "state": "satisfied",
       "tests": [
         {
-          "id": "tests.test_s04_lifecycle.test_S04_gate_computes_ac_state_from_passing_tests",
+          "id": "tests.test_s05_dashboard.test_S05_portfolio_status_and_ordering",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_gate_unsatisfied_acs_alone_do_not_fail_the_gate",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_gate_requires_tests_for_the_active_sprint",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_gate_labels_regressions_from_earlier_and_closed_sprints",
+          "id": "tests.test_s05_dashboard.test_S05_portfolio_detail_of_a_broken_project_reports_the_error",
           "outcome": "passed"
         }
       ]
     },
     {
-      "sprint": "S04",
+      "sprint": "S05",
       "id": "AC3",
-      "desc": "`sprint close` (human) requires a passing gate on a clean HEAD and every AC satisfied, then baselines, tags and updates CHANGELOG",
+      "desc": "Localhost-only and read-only: Host check, no writes, no path traversal",
       "satisfied": true,
       "state": "satisfied",
       "tests": [
         {
-          "id": "tests.test_s04_lifecycle.test_S04_close_is_human_only_and_needs_a_clean_head",
+          "id": "tests.test_s05_dashboard.test_S05_security_rejects_foreign_host_headers",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_close_refuses_unsatisfied_acs",
+          "id": "tests.test_s05_dashboard.test_S05_security_is_read_only",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_close_refuses_a_failing_gate",
+          "id": "tests.test_s05_dashboard.test_S05_security_static_files_only_from_the_whitelist",
           "outcome": "passed"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_close_baselines_tags_and_updates_changelog",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_close_creates_a_changelog_and_supports_no_commit_no_tag",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_close_no_run_reuses_a_matching_gate_run",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_close_no_run_rejects_a_stale_gate",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_close_refuses_if_the_tag_exists",
+          "id": "tests.test_s05_dashboard.test_S05_security_refuses_non_localhost_bind",
           "outcome": "passed"
         }
       ]
     },
     {
-      "sprint": "S04",
+      "sprint": "S05",
       "id": "AC4",
-      "desc": "`sprint status` shows the sprint, AC states and regressions per sprint; `sprint note` records decisions",
-      "satisfied": true,
-      "state": "satisfied",
+      "desc": "The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)",
+      "satisfied": false,
+      "state": "failing",
       "tests": [
         {
-          "id": "tests.test_s04_lifecycle.test_S04_status_shows_sprint_acs_and_regressions_per_sprint",
-          "outcome": "passed"
+          "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
+          "outcome": "skipped"
         },
         {
-          "id": "tests.test_s04_lifecycle.test_S04_note_appends_with_agent_name",
-          "outcome": "passed"
-        },
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_status_and_doctor_flag_inconsistent_sprint_state",
-          "outcome": "passed"
-        }
-      ]
-    },
-    {
-      "sprint": "S04",
-      "id": "AC5",
-      "desc": "A multi-sprint lifecycle works end to end",
-      "satisfied": true,
-      "state": "satisfied",
-      "tests": [
-        {
-          "id": "tests.test_s04_lifecycle.test_S04_full_lifecycle_across_sprints",
+          "id": "tests.test_s05_dashboard.test_S05_browser_views_render_in_headless_chrome",
           "outcome": "passed"
         }
       ]
     }
   ],
   "failing": [],
-  "new_skips": [],
+  "new_skips": [
+    {
+      "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
+      "sprint": "S05",
+      "message": "no Chromium available for Playwright",
+      "was": "new"
+    }
+  ],
   "missing": [],
   "counts": {
     "failing": 0,
     "regressions": 0,
     "missing": 0,
-    "new_skips": 0,
-    "new_tests": 22,
+    "new_skips": 1,
+    "new_tests": 13,
     "flaky": 0
   },
   "baseline": {
-    "created": "2026-10-12T09:54:42.057Z",
-    "reason": "close S03",
-    "sprint": "S03",
-    "run": "20261012T095442053Z-71c1",
-    "total": 278,
+    "created": "2026-10-12T10:00:53.514Z",
+    "reason": "close S04",
+    "sprint": "S04",
+    "run": "20261012T100053511Z-4c57",
+    "total": 300,
     "skipped": 1,
-    "head": "f1165b6296e901af21685ad67074bb66bda73f63",
+    "head": "c66ebb648a46cdc744c773137cf8e0ed3b0fb5c7",
     "source": "~/Desktop/wannabemrrobot/open-sprint/.sprint/baseline.json"
   },
   "runner": [
@@ -255,7 +231,7 @@
       "suite": "default",
       "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
       "exit_code": 0,
-      "duration_s": 77.14,
+      "duration_s": 85.47,
       "timed_out": false,
       "error": ""
     }
@@ -1072,10 +1048,90 @@
     {
       "sprint": "S05",
       "id": "AC1",
-      "desc": "Read-only JSON API and the five views",
+      "desc": "Registry-backed read-only JSON API: /api/projects, /api/projects/<key>, /api/projects/<key>/runs",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_projects_lists_every_registered_project",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_project_detail_has_sprints_acs_and_latest_run",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_runs_newest_first_with_limit_and_single_run",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_unknown_project_is_404",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_api_no_external_resources_in_static_files",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S05",
+      "id": "AC2",
+      "desc": "Portfolio status is correct: pass, fail, stale (run older than HEAD), none, error; failing first",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s05_dashboard.test_S05_portfolio_status_and_ordering",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_portfolio_detail_of_a_broken_project_reports_the_error",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S05",
+      "id": "AC3",
+      "desc": "Localhost-only and read-only: Host check, no writes, no path traversal",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s05_dashboard.test_S05_security_rejects_foreign_host_headers",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_security_is_read_only",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_security_static_files_only_from_the_whitelist",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_security_refuses_non_localhost_bind",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S05",
+      "id": "AC4",
+      "desc": "The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)",
       "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "state": "failing",
+      "tests": [
+        {
+          "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
+          "outcome": "skipped"
+        },
+        {
+          "id": "tests.test_s05_dashboard.test_S05_browser_views_render_in_headless_chrome",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S06",
@@ -1085,6 +1141,5 @@
       "state": "no-tests",
       "tests": []
     }
-  ],
-  "milestone": "close S04"
+  ]
 }

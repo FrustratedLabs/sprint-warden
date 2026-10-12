@@ -153,6 +153,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("tests", nargs="*", metavar="test-id", help="test ids, or /regex/")
     sp.add_argument("--reason", required=True)
     sp.add_argument("--all-new", action="store_true", help="every new skip in the latest gate run")
+    sp.add_argument(
+        "--permanent",
+        action="store_true",
+        help="keep allowing it after future baselines (tests that only run on some OSes/toolchains)",
+    )
 
     sp = cmd("history", _lazy(c, "cmd_history"), "recent gate runs")
     sp.add_argument("--limit", type=int, default=20)
