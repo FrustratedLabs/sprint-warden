@@ -54,3 +54,44 @@ def test_S02_baseline_file_is_sorted_one_test_per_line(tmp_path):
     text = paths.baseline.read_text()
     assert text.index('"a.a"') < text.index('"z.b"') and '"m.x"' not in text
     assert bl.load_baseline(paths).total == 2
+
+
+def test_S02_history_files_stay_small_for_long_projects(tmp_path):
+    paths = Paths(tmp_path)
+    acs = [
+        {
+            "sprint": "S01",
+            "id": f"AC{i}",
+            "state": "failing",
+            "satisfied": False,
+            "tests": [
+                {"id": f"T.S01_t{j}", "outcome": "failed" if j == 0 else "passed"}
+                for j in range(50)
+            ],
+        }
+        for i in range(10)
+    ]
+    record = {
+        "id": runs.new_run_id(),
+        "acs": acs,
+        "failing": [{"id": str(i)} for i in range(500)],
+        "missing": [],
+        "new_skips": [],
+        "new_tests": [str(i) for i in range(10_000)],
+        "result": "fail",
+    }
+    path = runs.write_run(paths, record, latest_extra={"acs_all": acs})
+    stored = path.read_text()
+    assert "\n" not in stored.strip(), "history files are compact JSON"
+    data = runs.list_runs(paths)[0]
+    assert data["acs"][0] == {
+        "sprint": "S01",
+        "id": "AC0",
+        "state": "failing",
+        "matched": 50,
+        "failing": 1,
+    }
+    assert len(data["failing"]) == runs.HISTORY_CAP and data["truncated"]["failing"] == 450
+    assert "new_tests" not in data and len(stored) < 8_000
+    latest = runs.load_latest(paths)
+    assert len(latest["failing"]) == runs.LIST_CAP and latest["acs"][0]["tests"]
