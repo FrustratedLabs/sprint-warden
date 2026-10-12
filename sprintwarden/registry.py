@@ -50,7 +50,9 @@ def load() -> list[Path]:
 
 
 def save(paths: list[Path]) -> None:
-    lines = ["# Projects shown by `sprint ui`. Managed by `sprint register` / `sprint unregister`.\n"]
+    lines = [
+        "# Projects shown by `sprint ui`. Managed by `sprint register` / `sprint unregister`.\n"
+    ]
     for p in paths:
         lines.append(f"\n[[project]]\npath = {toml_literal(_display(p))}\n")
     write_text(registry_path(), "".join(lines))

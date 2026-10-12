@@ -24,7 +24,7 @@ LIST_CAP = 200  # failing/missing/new_skips entries kept in committed run files
 
 def new_run_id() -> str:
     """``20261012T103105123Z-3fa2``: sorts chronologically (to the millisecond)."""
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     return now.strftime("%Y%m%dT%H%M%S") + f"{now.microsecond // 1000:03d}Z-" + secrets.token_hex(2)
 
 
@@ -86,7 +86,9 @@ def cap_lists(record: dict[str, Any], cap: int = LIST_CAP) -> dict[str, Any]:
     return out
 
 
-def write_run(paths: Paths, record: dict[str, Any], *, latest_extra: dict[str, Any] | None = None) -> Path:
+def write_run(
+    paths: Paths, record: dict[str, Any], *, latest_extra: dict[str, Any] | None = None
+) -> Path:
     path = run_file(paths, record["id"])
     capped = cap_lists(record)
     capped.pop("new_tests", None)  # can be huge on the first run; counts are kept
