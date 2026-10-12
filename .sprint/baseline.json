@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "created": "2026-10-12T10:16:34.682Z",
-  "reason": "close S05",
-  "sprint": "S05",
-  "run": "20261012T101634679Z-7e66",
+  "created": "2026-10-12T10:28:56.021Z",
+  "reason": "close S06",
+  "sprint": "S06",
+  "run": "20261012T102856019Z-b4d0",
   "git": {
-    "head": "62da88818980c6b82f9def11fe113d88bd389bfc",
+    "head": "a1e2e1b33cba5911c7839c7461106fccb90092cf",
     "branch": "main"
   },
   "totals": {
-    "total": 315,
-    "passed": 313,
+    "total": 320,
+    "passed": 318,
     "skipped": 2
   },
   "tests": {
@@ -328,6 +328,11 @@
     "tests.test_s05_dashboard.test_S05_security_rejects_foreign_host_headers": "passed",
     "tests.test_s05_dashboard.test_S05_security_static_files_only_from_the_whitelist": "passed",
     "tests.test_s05_env_skips.test_S05_ordinary_skip_allowance_expires_at_the_next_baseline": "passed",
-    "tests.test_s05_env_skips.test_S05_permanent_skip_survives_rebaselines_for_environment_dependent_tests": "passed"
+    "tests.test_s05_env_skips.test_S05_permanent_skip_survives_rebaselines_for_environment_dependent_tests": "passed",
+    "tests.test_s06_examples.test_S06_example_go_regression_is_caught": "passed",
+    "tests.test_s06_examples.test_S06_example_gradle_regression_is_caught": "passed",
+    "tests.test_s06_examples.test_S06_example_pytest_regression_and_cheat_are_caught": "passed",
+    "tests.test_s06_examples.test_S06_example_vitest_regression_is_caught": "passed",
+    "tests.test_s06_examples.test_S06_examples_dashboard_shows_status_matrix_and_trends": "passed"
   }
 }
