@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "id": "20261012T093408254Z-bb5d",
+  "project": "sprintwarden",
+  "key": "SW",
+  "mode": "sprints",
+  "sprint": "S03",
+  "sprint_title": "Enforcement + packaging (v0.1)",
+  "timestamp": "2026-10-12T09:33:43Z",
+  "git": {
+    "head": "7a0e90fa449f47a70174e2e6e6b65be8eca8d1cf",
+    "branch": "main",
+    "dirty": false,
+    "fingerprint": "3b83355d8465b093357d"
+  },
+  "agent": "claude-code",
+  "trigger": "init",
+  "bypassed": false,
+  "ran": true,
+  "duration_s": 24.28,
+  "result": "fail",
+  "checks": [
+    {
+      "id": "runner",
+      "ok": true,
+      "blocking": true,
+      "summary": "199 tests parsed from 1 file (24.2s)",
+      "detail": ""
+    },
+    {
+      "id": "failures",
+      "ok": true,
+      "blocking": true,
+      "summary": "no failing tests",
+      "detail": ""
+    },
+    {
+      "id": "missing",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet",
+      "detail": ""
+    },
+    {
+      "id": "skips",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet",
+      "detail": ""
+    },
+    {
+      "id": "ratchet",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet (run `sprint baseline`)",
+      "detail": ""
+    },
+    {
+      "id": "sprint_tests",
+      "ok": false,
+      "blocking": true,
+      "summary": "no tests named for S03 yet",
+      "detail": "name new tests with the sprint id, e.g. S03_doesThing / test_S03_does_thing"
+    },
+    {
+      "id": "acs",
+      "ok": false,
+      "blocking": false,
+      "summary": "0/5 acceptance criteria satisfied",
+      "detail": ""
+    }
+  ],
+  "totals": {
+    "total": 199,
+    "passed": 198,
+    "failed": 0,
+    "skipped": 1
+  },
+  "by_sprint": {
+    "S01": {
+      "total": 165,
+      "passed": 164,
+      "failed": 0,
+      "skipped": 1
+    },
+    "S02": {
+      "total": 34,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "acs": [
+    {
+      "sprint": "S03",
+      "id": "AC1",
+      "desc": "Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC2",
+      "desc": "Agent detection and the human-only guard",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC3",
+      "desc": "pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC4",
+      "desc": "PreToolUse guard warns about deleted or skipped tests and edits to .sprint state",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC5",
+      "desc": "SessionStart briefing, MCP server and other agents' stop hooks",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    }
+  ],
+  "failing": [],
+  "new_skips": [],
+  "missing": [],
+  "counts": {
+    "failing": 0,
+    "regressions": 0,
+    "missing": 0,
+    "new_skips": 0,
+    "new_tests": 0,
+    "flaky": 0
+  },
+  "baseline": null,
+  "runner": [
+    {
+      "suite": "default",
+      "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
+      "exit_code": 0,
+      "duration_s": 24.25,
+      "timed_out": false,
+      "error": ""
+    }
+  ],
+  "reports": 1,
+  "version": "0.1.0.dev0",
+  "milestone": "init"
+}

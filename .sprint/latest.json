@@ -1,37 +1,37 @@
 {
   "schema": 1,
-  "id": "20261012T093310Z-d9b0",
+  "id": "20261012T093408254Z-bb5d",
   "project": "sprintwarden",
   "key": "SW",
   "mode": "sprints",
   "sprint": "S03",
   "sprint_title": "Enforcement + packaging (v0.1)",
-  "timestamp": "2026-10-12T09:32:45Z",
+  "timestamp": "2026-10-12T09:33:43Z",
   "git": {
-    "head": "b4f00820fbaa5a22492dc01daade41d3c22c9803",
+    "head": "7a0e90fa449f47a70174e2e6e6b65be8eca8d1cf",
     "branch": "main",
     "dirty": false,
-    "fingerprint": "0bc7c5cf3c0764d09582"
+    "fingerprint": "3b83355d8465b093357d"
   },
   "agent": "claude-code",
   "trigger": "init",
   "bypassed": false,
   "ran": true,
-  "duration_s": 24.68,
+  "duration_s": 24.28,
   "result": "fail",
   "checks": [
     {
       "id": "runner",
       "ok": true,
       "blocking": true,
-      "summary": "194 tests parsed from 1 file (24.7s)",
+      "summary": "199 tests parsed from 1 file (24.2s)",
       "detail": ""
     },
     {
       "id": "failures",
-      "ok": false,
+      "ok": true,
       "blocking": true,
-      "summary": "1 failing (1 regression)",
+      "summary": "no failing tests",
       "detail": ""
     },
     {
@@ -71,9 +71,9 @@
     }
   ],
   "totals": {
-    "total": 194,
-    "passed": 192,
-    "failed": 1,
+    "total": 199,
+    "passed": 198,
+    "failed": 0,
     "skipped": 1
   },
   "by_sprint": {
@@ -84,9 +84,9 @@
       "skipped": 1
     },
     "S02": {
-      "total": 29,
-      "passed": 28,
-      "failed": 1,
+      "total": 34,
+      "passed": 34,
+      "failed": 0,
       "skipped": 0
     }
   },
@@ -132,21 +132,12 @@
       "tests": []
     }
   ],
-  "failing": [
-    {
-      "id": "tests.test_s02_ratchet.test_S02_history_and_retention",
-      "sprint": "S02",
-      "regression": true,
-      "message": "AssertionError: assert 2 == 3 + where 2 = len([PosixPath('/private/var/folders/88/sww1wwhs25nckv_g07nch2t80000gp/T/pytest-of-user/pytest-4/test_S02_history...ytest-of-user/pytest-4/test_S02_history_and_retention0/repo/.sprint/runs/2026-10/20261012T093305Z-cbab.json')])",
-      "regression_reason": "from sprint S02",
-      "file": ".sprint/out/junit.xml"
-    }
-  ],
+  "failing": [],
   "new_skips": [],
   "missing": [],
   "counts": {
-    "failing": 1,
-    "regressions": 1,
+    "failing": 0,
+    "regressions": 0,
     "missing": 0,
     "new_skips": 0,
     "new_tests": 0,
@@ -157,8 +148,8 @@
     {
       "suite": "default",
       "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
-      "exit_code": 1,
-      "duration_s": 24.68,
+      "exit_code": 0,
+      "duration_s": 24.25,
       "timed_out": false,
       "error": ""
     }
@@ -642,5 +633,6 @@
       "state": "no-tests",
       "tests": []
     }
-  ]
+  ],
+  "milestone": "init"
 }
