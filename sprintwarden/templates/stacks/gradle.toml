@@ -1,0 +1,20 @@
+# Gradle (JUnit 4/5, TestNG via JUnit XML). Multi-module builds are covered by the ** glob.
+name = "gradle"
+label = "Gradle"
+priority = 60
+example_test = "S01_doesThing"
+
+[[detect]]
+file = "build.gradle"
+[[detect]]
+file = "build.gradle.kts"
+[[detect]]
+file = "settings.gradle"
+[[detect]]
+file = "settings.gradle.kts"
+
+[test]
+command = "./gradlew test"
+command_windows = "gradlew.bat test"
+reports = ["**/build/test-results/**/*.xml"]
+sources = ["**/src/test/**", "**/src/*Test/**", "**/src/test*/**"]

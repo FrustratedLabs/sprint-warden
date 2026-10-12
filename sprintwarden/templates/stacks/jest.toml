@@ -1,0 +1,19 @@
+# Jest with the jest-junit reporter (npm i -D jest-junit).
+name = "jest"
+label = "Jest"
+priority = 45
+example_test = "[S01] does thing"
+
+[[detect]]
+file = "jest.config.*"
+[[detect]]
+file = "package.json"
+contains = "jest"
+
+[test]
+command = "npx jest --ci --reporters=default --reporters=jest-junit"
+reports = [".sprint/out/*.xml"]
+sources = ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "**/test/**", "**/tests/**"]
+
+[test.env]
+JEST_JUNIT_OUTPUT_DIR = ".sprint/out"

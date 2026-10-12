@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="7" failures="2" errors="0" time="0.007851">
+    <testsuite name="tests/auth.test.ts" timestamp="2026-10-12T09:10:12.389Z" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" time="0.00143725">
+        <testcase classname="tests/auth.test.ts" name="S01_login_succeeds" time="0.000768125">
+        </testcase>
+        <testcase classname="tests/auth.test.ts" name="S01_logout_clears_session" time="0.000081792">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/export.test.ts" timestamp="2026-10-12T09:10:12.391Z" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" time="0.001126625">
+        <testcase classname="tests/export.test.ts" name="[S03] export &gt; produces pdf" time="0.000639625">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/health.test.ts" timestamp="2026-10-12T09:10:12.391Z" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" time="0.001307542">
+        <testcase classname="tests/health.test.ts" name="health_check" time="0.000716166">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/invoice.test.ts" timestamp="2026-10-12T09:10:12.391Z" hostname="localhost" tests="3" failures="2" errors="0" skipped="1" time="0.003979583">
+        <testcase classname="tests/invoice.test.ts" name="S02_invoice_rounds" time="0.003112584">
+            <failure message="expected 10 but was 11: expected 11 to be 10 // Object.is equality" type="AssertionError">
+AssertionError: expected 10 but was 11: expected 11 to be 10 // Object.is equality
+
+- Expected
++ Received
+
+- 10
++ 11
+
+ ❯ tests/invoice.test.ts:6:49
+            </failure>
+        </testcase>
+        <testcase classname="tests/invoice.test.ts" name="S02_invoice_pdf" time="0">
+            <skipped/>
+        </testcase>
+        <testcase classname="tests/invoice.test.ts" name="S02_crashes" time="0.000291708">
+            <failure message="boom" type="Error">
+Error: boom
+ ❯ tests/invoice.test.ts:13:9
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>

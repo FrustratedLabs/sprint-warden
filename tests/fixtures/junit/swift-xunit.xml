@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<testsuites>
+<testsuite name="TestResults" errors="0" tests="7" failures="2" time="1.709620959">
+<testcase classname="SprintDemoTests.HealthTests" name="testHealthCheck" time="0.226431209">
+</testcase>
+<testcase classname="SprintDemoTests.AuthTests" name="test_S01_loginSucceeds" time="0.231871042">
+</testcase>
+<testcase classname="SprintDemoTests.ExportTests" name="test_S03_exportProducesPdf" time="0.236014125">
+</testcase>
+<testcase classname="SprintDemoTests.AuthTests" name="test_S01_logoutClearsSession" time="0.240998583">
+</testcase>
+<testcase classname="SprintDemoTests.InvoiceTests" name="test_S02_invoicePdf" time="0.243120667">
+</testcase>
+<testcase classname="SprintDemoTests.InvoiceTests" name="test_S02_invoiceRounds" time="0.262874958">
+<failure message="failure"></failure>
+</testcase>
+<testcase classname="SprintDemoTests.InvoiceTests" name="test_S02_crashes" time="0.268310375">
+<failure message="failure"></failure>
+</testcase>
+</testsuite>
+</testsuites>

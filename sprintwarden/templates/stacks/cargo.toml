@@ -1,0 +1,16 @@
+# Rust with cargo-nextest. Enable JUnit output in .config/nextest.toml:
+#   [profile.ci.junit]
+#   path = "junit.xml"
+# Name tests s01_does_thing.
+name = "cargo"
+label = "Rust (nextest)"
+priority = 50
+example_test = "s01_does_thing"
+
+[[detect]]
+file = "Cargo.toml"
+
+[test]
+command = "cargo nextest run --profile ci"
+reports = ["target/nextest/ci/junit.xml"]
+sources = ["**/tests/**/*.rs", "**/src/**/*.rs"]

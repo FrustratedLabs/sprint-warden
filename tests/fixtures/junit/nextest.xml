@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="6" skipped="0" failures="2" errors="0" uuid="14f85dc1-247b-46e5-b281-a95dd7c2f5f8" timestamp="2026-10-12T14:42:09.253+00:00" time="0.059">
+    <testsuite name="sprintdemo::invoice" tests="2" skipped="0" errors="0" failures="2">
+        <testcase name="s02_invoice_rounds" classname="sprintdemo::invoice" timestamp="2026-10-12T14:42:09.254+00:00" time="0.021">
+            <failure message="thread &apos;s02_invoice_rounds&apos; (6899451) panicked at tests/invoice.rs:6:5" type="test failure with exit code 101">thread &apos;s02_invoice_rounds&apos; (6899451) panicked at tests/invoice.rs:6:5:
+assertion `left == right` failed: expected 10 but was 11
+  left: 11
+ right: 10
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test s02_invoice_rounds ... FAILED
+
+failures:
+
+failures:
+    s02_invoice_rounds
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+</system-out>
+            <system-err>
+thread &apos;s02_invoice_rounds&apos; (6899451) panicked at tests/invoice.rs:6:5:
+assertion `left == right` failed: expected 10 but was 11
+  left: 11
+ right: 10
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="s02_crashes" classname="sprintdemo::invoice" timestamp="2026-10-12T14:42:09.254+00:00" time="0.035">
+            <failure message="thread &apos;s02_crashes&apos; (6899460) panicked at tests/invoice.rs:15:5" type="test failure with exit code 101">thread &apos;s02_crashes&apos; (6899460) panicked at tests/invoice.rs:15:5:
+boom
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test s02_crashes ... FAILED
+
+failures:
+
+failures:
+    s02_crashes
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+</system-out>
+            <system-err>
+thread &apos;s02_crashes&apos; (6899460) panicked at tests/invoice.rs:15:5:
+boom
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="sprintdemo::health" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="health_check" classname="sprintdemo::health" timestamp="2026-10-12T14:42:09.254+00:00" time="0.031"/>
+    </testsuite>
+    <testsuite name="sprintdemo::auth" tests="2" skipped="0" errors="0" failures="0">
+        <testcase name="s01_logout_clears_session" classname="sprintdemo::auth" timestamp="2026-10-12T14:42:09.254+00:00" time="0.044"/>
+        <testcase name="s01_login_succeeds" classname="sprintdemo::auth" timestamp="2026-10-12T14:42:09.254+00:00" time="0.058"/>
+    </testsuite>
+    <testsuite name="sprintdemo::export" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="s03_export_produces_pdf" classname="sprintdemo::export" timestamp="2026-10-12T14:42:09.254+00:00" time="0.053"/>
+    </testsuite>
+</testsuites>

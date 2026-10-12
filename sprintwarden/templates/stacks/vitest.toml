@@ -1,0 +1,16 @@
+# Vitest. Use describe("[S01] feature") or it("S01_does thing").
+name = "vitest"
+label = "Vitest"
+priority = 50
+example_test = "[S01] does thing"
+
+[[detect]]
+file = "vitest.config.*"
+[[detect]]
+file = "package.json"
+contains = "vitest"
+
+[test]
+command = "npx vitest run --reporter=default --reporter=junit --outputFile.junit=.sprint/out/junit.xml"
+reports = [".sprint/out/junit.xml"]
+sources = ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "**/test/**", "**/tests/**"]
