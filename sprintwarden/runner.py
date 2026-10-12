@@ -160,7 +160,13 @@ def run_suite(
     log.flush()
     error = f"timed out after {suite.timeout_minutes:g} min" if timed_out else ""
     return RunnerResult(
-        suite.name, command, proc.returncode, duration, timed_out=timed_out, error=error, tail=list(tail)
+        suite.name,
+        command,
+        proc.returncode,
+        duration,
+        timed_out=timed_out,
+        error=error,
+        tail=list(tail),
     )
 
 

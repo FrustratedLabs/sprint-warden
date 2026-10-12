@@ -32,7 +32,12 @@ class Style:
     def for_stream(cls, stream=None, *, no_color: bool = False) -> Style:
         stream = stream or sys.stdout
         tty = hasattr(stream, "isatty") and stream.isatty()
-        color = tty and not no_color and not os.environ.get("NO_COLOR") and os.environ.get("TERM") != "dumb"
+        color = (
+            tty
+            and not no_color
+            and not os.environ.get("NO_COLOR")
+            and os.environ.get("TERM") != "dumb"
+        )
         uni = not os.environ.get("SPRINT_ASCII")
         if uni:
             try:
@@ -127,7 +132,9 @@ def render_gate(record: dict[str, Any], style: Style | None = None, *, max_items
         cid = check["id"]
         label = CHECK_LABELS.get(cid, cid)
         if cid == "acs":
-            acs = "  ".join(f"{a['id']} {ac_symbol(a['state'], style)}" for a in record.get("acs", []))
+            acs = "  ".join(
+                f"{a['id']} {ac_symbol(a['state'], style)}" for a in record.get("acs", [])
+            )
             lines.append(f"  {label:<10} {acs}")
             continue
         sym = style.sym(check["ok"], check["blocking"])
@@ -141,7 +148,9 @@ def render_gate(record: dict[str, Any], style: Style | None = None, *, max_items
             for f in items[:max_items]:
                 tag = ""
                 if f.get("regression"):
-                    tag = style.red(f"  {style.arrow} REGRESSION {f.get('regression_reason', '')}".rstrip())
+                    tag = style.red(
+                        f"  {style.arrow} REGRESSION {f.get('regression_reason', '')}".rstrip()
+                    )
                 flaky = style.dim(" (flaky)") if f.get("flaky") else ""
                 lines.append(f"     {_sprint_col(f['sprint'])}{f['id']}{tag}{flaky}")
                 if f.get("message"):
@@ -151,7 +160,9 @@ def render_gate(record: dict[str, Any], style: Style | None = None, *, max_items
             items = record.get("missing", [])
             for i, m in enumerate(items[:max_items]):
                 hint = (
-                    style.yellow(f"  {style.arrow} deleted or renamed? use `sprint accept-removal` (human only)")
+                    style.yellow(
+                        f"  {style.arrow} deleted or renamed? use `sprint accept-removal` (human only)"
+                    )
                     if i == 0
                     else ""
                 )
@@ -160,7 +171,11 @@ def render_gate(record: dict[str, Any], style: Style | None = None, *, max_items
         elif cid == "skips":
             items = record.get("new_skips", [])
             for i, m in enumerate(items[:max_items]):
-                hint = style.yellow(f"  {style.arrow} use `sprint allow-skip` (human only)") if i == 0 else ""
+                hint = (
+                    style.yellow(f"  {style.arrow} use `sprint allow-skip` (human only)")
+                    if i == 0
+                    else ""
+                )
                 was = f" (was {m['was']})" if m.get("was") and m["was"] != "new" else ""
                 lines.append(f"     {_sprint_col(m['sprint'])}{m['id']}{was}{hint}")
             lines += _more(counts.get("new_skips", len(items)), min(len(items), max_items), style)
@@ -243,15 +258,23 @@ def render_markdown(record: dict[str, Any], *, max_items: int = 30) -> str:
         meta.append(f"sprint **{record['sprint']}**")
     t = record.get("totals", {})
     if t:
-        meta.append(f"{t.get('total', 0)} tests ({t.get('failed', 0)} failed, {t.get('skipped', 0)} skipped)")
+        meta.append(
+            f"{t.get('total', 0)} tests ({t.get('failed', 0)} failed, {t.get('skipped', 0)} skipped)"
+        )
     if record.get("baseline"):
         b = record["baseline"]
-        meta.append(f"baseline {b.get('total')} tests" + (f" from `{b['ref']}`" if b.get("ref") else ""))
+        meta.append(
+            f"baseline {b.get('total')} tests" + (f" from `{b['ref']}`" if b.get("ref") else "")
+        )
     if meta:
         lines.append(" · ".join(meta))
     lines += ["", "| check | result | details |", "|---|---|---|"]
     for c in record.get("checks", []):
-        state = "✅ ok" if c["ok"] else ("➖ n/a" if c["ok"] is None else ("❌ fail" if c["blocking"] else "⚠️ warn"))
+        state = (
+            "✅ ok"
+            if c["ok"]
+            else ("➖ n/a" if c["ok"] is None else ("❌ fail" if c["blocking"] else "⚠️ warn"))
+        )
         lines.append(f"| {CHECK_LABELS.get(c['id'], c['id'])} | {state} | {_md(c['summary'])} |")
     failing = record.get("failing", [])
     if failing:
@@ -278,7 +301,9 @@ def render_markdown(record: dict[str, Any], *, max_items: int = 30) -> str:
         lines += ["", "### ⚠️ Exceptions accepted on this branch (review them)", ""]
         for kind, items in accepted.items():
             for a in items:
-                lines.append(f"- {kind}: `{_md(a['id'])}`: {_md(a.get('reason', ''))} (by {a.get('by', '?')})")
+                lines.append(
+                    f"- {kind}: `{_md(a['id'])}`: {_md(a.get('reason', ''))} (by {a.get('by', '?')})"
+                )
     return "\n".join(lines) + "\n"
 
 

@@ -1,0 +1,32 @@
+# Protect every test that exists today (2 minutes, any stack):
+$ sprint init --ratchet-only
+✓ created .sprint/config.toml (stack pytest: pytest --junitxml=.sprint/out/junit.xml)
+✓ baseline written: 4 tests must keep existing and passing
+
+# An agent refactors to_cents() with float maths and breaks rounding...
+$ sprint gate
+sprintwarden gate — invoices
+✓ runner     4 tests parsed from 1 file (0.1s)
+✗ failures   1 failing (1 regression)
+     S01    tests.test_invoice.test_S01_rounds_half_up  ← REGRESSION from sprint S01
+             AssertionError: assert 100 == 101 + where 100 = to_cents('1.005')
+✓ missing    no tests missing vs baseline
+✓ skips      no new skips
+✓ ratchet    4 ≥ 4
+GATE: FAIL
+
+# ...then 'fixes' the red build by deleting the old test:
+$ pytest -q
+3 passed in 0.00s
+$ sprint gate
+sprintwarden gate — invoices
+✓ runner     3 tests parsed from 1 file (0.1s)
+✓ failures   no failing tests
+✗ missing    1 test missing vs baseline
+     S01    tests.test_invoice.test_S01_rounds_half_up  ← deleted or renamed? use `sprint accept-removal` (human only)
+✓ skips      no new skips
+✗ ratchet    3 < 4: the suite shrank
+     tests only go up; restore the tests or have a human run `sprint accept-removal`
+GATE: FAIL
+
+# Only a human can accept that: sprint accept-removal <test> --reason '...'

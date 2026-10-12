@@ -1,0 +1,15 @@
+{
+  "name": "sprintwarden",
+  "owner": { "name": "sprintwarden contributors" },
+  "description": "Claude Code plugins from the sprintwarden project.",
+  "plugins": [
+    {
+      "name": "sprintwarden",
+      "source": "./plugin",
+      "description": "Test ratchet for AI coding agents: Claude can't finish while old tests are deleted, skipped or failing.",
+      "version": "0.1.0",
+      "category": "testing",
+      "tags": ["testing", "regression", "ratchet", "sprints"]
+    }
+  ]
+}
