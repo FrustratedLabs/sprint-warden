@@ -6,28 +6,39 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-### Sprint S05: Dashboard (2026-10-12)
+## [0.2.0] - 2026-10-12
 
-Goal: One local, read-only portfolio dashboard across every registered project
+The full layer cake: sprints and computed "done", the dashboard, and proof on
+four stacks.
 
-- AC1: Registry-backed read-only JSON API: /api/projects, /api/projects/<key>, /api/projects/<key>/runs
-- AC2: Portfolio status is correct: pass, fail, stale (run older than HEAD), none, error; failing first
-- AC3: Localhost-only and read-only: Host check, no writes, no path traversal
-- AC4: The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)
+### Added
 
-Tests: 315 (+15 since the previous baseline) · tag `sprint-S05`
+- **Sprints layer**: `sprint new`, `start`, `close` (human-only: gate passes on a
+  clean HEAD and every acceptance criterion is satisfied by passing tests, then
+  baseline + commit + `sprint-<id>` tag + CHANGELOG entry) and `note`. ACs are
+  computed in every gate run; failures in closed or earlier sprints are labelled
+  "REGRESSION from sprint Sxx"; `status` shows regressions per sprint.
+- **Dashboard**: `sprint ui`, a local read-only portfolio over all registered
+  projects (pass / fail / stale / none / error, failing first), with a sprint
+  timeline, regression matrix, trends chart and run details. Includes an
+  "Open in Allure" link and a strict CSP, binds to localhost only, and rejects
+  foreign `Host` headers.
+- **Examples** for pytest, Vitest, Go and Gradle, each with two sprints and a
+  scripted S01-regression branch; `examples/run-all.sh` / `.ps1` asserts the
+  outcomes; CI runs them on Linux, macOS and Windows.
+- `sprint allow-skip --permanent` for environment-dependent tests (D-021).
 
-### Sprint S04: Sprints layer (2026-10-12)
+### Changed
 
-Goal: Sprints, acceptance criteria and computed 'done' on top of the ratchet
+- `.sprint/latest.json` is a local cache and is gitignored by default; committing
+  it blocked branch switches (D-022). Set `[history] latest_in_git = true` for the
+  old behaviour. History in `runs/` is still committed.
+- Committed run records are compact (per-AC counts, lists capped at 50).
 
-- AC1: `sprint new` creates the next numbered sprint; `sprint start` activates exactly one sprint
-- AC2: The gate computes AC state from passing tests and labels regressions from closed sprints
-- AC3: `sprint close` (human) requires a passing gate on a clean HEAD and every AC satisfied, then baselines, tags and updates CHANGELOG
-- AC4: `sprint status` shows the sprint, AC states and regressions per sprint; `sprint note` records decisions
-- AC5: A multi-sprint lifecycle works end to end
+### Sprints
 
-Tests: 300 (+22 since the previous baseline) · tag `sprint-S04`
+S04 sprints layer (`sprint-S04`), S05 dashboard (`sprint-S05`), S06 multi-stack
+proof (`sprint-S06`), all closed with every AC satisfied by passing tests.
 
 ## [0.1.0] - 2026-10-12
 

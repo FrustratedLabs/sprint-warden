@@ -1,0 +1,46 @@
+name: Examples
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  example:
+    name: ${{ matrix.stack }} (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { stack: pytest, os: ubuntu-latest }
+          - { stack: pytest, os: windows-latest }
+          - { stack: pytest, os: macos-latest }
+          - { stack: vitest, os: ubuntu-latest }
+          - { stack: go, os: ubuntu-latest }
+          - { stack: gradle, os: ubuntu-latest }
+          - { stack: gradle, os: windows-latest }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e . pytest
+      - if: matrix.stack == 'vitest'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - if: matrix.stack == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - if: matrix.stack == 'gradle'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: init → gate passes → S01 regression branch fails → main passes
+        run: python examples/run_all.py ${{ matrix.stack }} --require

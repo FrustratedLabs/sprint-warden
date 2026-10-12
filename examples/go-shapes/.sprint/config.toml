@@ -1,0 +1,15 @@
+[project]
+name = "go-shapes"
+key  = "SHAPES"
+mode = "sprints"
+stack = "go"
+
+[test]
+# needs go-junit-report: go install github.com/jstemmer/go-junit-report/v2@latest
+command  = "go test ./... -v 2>&1 | go-junit-report > .sprint/out/junit.xml"
+reports  = [".sprint/out/junit.xml"]
+timeout_minutes = 10
+sources = ["**/*_test.go"]
+
+[sprint]
+current = "S02"

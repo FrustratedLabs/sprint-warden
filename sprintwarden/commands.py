@@ -192,7 +192,11 @@ def cmd_init(env: Env, args: Any) -> Outcome:
             from sprintwarden.hooks import install as agent_install
 
             changes.merge(agent_install.install(root, agent))
-    changes.merge(project.update_gitignore(root, history_in_git=cfg.history_in_git))
+    changes.merge(
+        project.update_gitignore(
+            root, history_in_git=cfg.history_in_git, latest_in_git=cfg.latest_in_git
+        )
+    )
     changes.merge(project.update_gitattributes(root))
     changes.merge(project.register_project(root))
 

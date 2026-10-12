@@ -1,0 +1,15 @@
+[project]
+name = "gradle-library"
+key  = "TEMP"
+mode = "sprints"
+stack = "gradle"
+
+[test]
+command  = "./gradlew test --quiet --continue"
+command_windows = "gradlew.bat test --quiet --continue"
+reports  = ["**/build/test-results/**/*.xml"]
+timeout_minutes = 20
+sources = ["**/src/test/**"]
+
+[sprint]
+current = "S02"

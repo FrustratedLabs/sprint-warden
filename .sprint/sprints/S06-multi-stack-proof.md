@@ -1,9 +1,9 @@
 +++
 id      = "S06"
 title   = "Multi-stack proof (v0.2)"
-status  = "planned"          # planned | active | closed
+status  = "active"          # planned | active | closed
 goal    = "Real example projects on several stacks prove the S01-regression story end to end"
-started = ""
+started = 2026-10-12
 closed  = ""
 out_of_scope = ["Phase 7 integrations (importers, sync providers)"]
 

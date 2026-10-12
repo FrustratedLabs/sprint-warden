@@ -108,6 +108,7 @@ git_pre_push = true
 
 [history]
 in_git = true                       # commit .sprint/runs/ (small JSON files)
+latest_in_git = false               # latest.json is a local cache; committing it blocks branch switches
 keep = 0                            # max run files to keep (0 = unlimited); milestones are kept
 
 [ui]
@@ -329,12 +330,16 @@ def _make_executable(path: Path) -> None:
 GITIGNORE_HEADER = "# sprintwarden: gate scratch space and hook state"
 
 
-def update_gitignore(root: Path, *, history_in_git: bool = True) -> Changes:
+def update_gitignore(
+    root: Path, *, history_in_git: bool = True, latest_in_git: bool = False
+) -> Changes:
     ch = Changes()
     path = root / ".gitignore"
     text = read_text(path) or ""
     existing = {line.strip() for line in text.splitlines()}
     wanted = [f"{SPRINT_DIR}/out/"]
+    if not latest_in_git:
+        wanted.append(f"{SPRINT_DIR}/latest.json")
     if not history_in_git:
         wanted.append(f"{SPRINT_DIR}/runs/")
     missing = [w for w in wanted if w not in existing and w.rstrip("/") not in existing]
