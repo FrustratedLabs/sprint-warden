@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "id": "20261012T101240028Z-6907",
+  "id": "20261012T101634679Z-7e66",
   "project": "sprintwarden",
   "key": "SW",
   "mode": "sprints",
   "sprint": "S05",
   "sprint_title": "Dashboard",
-  "timestamp": "2026-10-12T10:11:14Z",
+  "timestamp": "2026-10-12T10:15:06Z",
   "git": {
-    "head": "45faf4be965aed0e53a04b0c8a391d06dc90e63f",
+    "head": "62da88818980c6b82f9def11fe113d88bd389bfc",
     "branch": "main",
     "dirty": false,
-    "fingerprint": "7ef419a3a66c3828993b"
+    "fingerprint": "abe41f11b21a19c83f5a"
   },
   "agent": "claude-code",
   "trigger": "close",
   "bypassed": false,
   "ran": true,
-  "duration_s": 85.51,
-  "result": "fail",
+  "duration_s": 88.15,
+  "result": "pass",
   "checks": [
     {
       "id": "runner",
       "ok": true,
       "blocking": true,
-      "summary": "313 tests parsed from 1 file (85.5s)",
+      "summary": "315 tests parsed from 1 file (88.1s)",
       "detail": ""
     },
     {
@@ -43,36 +43,36 @@
     },
     {
       "id": "skips",
-      "ok": false,
+      "ok": true,
       "blocking": true,
-      "summary": "1 new skip",
+      "summary": "no new skips",
       "detail": ""
     },
     {
       "id": "ratchet",
       "ok": true,
       "blocking": true,
-      "summary": "313 ≥ 300 (+13 new)",
+      "summary": "315 ≥ 300 (+15 new)",
       "detail": ""
     },
     {
       "id": "sprint_tests",
       "ok": true,
       "blocking": true,
-      "summary": "13 tests named for S05",
+      "summary": "15 tests named for S05",
       "detail": ""
     },
     {
       "id": "acs",
-      "ok": false,
+      "ok": true,
       "blocking": false,
-      "summary": "3/4 acceptance criteria satisfied",
+      "summary": "4/4 acceptance criteria satisfied",
       "detail": ""
     }
   ],
   "totals": {
-    "total": 313,
-    "passed": 311,
+    "total": 315,
+    "passed": 313,
     "failed": 0,
     "skipped": 2
   },
@@ -102,8 +102,8 @@
       "skipped": 0
     },
     "S05": {
-      "total": 13,
-      "passed": 12,
+      "total": 15,
+      "passed": 14,
       "failed": 0,
       "skipped": 1
     }
@@ -184,13 +184,9 @@
       "sprint": "S05",
       "id": "AC4",
       "desc": "The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)",
-      "satisfied": false,
-      "state": "failing",
+      "satisfied": true,
+      "state": "satisfied",
       "tests": [
-        {
-          "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
-          "outcome": "skipped"
-        },
         {
           "id": "tests.test_s05_dashboard.test_S05_browser_views_render_in_headless_chrome",
           "outcome": "passed"
@@ -199,21 +195,14 @@
     }
   ],
   "failing": [],
-  "new_skips": [
-    {
-      "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
-      "sprint": "S05",
-      "message": "no Chromium available for Playwright",
-      "was": "new"
-    }
-  ],
+  "new_skips": [],
   "missing": [],
   "counts": {
     "failing": 0,
     "regressions": 0,
     "missing": 0,
-    "new_skips": 1,
-    "new_tests": 13,
+    "new_skips": 0,
+    "new_tests": 15,
     "flaky": 0
   },
   "baseline": {
@@ -231,7 +220,7 @@
       "suite": "default",
       "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
       "exit_code": 0,
-      "duration_s": 85.47,
+      "duration_s": 88.12,
       "timed_out": false,
       "error": ""
     }
@@ -1120,13 +1109,9 @@
       "sprint": "S05",
       "id": "AC4",
       "desc": "The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)",
-      "satisfied": false,
-      "state": "failing",
+      "satisfied": true,
+      "state": "satisfied",
       "tests": [
-        {
-          "id": "tests.test_s05_dashboard.test_S05_browser_five_views_render",
-          "outcome": "skipped"
-        },
         {
           "id": "tests.test_s05_dashboard.test_S05_browser_views_render_in_headless_chrome",
           "outcome": "passed"
@@ -1141,5 +1126,6 @@
       "state": "no-tests",
       "tests": []
     }
-  ]
+  ],
+  "milestone": "close S05"
 }
