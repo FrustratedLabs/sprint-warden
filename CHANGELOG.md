@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Sprint S05: Dashboard (2026-10-12)
+
+Goal: One local, read-only portfolio dashboard across every registered project
+
+- AC1: Registry-backed read-only JSON API: /api/projects, /api/projects/<key>, /api/projects/<key>/runs
+- AC2: Portfolio status is correct: pass, fail, stale (run older than HEAD), none, error; failing first
+- AC3: Localhost-only and read-only: Host check, no writes, no path traversal
+- AC4: The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)
+
+Tests: 315 (+15 since the previous baseline) · tag `sprint-S05`
+
 ### Sprint S04: Sprints layer (2026-10-12)
 
 Goal: Sprints, acceptance criteria and computed 'done' on top of the ratchet
