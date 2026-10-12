@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "id": "20261012T093408254Z-bb5d",
+  "id": "20261012T095442053Z-71c1",
   "project": "sprintwarden",
   "key": "SW",
   "mode": "sprints",
   "sprint": "S03",
   "sprint_title": "Enforcement + packaging (v0.1)",
-  "timestamp": "2026-10-12T09:33:43Z",
+  "timestamp": "2026-10-12T09:53:53Z",
   "git": {
-    "head": "7a0e90fa449f47a70174e2e6e6b65be8eca8d1cf",
+    "head": "f1165b6296e901af21685ad67074bb66bda73f63",
     "branch": "main",
     "dirty": false,
-    "fingerprint": "3b83355d8465b093357d"
+    "fingerprint": "48c130fb9b3d277ab86a"
   },
   "agent": "claude-code",
-  "trigger": "init",
+  "trigger": "close",
   "bypassed": false,
   "ran": true,
-  "duration_s": 24.28,
-  "result": "fail",
+  "duration_s": 48.53,
+  "result": "pass",
   "checks": [
     {
       "id": "runner",
       "ok": true,
       "blocking": true,
-      "summary": "199 tests parsed from 1 file (24.2s)",
+      "summary": "278 tests parsed from 1 file (48.5s)",
       "detail": ""
     },
     {
@@ -38,41 +38,41 @@
       "id": "missing",
       "ok": true,
       "blocking": true,
-      "summary": "no baseline yet",
+      "summary": "no tests missing vs baseline",
       "detail": ""
     },
     {
       "id": "skips",
       "ok": true,
       "blocking": true,
-      "summary": "no baseline yet",
+      "summary": "no new skips",
       "detail": ""
     },
     {
       "id": "ratchet",
       "ok": true,
       "blocking": true,
-      "summary": "no baseline yet (run `sprint baseline`)",
+      "summary": "278 ≥ 199 (+79 new)",
       "detail": ""
     },
     {
       "id": "sprint_tests",
-      "ok": false,
+      "ok": true,
       "blocking": true,
-      "summary": "no tests named for S03 yet",
-      "detail": "name new tests with the sprint id, e.g. S03_doesThing / test_S03_does_thing"
+      "summary": "79 tests named for S03",
+      "detail": ""
     },
     {
       "id": "acs",
-      "ok": false,
+      "ok": true,
       "blocking": false,
-      "summary": "0/5 acceptance criteria satisfied",
+      "summary": "5/5 acceptance criteria satisfied",
       "detail": ""
     }
   ],
   "totals": {
-    "total": 199,
-    "passed": 198,
+    "total": 278,
+    "passed": 277,
     "failed": 0,
     "skipped": 1
   },
@@ -88,6 +88,12 @@
       "passed": 34,
       "failed": 0,
       "skipped": 0
+    },
+    "S03": {
+      "total": 79,
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0
     }
   },
   "acs": [
@@ -95,41 +101,330 @@
       "sprint": "S03",
       "id": "AC1",
       "desc": "Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_allows_on_pass_and_skips_when_nothing_changed",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_blocks_with_an_agent_actionable_report",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_replays_a_failure_without_rerunning",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_loop_guard_lets_go_after_three_blocks",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_counts_a_duplicate_invocation_once",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_notices_a_second_edit_to_a_modified_file",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_respects_config_and_skip",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_blocks_on_a_broken_config",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_outside_a_project_is_silent",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_tolerates_empty_stdin",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC2",
       "desc": "Agent detection and the human-only guard",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env0-human]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env1-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env2-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env3-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env4-goose]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env5-agent]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env6-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env7-cursor]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env8-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env9-codex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env10-codex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env11-gemini-cli]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env12-copilot]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env13-opencode]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env14-cline]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env15-amp]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env16-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env17-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env18-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env19-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env20-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env21-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env22-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_human_on_a_terminal",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_is_agent",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC3",
       "desc": "pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_installs_and_chains_existing_hook",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_blocks_on_gate_failure_and_records_bypass",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_reuses_a_passing_gate_for_the_same_tree",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_reinstall_is_idempotent",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC4",
       "desc": "PreToolUse guard warns about deleted or skipped tests and edits to .sprint state",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_glob_and_test_file_detection",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[def test_a():\\n pass\\ndef test_b():\\n pass\\n-def test_a():\\n pass\\n-removes 1 test definition]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[ @Test\\n void a() {}\\n- @Disabled\\n @Test\\n void a() {}\\n-@Disabled]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[it('works', () => {})-it.skip('works', () => {})-.skip(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[it('works', () => {})-it.only('works', () => {})-.only(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[func TestX(t *testing.T) {}-func TestX(t *testing.T) { t.Skip(\"later\") }-t.Skip(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[#[test]\\nfn a() {}-#[test]\\n#[ignore]\\nfn a() {}-#[ignore]]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[def test_a(): pass-@pytest.mark.skip\\ndef test_a(): pass-pytest.mark.skip]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_ignores_ordinary_edits",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_write_compares_with_the_file_on_disk",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_protects_sprint_state",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm tests/test_auth.py-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[git rm -q src/test/java/FooTest.java-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm -rf tests-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint accept-removal X.y --reason ok-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint close S03 --i-am-human-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[echo '{}' > .sprint/baseline.json-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sed -i '' 's/a/b/' .sprint/skips.json-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[ls tests && pytest-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm build/output.txt-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint gate-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_hook_end_to_end",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC5",
       "desc": "SessionStart briefing, MCP server and other agents' stop hooks",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_hook_installers",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[cursor-stop-payload0-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[codex-stop-payload1-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[gemini-after-agent-payload2-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[copilot-agent-stop-payload3-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_cursor_ignores_aborted_turns",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_session_start_briefs_the_agent",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_handshake_and_tools",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_over_stdio",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_gate_failure_is_reported_as_tool_error",
+          "outcome": "passed"
+        }
+      ]
     }
   ],
   "failing": [],
@@ -140,22 +435,31 @@
     "regressions": 0,
     "missing": 0,
     "new_skips": 0,
-    "new_tests": 0,
+    "new_tests": 79,
     "flaky": 0
   },
-  "baseline": null,
+  "baseline": {
+    "created": "2026-10-12T09:34:08.256Z",
+    "reason": "init",
+    "sprint": "S03",
+    "run": "20261012T093408254Z-bb5d",
+    "total": 199,
+    "skipped": 1,
+    "head": "7a0e90fa449f47a70174e2e6e6b65be8eca8d1cf",
+    "source": "~/Desktop/wannabemrrobot/open-sprint/.sprint/baseline.json"
+  },
   "runner": [
     {
       "suite": "default",
       "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
       "exit_code": 0,
-      "duration_s": 24.25,
+      "duration_s": 48.5,
       "timed_out": false,
       "error": ""
     }
   ],
   "reports": 1,
-  "version": "0.1.0.dev0",
+  "version": "0.1.0",
   "acs_all": [
     {
       "sprint": "S01",
@@ -573,41 +877,330 @@
       "sprint": "S03",
       "id": "AC1",
       "desc": "Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_allows_on_pass_and_skips_when_nothing_changed",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_blocks_with_an_agent_actionable_report",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_replays_a_failure_without_rerunning",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_loop_guard_lets_go_after_three_blocks",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_counts_a_duplicate_invocation_once",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_notices_a_second_edit_to_a_modified_file",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_respects_config_and_skip",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_blocks_on_a_broken_config",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_outside_a_project_is_silent",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_stop_hook_tolerates_empty_stdin",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC2",
       "desc": "Agent detection and the human-only guard",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env0-human]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env1-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env2-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env3-claude-code]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env4-goose]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env5-agent]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env6-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env7-cursor]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env8-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env9-codex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env10-codex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env11-gemini-cli]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env12-copilot]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env13-opencode]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env14-cline]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env15-amp]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env16-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env17-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env18-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env19-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env20-ci]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env21-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_agents_ci_and_overrides[env22-unknown]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_human_on_a_terminal",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_detect.test_S03_detect_is_agent",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC3",
       "desc": "pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_installs_and_chains_existing_hook",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_blocks_on_gate_failure_and_records_bypass",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_reuses_a_passing_gate_for_the_same_tree",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pre_push_reinstall_is_idempotent",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC4",
       "desc": "PreToolUse guard warns about deleted or skipped tests and edits to .sprint state",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_glob_and_test_file_detection",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[def test_a():\\n pass\\ndef test_b():\\n pass\\n-def test_a():\\n pass\\n-removes 1 test definition]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[ @Test\\n void a() {}\\n- @Disabled\\n @Test\\n void a() {}\\n-@Disabled]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[it('works', () => {})-it.skip('works', () => {})-.skip(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[it('works', () => {})-it.only('works', () => {})-.only(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[func TestX(t *testing.T) {}-func TestX(t *testing.T) { t.Skip(\"later\") }-t.Skip(]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[#[test]\\nfn a() {}-#[test]\\n#[ignore]\\nfn a() {}-#[ignore]]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_flags_removed_and_skipped_tests[def test_a(): pass-@pytest.mark.skip\\ndef test_a(): pass-pytest.mark.skip]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_ignores_ordinary_edits",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_write_compares_with_the_file_on_disk",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_protects_sprint_state",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm tests/test_auth.py-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[git rm -q src/test/java/FooTest.java-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm -rf tests-warn]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint accept-removal X.y --reason ok-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint close S03 --i-am-human-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[echo '{}' > .sprint/baseline.json-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sed -i '' 's/a/b/' .sprint/skips.json-ask]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[ls tests && pytest-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[rm build/output.txt-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_bash_commands[sprint gate-None]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_pretool_hook_end_to_end",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S03",
       "id": "AC5",
       "desc": "SessionStart briefing, MCP server and other agents' stop hooks",
-      "satisfied": false,
-      "state": "no-tests",
-      "tests": []
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_hook_installers",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[cursor-stop-payload0-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[codex-stop-payload1-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[gemini-after-agent-payload2-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_stop_hooks_speak_their_protocol[copilot-agent-stop-payload3-<lambda>-<lambda>]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_other_agent_cursor_ignores_aborted_turns",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_session_start_briefs_the_agent",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_handshake_and_tools",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_over_stdio",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s03_hooks.test_S03_mcp_gate_failure_is_reported_as_tool_error",
+          "outcome": "passed"
+        }
+      ]
     },
     {
       "sprint": "S04",
@@ -634,5 +1227,5 @@
       "tests": []
     }
   ],
-  "milestone": "init"
+  "milestone": "close S03"
 }

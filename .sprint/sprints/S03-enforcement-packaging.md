@@ -1,10 +1,10 @@
 +++
 id      = "S03"
 title   = "Enforcement + packaging (v0.1)"
-status  = "active"          # planned | active | closed
+status  = "closed"          # planned | active | closed
 goal    = "Agents can't finish, push or merge with a broken ratchet; v0.1 is installable via pipx, the Claude Code plugin and the GitHub Action"
 started = 2026-10-12
-closed  = ""
+closed  = 2026-10-12
 out_of_scope = ["sprint lifecycle commands", "dashboard"]
 
 [[ac]]
