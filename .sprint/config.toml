@@ -1,0 +1,40 @@
+# sprintwarden config. The only stack-specific file in .sprint/.
+# Docs: https://github.com/sprintwarden/sprintwarden#configuration
+
+[project]
+name = "sprintwarden"
+key  = "SW"                       # short key for the dashboard
+mode = "sprints"                    # "sprints" | "ratchet-only"
+stack = "pytest"
+
+[test]
+command  = "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml"         # any shell command, run from the repo root
+reports  = [".sprint/out/junit.xml"]
+timeout_minutes = 30
+clean_reports_before_run = true     # deletes stale, untracked JUnit XML before each run
+sources = ["**/test_*.py", "**/*_test.py", "**/tests/**/*.py", "**/conftest.py"]   # test files, for the optional PreToolUse guard
+
+[sprint]                            # ignored in ratchet-only mode
+current = "S03"
+# id_pattern = '(?i)(?<![A-Za-z0-9])S(\d{2,})(?=[_\]\s:.()\[/-]|$)'   # group 1 = sprint number
+
+[gate]
+fail_on_new_skips = true
+fail_on_missing_tests = true
+require_current_sprint_tests = true
+fail_on_runner_error = true         # runner exits non-zero but no test failed -> fail
+
+[hooks]
+claude_stop_hook = true
+claude_session_start = true         # brief the agent with `sprint status` at session start
+claude_pretool_guard = false        # warn when an edit deletes or skips tests
+pretool_mode = "warn"               # "warn" | "block"
+stop_hook_max_blocks = 3            # then let the agent stop and tell the human
+git_pre_push = true
+
+[history]
+in_git = true                       # commit .sprint/runs/ (small JSON files)
+keep = 0                            # max run files to keep (0 = unlimited); milestones are kept
+
+[ui]
+allure_url = ""                     # optional: link out for per-test history
