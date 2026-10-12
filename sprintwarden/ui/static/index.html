@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sprintwarden</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="logo" aria-hidden="true">◆</span> sprintwarden</a>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <div class="spacer"></div>
+  <label class="refresh"><input type="checkbox" id="autorefresh" checked> auto-refresh 15s</label>
+  <span class="updated" id="updated" aria-live="polite"></span>
+</header>
+<main id="app" tabindex="-1"><p class="muted">Loading…</p></main>
+<footer class="foot">Local, read-only dashboard · data from each project's <code>.sprint/</code> · <span id="version"></span></footer>
+<script src="app.js"></script>
+</body>
+</html>

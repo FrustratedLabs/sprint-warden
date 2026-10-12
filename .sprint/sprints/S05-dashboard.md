@@ -1,9 +1,9 @@
 +++
 id      = "S05"
 title   = "Dashboard"
-status  = "planned"          # planned | active | closed
+status  = "active"          # planned | active | closed
 goal    = "One local, read-only portfolio dashboard across every registered project"
-started = ""
+started = 2026-10-12
 closed  = ""
 out_of_scope = ["editing sprint files from the UI", "hosted server"]
 

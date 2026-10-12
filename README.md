@@ -180,6 +180,9 @@ timeline with AC state, a regression matrix (sprints × runs), trends, and run
 details. No network, no CDN, no build step. Link out to Allure for deep per-test
 history (`[ui] allure_url`).
 
+![Portfolio: one card per project, failing first, with gate status, AC progress and the last run](docs/dashboard.png)
+![Regression matrix: sprints × runs; the S01 cell turns red when a later sprint breaks it](docs/dashboard-matrix.png)
+
 ## How it compares
 
 sprintwarden is deliberately narrow, and complements the tools you already use:
