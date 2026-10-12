@@ -14,7 +14,7 @@ from typing import Any
 
 from sprintwarden import __version__, agentdetect, gitutil, project, registry, runs
 from sprintwarden import baseline as bl
-from sprintwarden.attribution import LEGACY, TestMatcher, sort_sprint_keys
+from sprintwarden.attribution import TestMatcher, sort_sprint_keys
 from sprintwarden.config import SPRINT_DIR, Config, Paths, find_root, load_config, require_root
 from sprintwarden.gate import GateResult, load_full, run_gate
 from sprintwarden.report import Style, ac_symbol, render_gate, render_markdown
@@ -25,7 +25,6 @@ from sprintwarden.util import (
     EXIT_OK,
     EXIT_USAGE,
     SprintError,
-    parse_iso,
     plural,
     read_text,
 )
@@ -650,6 +649,13 @@ def render_status(s: dict[str, Any], st: Style) -> str:
             bits.append(plural(c["new_skips"], "new skip"))
         if bits:
             lines.append("  " + ", ".join(bits) + st.dim("  (details: `sprint gate --no-run`)"))
+        per_sprint: dict[str, int] = {}
+        for f in latest.get("failing") or []:
+            if f.get("regression"):
+                per_sprint[f["sprint"]] = per_sprint.get(f["sprint"], 0) + 1
+        if per_sprint:
+            parts = [f"{k} ×{per_sprint[k]}" for k in sort_sprint_keys(per_sprint)]
+            lines.append("  " + st.red("regressions by sprint: " + ", ".join(parts)))
         by = latest.get("by_sprint") or {}
         if by:
             parts = [
@@ -900,17 +906,3 @@ def cmd_unregister(env: Env, args: Any) -> Outcome:
     removed = registry.unregister(path)
     msg = f"unregistered {path}" if removed else f"{path} was not registered"
     return Outcome(EXIT_OK, {"path": str(path), "removed": removed}, msg)
-
-
-def latest_age_hours(latest: dict[str, Any] | None) -> float | None:
-    if not latest:
-        return None
-    ts = parse_iso(latest.get("timestamp", ""))
-    if ts is None:
-        return None
-    from sprintwarden.util import utcnow
-
-    return (utcnow() - ts).total_seconds() / 3600
-
-
-__all__ = ["LEGACY", "Env", "Outcome"]
