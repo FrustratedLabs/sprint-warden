@@ -1,9 +1,9 @@
 +++
 id      = "S04"
 title   = "Sprints layer"
-status  = "planned"          # planned | active | closed
+status  = "active"          # planned | active | closed
 goal    = "Sprints, acceptance criteria and computed 'done' on top of the ratchet"
-started = ""
+started = 2026-10-12
 closed  = ""
 out_of_scope = ["importing ACs from Spec Kit / OpenSpec (Phase 7)"]
 
@@ -34,3 +34,4 @@ tests = ["test_S04_full_lifecycle_across_sprints"]
 +++
 
 ## Notes / decisions
+- 2026-10-12: lifecycle commands were written during S03 (the MCP note tool needs them); S04 adds their tests and polish (agent: claude-code)
