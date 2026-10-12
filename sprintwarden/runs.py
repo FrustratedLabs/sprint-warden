@@ -8,6 +8,7 @@ sprint closes) are never pruned.
 
 from __future__ import annotations
 
+import datetime as dt
 import os
 import secrets
 from collections.abc import Iterator
@@ -15,14 +16,16 @@ from pathlib import Path
 from typing import Any
 
 from sprintwarden.config import Paths
-from sprintwarden.util import read_json, utcnow, write_json
+from sprintwarden.util import read_json, write_json
 
 SCHEMA = 1
 LIST_CAP = 200  # failing/missing/new_skips entries kept in committed run files
 
 
 def new_run_id() -> str:
-    return utcnow().strftime("%Y%m%dT%H%M%SZ") + "-" + secrets.token_hex(2)
+    """``20261012T103105123Z-3fa2``: sorts chronologically (to the millisecond)."""
+    now = dt.datetime.now(dt.timezone.utc)
+    return now.strftime("%Y%m%dT%H%M%S") + f"{now.microsecond // 1000:03d}Z-" + secrets.token_hex(2)
 
 
 def run_file(paths: Paths, run_id: str) -> Path:

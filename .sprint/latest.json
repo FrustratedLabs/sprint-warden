@@ -1,0 +1,646 @@
+{
+  "schema": 1,
+  "id": "20261012T093310Z-d9b0",
+  "project": "sprintwarden",
+  "key": "SW",
+  "mode": "sprints",
+  "sprint": "S03",
+  "sprint_title": "Enforcement + packaging (v0.1)",
+  "timestamp": "2026-10-12T09:32:45Z",
+  "git": {
+    "head": "b4f00820fbaa5a22492dc01daade41d3c22c9803",
+    "branch": "main",
+    "dirty": false,
+    "fingerprint": "0bc7c5cf3c0764d09582"
+  },
+  "agent": "claude-code",
+  "trigger": "init",
+  "bypassed": false,
+  "ran": true,
+  "duration_s": 24.68,
+  "result": "fail",
+  "checks": [
+    {
+      "id": "runner",
+      "ok": true,
+      "blocking": true,
+      "summary": "194 tests parsed from 1 file (24.7s)",
+      "detail": ""
+    },
+    {
+      "id": "failures",
+      "ok": false,
+      "blocking": true,
+      "summary": "1 failing (1 regression)",
+      "detail": ""
+    },
+    {
+      "id": "missing",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet",
+      "detail": ""
+    },
+    {
+      "id": "skips",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet",
+      "detail": ""
+    },
+    {
+      "id": "ratchet",
+      "ok": true,
+      "blocking": true,
+      "summary": "no baseline yet (run `sprint baseline`)",
+      "detail": ""
+    },
+    {
+      "id": "sprint_tests",
+      "ok": false,
+      "blocking": true,
+      "summary": "no tests named for S03 yet",
+      "detail": "name new tests with the sprint id, e.g. S03_doesThing / test_S03_does_thing"
+    },
+    {
+      "id": "acs",
+      "ok": false,
+      "blocking": false,
+      "summary": "0/5 acceptance criteria satisfied",
+      "detail": ""
+    }
+  ],
+  "totals": {
+    "total": 194,
+    "passed": 192,
+    "failed": 1,
+    "skipped": 1
+  },
+  "by_sprint": {
+    "S01": {
+      "total": 165,
+      "passed": 164,
+      "failed": 0,
+      "skipped": 1
+    },
+    "S02": {
+      "total": 29,
+      "passed": 28,
+      "failed": 1,
+      "skipped": 0
+    }
+  },
+  "acs": [
+    {
+      "sprint": "S03",
+      "id": "AC1",
+      "desc": "Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC2",
+      "desc": "Agent detection and the human-only guard",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC3",
+      "desc": "pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC4",
+      "desc": "PreToolUse guard warns about deleted or skipped tests and edits to .sprint state",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC5",
+      "desc": "SessionStart briefing, MCP server and other agents' stop hooks",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    }
+  ],
+  "failing": [
+    {
+      "id": "tests.test_s02_ratchet.test_S02_history_and_retention",
+      "sprint": "S02",
+      "regression": true,
+      "message": "AssertionError: assert 2 == 3 + where 2 = len([PosixPath('/private/var/folders/88/sww1wwhs25nckv_g07nch2t80000gp/T/pytest-of-user/pytest-4/test_S02_history...ytest-of-user/pytest-4/test_S02_history_and_retention0/repo/.sprint/runs/2026-10/20261012T093305Z-cbab.json')])",
+      "regression_reason": "from sprint S02",
+      "file": ".sprint/out/junit.xml"
+    }
+  ],
+  "new_skips": [],
+  "missing": [],
+  "counts": {
+    "failing": 1,
+    "regressions": 1,
+    "missing": 0,
+    "new_skips": 0,
+    "new_tests": 0,
+    "flaky": 0
+  },
+  "baseline": null,
+  "runner": [
+    {
+      "suite": "default",
+      "command": "python -m pytest -q -p no:cacheprovider --junitxml=.sprint/out/junit.xml",
+      "exit_code": 1,
+      "duration_s": 24.68,
+      "timed_out": false,
+      "error": ""
+    }
+  ],
+  "reports": 1,
+  "version": "0.1.0.dev0",
+  "acs_all": [
+    {
+      "sprint": "S01",
+      "id": "AC1",
+      "desc": "JUnit XML from Gradle, Maven, pytest, vitest, jest, Go, Swift, nextest and .NET parses to the same scenario",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[dotnet-junit.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[go-junit-report.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[gradle-junit5.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[jest-junit.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[maven-surefire-flaky.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[maven-surefire.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[nextest.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[pytest.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[swift-xunit.xml]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_junit_fixtures.test_S01_fixture_parses_to_the_scenario[vitest.xml]",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S01",
+      "id": "AC2",
+      "desc": "Tests are attributed to sprints by name on every stack's naming style",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.ReportExportTest-S03_exportsPdf()-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.ReportExportTest-S03_exportsPdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.ReportExportTest-[S03] export produces pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[src/report.test.ts-[S03] export > produces pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[export-S03: produces pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[export-S03 - produces pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[tests.test_reports-test_S03_exports_pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[tests.test_reports-test_S03_export[pdf]-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[MyTests.ReportTests-test_S03_exportsPdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[github.com/acme/report-Test_S03_ExportsPdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[github.com/acme/report-TestExport/S03_export_produces_pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[acme-tests::s03_exports_pdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[Acme.Tests.ReportTests-S03_ExportsPdf-S03]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[x.Y-S100_bigProject-S100]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[x.Y-S007_paddedId-S07]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[x.Y-regression for S12-S12]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.S04_BillingTest-roundsToCents-S04]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[tests.s05_billing-test_rounds-S05]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.S04_BillingTest-S05_newRounding-S05]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.AuthTest-lockoutAfter5Attempts-legacy]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.AuthTest-BS03_notASprint-legacy]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.AuthTest-S03exportsPdf-legacy]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.AuthTest-uses S3 bucket-legacy]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[com.acme.AuthTest-class1S03_x-legacy]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_default_pattern_attributes_every_stack_naming_style[--legacy]",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S01",
+      "id": "AC3",
+      "desc": "AC matching supports substrings and /regex/ on full test ids, at 50k-test scale",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s01_attribution.test_S01_matcher_substring_and_regex",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_matcher_rejects_bad_regex_and_empty",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[S03_exports-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[ReportTest.S03-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/S03_.*Placeholder.*/-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/^com\\\\.acme\\\\.AuthTest/-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/\\\\)$/-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/\\\\[pdf\\\\]$/-expected5]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/\\\\Atests\\\\./-expected6]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[nothing-matches-expected7]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/exportsPdf\\\\(\\\\)\\\\s+com/-expected8]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_find_matches_per_id_semantics[/.*/-expected9]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_handles_overlapping_and_repeated_hits",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_ac_satisfied_failing_and_no_tests",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_ac_union_of_patterns_is_deduplicated",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_attribution.test_S01_index_scales_to_large_suites",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S01",
+      "id": "AC4",
+      "desc": "Sprint files and config.toml parse, with clear errors for invalid input",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s01_config.test_S01_loads_the_spec_config",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[project]\\nmode = 'kanban'\\n[test]\\ncommand='x'\\nreports=['a']-project.mode]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[project]\\nname='x'-no test command]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand=''\\nreports=['a']-empty command]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'-no report globs]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['/abs/*.xml']-relative]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['../up/*.xml']-relative]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\n[sprint]\\nid_pattern='S(\\\\d+'-valid regex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\n[sprint]\\nid_pattern='S\\\\d+'-capture group]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\n[sprint]\\ncurrent='sprint3'-invalid sprint id]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\n[gate]\\nfail_on_new_skips='yes'-true or false]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\ntimeout_minutes=-1-non-negative]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test]\\ncommand='x'\\nreports=['a']\\n[hooks]\\npretool_mode='nag'-pretool_mode]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_config.test_S01_invalid_configs[[test\\ncommand='x'-invalid TOML]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_parses_the_spec_example",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[no front matter-must start with]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'S01'\\n-not closed]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = \\n+++\\n-invalid TOML]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\ntitle = 'x'\\n+++\\n-needs id]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'S01'\\nstatus = 'done'\\n+++\\n-status must be]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'X1'\\n+++\\n-invalid sprint id]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'S01'\\n[[ac]]\\nid='AC1'\\n[[ac]]\\nid='AC1'\\n+++\\n-duplicate AC]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'S01'\\n[[ac]]\\nid='AC1'\\ntests=['/(/']\\n+++\\n-invalid AC test regex]",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s01_sprintfile.test_S01_invalid_sprint_files_raise_clear_errors[+++\\nid = 'S01'\\n[[ac]]\\nid='AC1'\\ntests=[1]\\n+++\\n-list of strings]",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S02",
+      "id": "AC1",
+      "desc": "init --ratchet-only detects the stack, runs the first gate and writes the baseline",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s02_ratchet.test_S02_init_ratchet_only_is_useful_in_one_command",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_init_autodetects_and_requires_a_stack",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S02",
+      "id": "AC2",
+      "desc": "A regression, a deleted test, a new skip and a ratchet drop each fail the gate with a clear message",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s02_ratchet.test_S02_regression_is_labelled_with_its_sprint",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_deleted_test_fails_until_a_human_accepts_it",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_new_skip_fails_until_allowed",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_ratchet_drop_fails_even_when_missing_check_is_off",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S02",
+      "id": "AC3",
+      "desc": "baseline / accept-removal / allow-skip are human-only and require a clean, passing tree",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s02_ratchet.test_S02_deleted_test_fails_until_a_human_accepts_it",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_baseline_requires_clean_head_and_passing_gate",
+          "outcome": "passed"
+        },
+        {
+          "id": "tests.test_s02_ratchet.test_S02_i_am_human_overrides_the_guard_and_is_recorded",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S02",
+      "id": "AC4",
+      "desc": "CI compares against the main branch's baseline, so a tampered baseline can't hide a deletion",
+      "satisfied": true,
+      "state": "satisfied",
+      "tests": [
+        {
+          "id": "tests.test_s02_ratchet.test_S02_baseline_ref_ignores_tampered_branch_baseline",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "sprint": "S03",
+      "id": "AC1",
+      "desc": "Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC2",
+      "desc": "Agent detection and the human-only guard",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC3",
+      "desc": "pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC4",
+      "desc": "PreToolUse guard warns about deleted or skipped tests and edits to .sprint state",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S03",
+      "id": "AC5",
+      "desc": "SessionStart briefing, MCP server and other agents' stop hooks",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S04",
+      "id": "AC1",
+      "desc": "new / start / close / note manage the sprint lifecycle",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S05",
+      "id": "AC1",
+      "desc": "Read-only JSON API and the five views",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    },
+    {
+      "sprint": "S06",
+      "id": "AC1",
+      "desc": "examples/run-all asserts the expected outcome on every example",
+      "satisfied": false,
+      "state": "no-tests",
+      "tests": []
+    }
+  ]
+}
