@@ -173,11 +173,7 @@ def update_changelog(root: Path, entry_for_level) -> str:
         (i for i, line in enumerate(lines) if re.match(r"^##\s+\[?unreleased\]?", line, re.I)), None
     )
     if unreleased is not None:
-        insert_at = unreleased + 1
-        while insert_at < len(lines) and not lines[insert_at].strip():
-            insert_at += 1
-        block = "\n" + entry_for_level("###")
-        lines.insert(unreleased + 1, block)
+        lines.insert(unreleased + 1, "\n" + entry_for_level("###"))
     else:
         first = next((i for i, line in enumerate(lines) if line.startswith("## ")), None)
         block = entry_for_level("##") + "\n"
@@ -306,14 +302,8 @@ def cmd_close(env: Env, args: Any) -> Outcome:
             lines.append(f"{st.ok} committed {commit[:10]}")
     if tag:
         gitutil.create_tag(cfg.root, tag, f"Sprint {sprint.id}: {sprint.title}")
-        lines.append(
-            f"{st.ok} tagged {tag}"
-            + (
-                ""
-                if commit or args.no_commit is False
-                else " (on HEAD; closing changes are uncommitted)"
-            )
-        )
+        note = "" if commit else " (on HEAD; the closing changes are not committed)"
+        lines.append(f"{st.ok} tagged {tag}{note}")
     planned = [s for s in sprints if s.status == "planned"]
     lines.append(
         f"Next: `sprint start {planned[0].id}`" if planned else "Next: `sprint new <title>`"
