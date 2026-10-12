@@ -6,18 +6,6 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-### Sprint S03: Enforcement + packaging (v0.1) (2026-10-12)
-
-Goal: Agents can't finish, push or merge with a broken ratchet; v0.1 is installable via pipx, the Claude Code plugin and the GitHub Action
-
-- AC1: Claude Code Stop hook blocks on a failing gate, allows on pass and never loops forever
-- AC2: Agent detection and the human-only guard
-- AC3: pre-push hook blocks on failure, chains to existing hooks, SPRINT_SKIP=1 is recorded
-- AC4: PreToolUse guard warns about deleted or skipped tests and edits to .sprint state
-- AC5: SessionStart briefing, MCP server and other agents' stop hooks
-
-Tests: 278 (+79 since the previous baseline) · tag `sprint-S03`
-
 ## [0.1.0] - 2026-10-12
 
 First release: the **test ratchet**, usable on its own (`sprint init --ratchet-only`).
@@ -42,3 +30,9 @@ First release: the **test ratchet**, usable on its own (`sprint init --ratchet-o
 - Reusable GitHub Action (`uses: sprintwarden/sprintwarden@v1`) with a job
   summary, annotations and `--baseline-ref` against the PR's base branch; shell,
   GitLab and Jenkins snippets.
+
+### Sprints
+
+Built and tracked with sprintwarden itself: S01 parsing core (`sprint-S01`),
+S02 ratchet MVP (`sprint-S02`), S03 enforcement + packaging (`sprint-S03`,
+5/5 ACs satisfied by passing tests, baseline 278 tests).

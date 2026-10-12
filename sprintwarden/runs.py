@@ -16,10 +16,11 @@ from pathlib import Path
 from typing import Any
 
 from sprintwarden.config import Paths
-from sprintwarden.util import read_json, write_json
+from sprintwarden.util import atomic_write_text, dumps_json, read_json, write_json
 
 SCHEMA = 1
-LIST_CAP = 200  # failing/missing/new_skips entries kept in committed run files
+LIST_CAP = 200  # failing/missing/new_skips entries kept in latest.json
+HISTORY_CAP = 50  # ...and in each committed history file (counts stay exact)
 
 
 def new_run_id() -> str:
@@ -86,14 +87,34 @@ def cap_lists(record: dict[str, Any], cap: int = LIST_CAP) -> dict[str, Any]:
     return out
 
 
+def history_record(record: dict[str, Any]) -> dict[str, Any]:
+    """The slim form stored in ``runs/``: capped lists, per-AC counts instead of test lists.
+
+    Stop hooks can run the gate many times a day for years, so committed history
+    must stay small; ``latest.json`` keeps the detail.
+    """
+    out = cap_lists(record, HISTORY_CAP)
+    out.pop("new_tests", None)
+    out["acs"] = [
+        {
+            "sprint": a.get("sprint"),
+            "id": a.get("id"),
+            "state": a.get("state"),
+            "matched": len(a.get("tests") or []) + int(a.get("tests_truncated") or 0),
+            "failing": sum(1 for t in a.get("tests") or [] if t.get("outcome") != "passed"),
+        }
+        for a in record.get("acs") or []
+    ]
+    return out
+
+
 def write_run(
     paths: Paths, record: dict[str, Any], *, latest_extra: dict[str, Any] | None = None
 ) -> Path:
     path = run_file(paths, record["id"])
-    capped = cap_lists(record)
-    capped.pop("new_tests", None)  # can be huge on the first run; counts are kept
-    write_json(path, capped)
-    latest = dict(capped)
+    atomic_write_text(path, dumps_json(history_record(record), compact=True) + "\n")
+    latest = cap_lists(record)
+    latest.pop("new_tests", None)  # can be huge on the first run; counts are kept
     if latest_extra:
         latest.update(latest_extra)
     write_json(paths.latest, latest)
@@ -105,7 +126,7 @@ def mark_milestone(paths: Paths, run_id: str, label: str) -> None:
     data = read_json(path) if path.is_file() else None
     if isinstance(data, dict):
         data["milestone"] = label
-        write_json(path, data)
+        atomic_write_text(path, dumps_json(data, compact=True) + "\n")
     latest = load_latest(paths)
     if latest and latest.get("id") == run_id:
         latest["milestone"] = label

@@ -610,7 +610,7 @@ def save(cfg: Config, record: dict[str, Any], ev: Evaluation, ctx: Context) -> P
     path = runs.write_run(
         cfg.paths,
         record,
-        latest_extra={"acs_all": [a.to_json(test_cap=50) for a in ev.acs_all]},
+        latest_extra={"acs_all": [a.to_json(test_cap=20) for a in ev.acs_all]},
     )
     write_json(
         cfg.paths.latest_full,
@@ -667,7 +667,7 @@ def record_bypass(cfg: Config, *, trigger: str, reason: str = "SPRINT_SKIP=1") -
         "version": __version__,
     }
     path = runs.run_file(cfg.paths, record["id"])
-    write_json(path, record)
+    runs.atomic_write_text(path, runs.dumps_json(record, compact=True) + "\n")
     return path
 
 
