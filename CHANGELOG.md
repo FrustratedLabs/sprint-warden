@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Sprint S04: Sprints layer (2026-10-12)
+
+Goal: Sprints, acceptance criteria and computed 'done' on top of the ratchet
+
+- AC1: `sprint new` creates the next numbered sprint; `sprint start` activates exactly one sprint
+- AC2: The gate computes AC state from passing tests and labels regressions from closed sprints
+- AC3: `sprint close` (human) requires a passing gate on a clean HEAD and every AC satisfied, then baselines, tags and updates CHANGELOG
+- AC4: `sprint status` shows the sprint, AC states and regressions per sprint; `sprint note` records decisions
+- AC5: A multi-sprint lifecycle works end to end
+
+Tests: 300 (+22 since the previous baseline) · tag `sprint-S04`
+
 ## [0.1.0] - 2026-10-12
 
 First release: the **test ratchet**, usable on its own (`sprint init --ratchet-only`).

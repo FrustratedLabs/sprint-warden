@@ -1,10 +1,10 @@
 +++
 id      = "S04"
 title   = "Sprints layer"
-status  = "active"          # planned | active | closed
+status  = "closed"          # planned | active | closed
 goal    = "Sprints, acceptance criteria and computed 'done' on top of the ratchet"
 started = 2026-10-12
-closed  = ""
+closed  = 2026-10-12
 out_of_scope = ["importing ACs from Spec Kit / OpenSpec (Phase 7)"]
 
 [[ac]]
