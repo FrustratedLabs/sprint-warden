@@ -9,8 +9,23 @@ out_of_scope = ["editing sprint files from the UI", "hosted server"]
 
 [[ac]]
 id    = "AC1"
-desc  = "Read-only JSON API and the five views"
-tests = ["/test_S05_/"]
+desc  = "Registry-backed read-only JSON API: /api/projects, /api/projects/<key>, /api/projects/<key>/runs"
+tests = ["/test_S05_api_/"]
+
+[[ac]]
+id    = "AC2"
+desc  = "Portfolio status is correct: pass, fail, stale (run older than HEAD), none, error; failing first"
+tests = ["/test_S05_portfolio_/"]
+
+[[ac]]
+id    = "AC3"
+desc  = "Localhost-only and read-only: Host check, no writes, no path traversal"
+tests = ["/test_S05_security_/"]
+
+[[ac]]
+id    = "AC4"
+desc  = "The five views render in a real browser (portfolio, timeline, matrix, trends, run detail)"
+tests = ["/test_S05_browser_/"]
 +++
 
 ## Notes / decisions
