@@ -37,7 +37,7 @@ pytest's point of view the suite simply got smaller.
 
 ## After
 
-[sprintwarden](https://github.com/sprintwarden/sprintwarden) is a **test ratchet**.
+[sprintwarden](https://github.com/FrustratedLabs/sprint-warden) is a **test ratchet**.
 `sprint init --ratchet-only` runs your suite once and records every test that
 exists today in `.sprint/baseline.json`. From then on `sprint gate` checks four
 things on every run:

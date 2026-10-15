@@ -1,4 +1,4 @@
-"""Sprint lifecycle: ``new``, ``start``, ``close`` and ``note``.
+"""Sprint lifecycle: ``new``, ``start``, ``park``/``unpark``, ``close`` and ``note``.
 
 "Done" is computed, never ticked: ``close`` refuses unless the gate passes on a
 clean HEAD and every acceptance criterion is satisfied by passing tests.
@@ -95,7 +95,7 @@ def cmd_start(env: Env, args: Any) -> Outcome:
             f"{active.id} is active", hint=f"close it first: `sprint close {active.id}` (human)"
         )
     text = read_text(sprint.path) or ""
-    fields: dict[str, Any] = {"status": "active"}
+    fields: dict[str, Any] = {"status": "active", **_unpark_fields(sprint)}
     if not sprint.started:
         fields["started"] = raw_literal(today())
     write_text(sprint.path, set_fields(text, **fields))
@@ -106,6 +106,83 @@ def cmd_start(env: Env, args: Any) -> Outcome:
     if not sprint.acs or all(not ac.tests for ac in sprint.acs):
         msg += f"\n{env.style.warn} no AC lists tests yet; edit {sprint.path.name} so 'done' can be computed"
     return Outcome(EXIT_OK, {"id": sprint.id, "title": sprint.title}, msg)
+
+
+def _unpark_fields(sprint: Sprint) -> dict[str, Any]:
+    """Clear the parked markers, but don't add empty keys to files that never had them."""
+    fields: dict[str, Any] = {}
+    if sprint.parked:
+        fields["parked"] = ""
+    if sprint.parked_reason:
+        fields["parked_reason"] = ""
+    return fields
+
+
+def _find_or_fail(cfg: Config, sprint_id: str) -> tuple[list[Sprint], Sprint]:
+    sprints, _ = load_sprints(cfg.paths.sprints)
+    sprint = find_sprint(sprints, sprint_id)
+    if sprint is None:
+        raise SprintError(f"no sprint {sprint_id} in .sprint/sprints/")
+    return sprints, sprint
+
+
+def cmd_park(env: Env, args: Any) -> Outcome:
+    """Set a planned or active sprint aside. Its tests stay in the ratchet."""
+    cfg = _sprints_cfg(env)
+    _, sprint = _find_or_fail(cfg, args.id)
+    if sprint.status == "closed":
+        raise SprintError(f"{sprint.id} is closed; a done sprint can't be parked")
+    if sprint.status == "parked":
+        return Outcome(
+            EXIT_OK,
+            {"id": sprint.id, "status": "parked", "changed": False},
+            f"{env.style.ok} {sprint.id} is already parked",
+        )
+    reason = " ".join((args.reason or "").split())
+    was_active = sprint.status == "active"
+    text = set_fields(
+        read_text(sprint.path) or "",
+        status="parked",
+        parked=raw_literal(today()),
+        parked_reason=reason,
+    )
+    note = f"Parked{' (was active)' if was_active else ''}" + (f": {reason}" if reason else "")
+    write_text(sprint.path, append_note(text, note, date=today(), agent=agentdetect.detect()))
+    lines = [f"{env.style.ok} {sprint.id} ({sprint.title}) is parked"]
+    if was_active and cfg.sprint_current == sprint.id:
+        set_value(cfg.root, "sprint", "current", "")
+        cfg = load_config(cfg.root)
+        project.write_agents_md(cfg, _example(cfg), refresh=True)
+        lines.append("No sprint is active now; `sprint start <id>` picks the next one.")
+    lines.append(f"Its tests stay in the ratchet. Bring it back with `sprint unpark {sprint.id}`.")
+    data = {
+        "id": sprint.id,
+        "status": "parked",
+        "changed": True,
+        "was": "active" if was_active else "planned",
+    }
+    return Outcome(EXIT_OK, data, "\n".join(lines))
+
+
+def cmd_unpark(env: Env, args: Any) -> Outcome:
+    """Move a parked sprint back to planned (or `sprint start` it directly)."""
+    cfg = _sprints_cfg(env)
+    _, sprint = _find_or_fail(cfg, args.id)
+    if sprint.status != "parked":
+        raise SprintError(f"{sprint.id} is {sprint.status}, not parked")
+    text = set_fields(read_text(sprint.path) or "", status="planned", **_unpark_fields(sprint))
+    since = f" since {sprint.parked}" if sprint.parked else ""
+    write_text(
+        sprint.path,
+        append_note(
+            text, f"Back to planned (was parked{since})", date=today(), agent=agentdetect.detect()
+        ),
+    )
+    return Outcome(
+        EXIT_OK,
+        {"id": sprint.id, "status": "planned"},
+        f"{env.style.ok} {sprint.id} ({sprint.title}) is planned again; `sprint start {sprint.id}` when it's next",
+    )
 
 
 def add_note(cfg: Config, text: str, *, agent: str | None = None) -> Path:

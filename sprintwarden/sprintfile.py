@@ -19,7 +19,9 @@ from typing import Any
 from sprintwarden.attribution import TestMatcher, format_sprint_id, normalize_sprint_id
 from sprintwarden.util import SprintError, read_text, slugify, toml_literal, trailing_comment
 
-STATUSES = ("planned", "active", "closed")
+STATUSES = ("planned", "active", "closed", "parked")
+# Sprints that are not being worked on yet (or any more) may list ACs without tests.
+UNSTARTED = ("planned", "parked")
 NOTES_HEADING = "## Notes / decisions"
 _FENCE = "+++"
 
@@ -44,6 +46,8 @@ class Sprint:
     path: Path
     body: str
     extra: dict[str, Any] = field(default_factory=dict)
+    parked: str = ""
+    parked_reason: str = ""
 
     @property
     def number(self) -> int:
@@ -57,6 +61,8 @@ class Sprint:
             "goal": self.goal,
             "started": self.started,
             "closed": self.closed,
+            "parked": self.parked,
+            "parked_reason": self.parked_reason,
             "acs": [{"id": a.id, "desc": a.desc, "tests": a.tests} for a in self.acs],
             "out_of_scope": self.out_of_scope,
             "file": self.path.name,
@@ -125,7 +131,18 @@ def parse_sprint_text(text: str, path: Path) -> Sprint:
             out_of_scope += _str_list(raw["out_of_scope"], "out_of_scope", source)
         acs.append(AC(id=ac_id, desc=str(raw.get("desc", "")).strip(), tests=tests))
 
-    known = {"id", "title", "status", "goal", "started", "closed", "ac", "out_of_scope"}
+    known = {
+        "id",
+        "title",
+        "status",
+        "goal",
+        "started",
+        "closed",
+        "parked",
+        "parked_reason",
+        "ac",
+        "out_of_scope",
+    }
     return Sprint(
         id=sprint_id,
         title=str(data.get("title", "")).strip(),
@@ -138,6 +155,8 @@ def parse_sprint_text(text: str, path: Path) -> Sprint:
         path=path,
         body=body,
         extra={k: v for k, v in data.items() if k not in known},
+        parked=_date_str(data.get("parked"), "parked", source),
+        parked_reason=str(data.get("parked_reason", "")).strip(),
     )
 
 
@@ -197,7 +216,7 @@ def validate_sprints(sprints: list[Sprint], current: str) -> list[str]:
         if s.status == "closed" and not s.closed:
             problems.append(f"{s.path.name}: closed sprint has no 'closed' date")
         for ac in s.acs:
-            if not ac.tests and s.status != "planned":
+            if not ac.tests and s.status not in UNSTARTED:
                 problems.append(f"{s.id} {ac.id}: no tests listed, so it can never be satisfied")
     active = [s for s in sprints if s.status == "active"]
     if len(active) > 1:

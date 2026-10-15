@@ -2,8 +2,7 @@
 
 **Your AI agent can't silently delete, skip or break your old tests anymore, on any stack.**
 
-[![CI](https://github.com/sprintwarden/sprintwarden/actions/workflows/ci.yml/badge.svg)](https://github.com/sprintwarden/sprintwarden/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/sprintwarden)](https://pypi.org/project/sprintwarden/)
+[![CI](https://github.com/FrustratedLabs/sprint-warden/actions/workflows/ci.yml/badge.svg)](https://github.com/FrustratedLabs/sprint-warden/actions/workflows/ci.yml)
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -20,7 +19,7 @@ and any agent that can run a shell command.
 ## 2-minute quickstart
 
 ```sh
-pipx install sprintwarden          # or: uvx sprintwarden ...
+pipx install git+https://github.com/FrustratedLabs/sprint-warden
 cd your-repo
 sprint init --ratchet-only         # detects the stack, runs the suite, writes the baseline
 git add -A && git commit -m "Add sprintwarden test ratchet"
@@ -34,7 +33,7 @@ That's it. From now on:
 | **Claude Code** | can't end its turn while the gate fails (Stop hook, installed by `init`) |
 | **any agent** | reads the rules in `AGENTS.md` (generated) |
 | **git push** | is blocked while the gate fails (pre-push hook; `SPRINT_SKIP=1` bypasses, and is recorded) |
-| **CI** | `uses: sprintwarden/sprintwarden@v1` is the final authority |
+| **CI** | `uses: FrustratedLabs/sprint-warden@v0` is the final authority |
 
 ## What the gate checks
 
@@ -101,14 +100,14 @@ Setup details: [docs/AGENTS_SETUP.md](docs/AGENTS_SETUP.md).
 ### Claude Code plugin
 
 ```text
-/plugin marketplace add sprintwarden/sprintwarden
+/plugin marketplace add FrustratedLabs/sprint-warden
 /plugin install sprintwarden@sprintwarden
 ```
 
-or, in one step on Claude Code 2.1.275+: `/plugin install sprintwarden --marketplace sprintwarden/sprintwarden`.
+or, in one step on Claude Code 2.1.275+: `/plugin install sprintwarden --marketplace FrustratedLabs/sprint-warden`.
 
 The plugin bundles the Stop hook, the SessionStart briefing, the optional guard and
-`/sprintwarden:sprint-status`. It still needs the CLI (`pipx install sprintwarden`)
+`/sprintwarden:sprint-status`. It still needs the CLI (see the quickstart)
 and does nothing in repos without `.sprint/`.
 
 ## Human-only commands
@@ -150,8 +149,9 @@ tests = ["S03_exportsPdf"]            # substring, or "/regex/" on classname.nam
 
 `sprint new <title>` → `sprint start S04` → work → `sprint close S04` (human: gate
 passes on a clean HEAD + every AC satisfied → new baseline, tag, CHANGELOG).
-Agents record decisions with `sprint note "…"`. See
-[docs/sprint-lifecycle.md](docs/sprint-lifecycle.md).
+`sprint park S06 --reason "…"` sets a sprint aside and `sprint unpark S06` brings it
+back; a parked sprint's tests stay in the ratchet. Agents record decisions with
+`sprint note "…"`. See [docs/sprint-lifecycle.md](docs/sprint-lifecycle.md).
 
 ### CI
 
@@ -164,7 +164,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # ... set up your toolchain (JDK, Node, Go, ...)
-      - uses: sprintwarden/sprintwarden@v1
+      - uses: FrustratedLabs/sprint-warden@v0
 ```
 
 On pull requests the action compares against the **base branch's** committed
@@ -174,14 +174,36 @@ GitLab/Jenkins/generic: [docs/CI.md](docs/CI.md).
 
 ### Dashboard
 
-`sprint ui` serves a local, read-only portfolio dashboard for every registered
-project (`~/.sprintwarden/registry.toml`): gate status (pass/fail/stale), sprint
-timeline with AC state, a regression matrix (sprints × runs), trends, and run
-details. No network, no CDN, no build step. Link out to Allure for deep per-test
-history (`[ui] allure_url`).
+`sprint ui` serves a local, read-only dashboard for every registered project
+(`~/.sprintwarden/registry.toml`):
 
-![Portfolio: one card per project, failing first, with gate status, AC progress and the last run](docs/dashboard.png)
-![Regression matrix: sprints × runs; the S01 cell turns red when a later sprint breaks it](docs/dashboard-matrix.png)
+- **Portfolio**: one card per project, failing first, with gate status
+  (pass/fail/stale), the sprint in progress, what's up next and the last run.
+- **Board**: a kanban of sprints in four columns (**Planned**, **In progress**,
+  **Done**, **Parked**) for one project or across all of them. A done sprint whose
+  tests fail again is flagged **regressed**. Click a card for its ACs, matched
+  tests, notes and the command that moves it on. Switch between full cards and
+  compact ones (ID, title and AC bar) to fit a long roadmap on one screen. Cards
+  move with the CLI (`sprint start`, `close`, `park`, `unpark`); the board itself
+  never writes.
+- **Trends**: how many tests each gate run found and how many passed, as two
+  charts, with plain-language findings ("the latest run failed: 1 regression",
+  "tests grew from 5 to 8 since close S02") and a short note on why it matters.
+- **Sprints** timeline, **regression matrix** (sprints × runs) and **run details**.
+
+No network, no CDN, no build step. Light and dark follow your system, or pick one
+with the sun/moon button in the top bar. Link out
+to Allure for deep per-test history (`[ui] allure_url`).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/dashboard-board-dark.png">
+  <img alt="Board: planned, in progress, done and parked sprints across two projects; a done sprint is flagged regressed" src="docs/dashboard-board.png">
+</picture>
+
+![Portfolio: one card per project, failing first, with gate status, the sprint in progress and what's up next](docs/dashboard.png)
+![Sprint panel: acceptance criteria with their tests, notes, and the commands that move the sprint on](docs/dashboard-sprint.png)
+![Regression matrix: sprints × runs; the S02 row turns red when a later sprint breaks it](docs/dashboard-matrix.png)
+![Trends: headline numbers, what the runs say in plain words, and tests and pass rate over the last runs](docs/dashboard-trends.png)
 
 ## Examples
 

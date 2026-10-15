@@ -15,4 +15,4 @@ Everything here is plain text; review changes to it like code.
 | `out/` | raw reports, logs, hook state (gitignored) | `sprint gate` |
 
 A shrinking `baseline.json` or new entries in `removals.json`/`skips.json` in a
-pull request deserve a close look. See https://github.com/sprintwarden/sprintwarden.
+pull request deserve a close look. See https://github.com/FrustratedLabs/sprint-warden.

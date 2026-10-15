@@ -16,7 +16,7 @@ especially welcome.
 ## Development setup
 
 ```sh
-git clone https://github.com/sprintwarden/sprintwarden && cd sprintwarden
+git clone https://github.com/FrustratedLabs/sprint-warden && cd sprint-warden
 python -m venv .venv && . .venv/bin/activate   # Windows: .venv\Scripts\activate
 python -m pip install -e . pytest ruff
 python -m pytest -q

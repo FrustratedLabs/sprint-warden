@@ -10,8 +10,8 @@ have caused a bug, the choice is recorded here. Newest last. "Spec" means
 **sprintwarden** (free on PyPI, npm and GitHub at the time of writing). The CLI is
 still `sprint` (plus a `sprintwarden` alias in case `sprint` collides with another
 tool), the per-project folder is `.sprint/` and the global folder is
-`~/.sprintwarden/` (override with `SPRINT_HOME`). URLs use the placeholder
-`github.com/sprintwarden/sprintwarden`; replace the owner when publishing.
+`~/.sprintwarden/` (override with `SPRINT_HOME`). The repository is
+`github.com/FrustratedLabs/sprint-warden`.
 
 Runtime stays standard-library only (spec §2.8). Dev tools (pytest, ruff) are a
 dependency group.
@@ -210,3 +210,94 @@ is committed: one uniquely named file per run, so it never conflicts.
 `latest.json` is now gitignored by default. Readers (status, hooks, the
 dashboard) fall back to the newest committed run when it's absent, e.g. in a
 fresh clone. `[history] latest_in_git = true` restores the spec's behaviour.
+
+## D-023 · A fourth sprint status: parked
+
+Requested for long-running products: besides planned, in progress and done, a
+board needs a place for work that was set aside. The spec's statuses are
+`planned | active | closed`; `parked` is added, not substituted, so existing
+sprint files keep their meaning. `sprint park <id> [--reason]` and
+`sprint unpark <id>` are ordinary commands, not human-only: parking can't make
+a failing gate pass, because the parked sprint's tests stay in the ratchet
+(D-005's baseline rules apply unchanged). Parking the active sprint clears
+`sprint.current`. The date and reason live in front matter (`parked`,
+`parked_reason`) so the board can show them, and a dated line goes to the notes.
+
+## D-024 · The board is read-only, and moves happen in the CLI
+
+The spec lists "editing sprint files from the UI" as a non-goal, and the
+dashboard is read-only (it rejects every non-GET). So the board has no drag and
+drop: each card's detail panel shows the command that moves it
+(`sprint start`, `close`, `park`, `unpark`). Columns map one-to-one to statuses.
+Planned is ordered by sprint number, and the lowest planned sprint is "Up next".
+Done is newest first. A done sprint is flagged "regressed" when any of its
+tests fail or are missing in the latest run. `GET /api/board` returns every
+sprints-mode project's sprints in one request for the all-projects board.
+
+## D-025 · Lucide icons vendored as data
+
+The UI must have no CDN and no build step (spec §2.8, fixed). The 50 Lucide icons
+it uses are vendored into `ui/static/icons.js` as element/attribute arrays, and
+app.js builds them with `createElementNS`. So there's no `innerHTML`, no SVG
+sprite request, and nothing the CSP has to allow. `docs/vendor_lucide.py`
+regenerates the file from a pinned `lucide-static` release (1.48.0). Lucide is
+ISC-licensed, with some icons from Feather (MIT); the full text ships as
+`sprintwarden/ui/LICENSE-lucide.txt`, and the footer credits it. The favicon is
+Lucide's shield-check too. Status marks are Lucide icons as well (D-028).
+
+## D-026 · Sprints stays the default project tab
+
+The project page gains a Board tab, but the Sprints timeline stays the default
+because the S05 browser test opens a project and expects the timeline. The
+top-level Board view (all projects) is one click from anywhere. Making Board the
+default is a one-line change plus an update to that S05 test, which AGENTS.md
+says a human has to approve.
+
+## D-027 · A theme button on top of prefers-color-scheme
+
+The spec asks for light/dark via `prefers-color-scheme`, and that stays the
+default. A top-bar button cycles match system → light → dark and saves the choice
+in the browser's localStorage (`sprintwarden.theme`). It sets `data-theme` on
+`<html>`: the system dark palette applies only to `:root:not([data-theme="light"])`,
+and `:root[data-theme="dark"]` forces it. Both blocks carry the same tokens, and
+a test keeps them identical. A small `theme.js` in `<head>` applies the saved
+choice before first paint, because the CSP forbids inline scripts and a script at
+the end of `<body>` would flash the wrong theme.
+
+## D-028 · Status marks are Lucide icons, not text glyphs
+
+Spec §11 says to pair colour with "✓/✗ text". The redesign drew status that way
+(plus ⏱ ○ ● ‖ ∅ ⊘ ◆ ⚠ for the other states), and in the UI font those characters
+came out at odd sizes and weights next to the Lucide icons. The human chose
+"Lucide everywhere" (2026-10-14): every mark is now a Lucide icon (check, x, clock,
+skip-forward, circle-dashed, diamond, …) from one `MARK` table in app.js. The rule
+behind §11 still holds, because the icon is never the only cue: pills and chips
+keep their word ("FAIL", "done", "skipped"), and a mark without a word next to it
+carries an `aria-label` and a `<title>`. The S05 browser test pinned the literal
+"⏱ STALE", "✓ PASS" and "✗ FAIL" text; with the human's OK it now checks for the
+same pill with its Lucide icon followed by the word. The CLI output keeps ✓/✗,
+because terminals have no icons.
+
+## D-029 · Full or compact board cards
+
+The board has a Full / Compact switch. A compact card shows only the sprint ID,
+the project key on the all-projects board, the title and the AC bar, so a long
+roadmap fits on one screen; the panel still has everything else. The choice is
+kept in the browser (`sprintwarden.board.cards` in localStorage) and applies to
+both boards. `?cards=compact` (or `full`) in the URL picks one too, which makes a
+compact view linkable and testable without browser storage.
+
+## D-030 · Trends: one measure per chart, explained in plain words
+
+The old Trends chart drew total tests and pass rate on two y-axes, which invents
+a correlation between unrelated scales and meant little to someone who doesn't
+know the ratchet. It is now two charts that share the run axis (tests in each
+run; pass rate in each run), with failed runs marked by an × as well as colour,
+labelled milestones, and an end label for the latest value. Above them: four
+headline numbers and "What this tells you", sentences computed in the browser
+from the same runs (latest result and streak, regressions, growth and drops,
+share of failed runs, change since the last milestone, which sprints' tests
+fail). Below: "Why it matters". A crosshair readout follows the pointer across
+both charts; the arrow keys, Home and End step through runs, and Enter or a click
+opens one. The Runs tab is the table view of the same data. No server change:
+everything comes from `/api/projects/<key>/runs`.

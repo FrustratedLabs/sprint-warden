@@ -77,7 +77,7 @@ current = {toml_literal(current)}
 # id_pattern = '(?i)(?<![A-Za-z0-9])S(\\d{{2,}})(?=[_\\]\\s:.()\\[/-]|$)'   # group 1 = sprint number
 """
     return f"""# sprintwarden config. The only stack-specific file in .sprint/.
-# Docs: https://github.com/sprintwarden/sprintwarden#configuration
+# Docs: https://github.com/FrustratedLabs/sprint-warden#configuration
 
 [project]
 name = {toml_literal(name)}
