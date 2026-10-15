@@ -1,17 +1,17 @@
 {
   "schema": 1,
-  "created": "2026-10-12T10:28:56.021Z",
-  "reason": "close S06",
-  "sprint": "S06",
-  "run": "20261012T102856019Z-b4d0",
+  "created": "2026-10-15T10:16:46.488Z",
+  "reason": "close S07",
+  "sprint": "S07",
+  "run": "20261015T101646485Z-f181",
   "git": {
-    "head": "a1e2e1b33cba5911c7839c7461106fccb90092cf",
+    "head": "d1a0899c1f09dd475b4e44abae0ec560e02e135a",
     "branch": "main"
   },
   "totals": {
-    "total": 320,
-    "passed": 318,
-    "skipped": 2
+    "total": 342,
+    "passed": 337,
+    "skipped": 5
   },
   "tests": {
     "tests.test_s01_attribution.test_S01_ac_satisfied_failing_and_no_tests": "passed",
@@ -329,10 +329,32 @@
     "tests.test_s05_dashboard.test_S05_security_static_files_only_from_the_whitelist": "passed",
     "tests.test_s05_env_skips.test_S05_ordinary_skip_allowance_expires_at_the_next_baseline": "passed",
     "tests.test_s05_env_skips.test_S05_permanent_skip_survives_rebaselines_for_environment_dependent_tests": "passed",
-    "tests.test_s06_examples.test_S06_example_go_regression_is_caught": "passed",
-    "tests.test_s06_examples.test_S06_example_gradle_regression_is_caught": "passed",
+    "tests.test_s06_examples.test_S06_example_go_regression_is_caught": "skipped",
+    "tests.test_s06_examples.test_S06_example_gradle_regression_is_caught": "skipped",
     "tests.test_s06_examples.test_S06_example_pytest_regression_and_cheat_are_caught": "passed",
-    "tests.test_s06_examples.test_S06_example_vitest_regression_is_caught": "passed",
-    "tests.test_s06_examples.test_S06_examples_dashboard_shows_status_matrix_and_trends": "passed"
+    "tests.test_s06_examples.test_S06_example_vitest_regression_is_caught": "skipped",
+    "tests.test_s06_examples.test_S06_examples_dashboard_shows_status_matrix_and_trends": "passed",
+    "tests.test_s07_board.test_S07_all_projects_board_mixes_projects_with_key_chips": "passed",
+    "tests.test_s07_board.test_S07_api_board_endpoint_covers_every_sprints_project": "passed",
+    "tests.test_s07_board.test_S07_api_board_every_sprint_has_board_data": "passed",
+    "tests.test_s07_board.test_S07_api_board_portfolio_summary_has_counts_next_and_roadmap": "passed",
+    "tests.test_s07_board.test_S07_board_an_ac_held_back_by_skipped_tests_reads_skipped_not_failing": "passed",
+    "tests.test_s07_board.test_S07_board_columns_show_planned_in_progress_done_and_parked": "passed",
+    "tests.test_s07_board.test_S07_board_compact_cards_show_only_id_title_and_the_ac_bar": "passed",
+    "tests.test_s07_board.test_S07_board_sprint_panel_shows_acs_notes_and_next_commands": "passed",
+    "tests.test_s07_board.test_S07_design_first_load_shows_the_icon_and_a_progress_bar": "passed",
+    "tests.test_s07_board.test_S07_design_has_light_and_dark_tokens_and_no_inline_styles": "passed",
+    "tests.test_s07_board.test_S07_design_icons_render_in_every_view": "passed",
+    "tests.test_s07_board.test_S07_design_the_loading_screen_is_gone_once_the_page_renders": "passed",
+    "tests.test_s07_board.test_S07_design_theme_button_renders_with_its_state": "passed",
+    "tests.test_s07_board.test_S07_design_theme_can_be_forced_light_or_dark": "passed",
+    "tests.test_s07_board.test_S07_design_trends_explain_what_the_charts_show_in_plain_words": "passed",
+    "tests.test_s07_board.test_S07_icons_are_vendored_lucide_with_the_license_shipped": "passed",
+    "tests.test_s07_board.test_S07_icons_every_status_mark_is_lucide_not_a_text_glyph": "passed",
+    "tests.test_s07_park.test_S07_park_a_parked_sprint_may_list_acs_without_tests": "passed",
+    "tests.test_s07_park.test_S07_park_a_planned_sprint_and_bring_it_back": "passed",
+    "tests.test_s07_park.test_S07_park_keeps_the_sprints_tests_in_the_ratchet": "passed",
+    "tests.test_s07_park.test_S07_park_refuses_closed_sprints_and_unpark_needs_a_parked_one": "passed",
+    "tests.test_s07_park.test_S07_park_the_active_sprint_clears_current_and_start_resumes_it": "passed"
   }
 }

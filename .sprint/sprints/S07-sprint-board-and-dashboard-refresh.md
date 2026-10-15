@@ -1,10 +1,10 @@
 +++
 id      = "S07"
 title   = "Sprint board and dashboard refresh"
-status  = "active"          # planned | active | closed
+status  = "closed"          # planned | active | closed
 goal    = "See what is planned, in progress, done and parked on a kanban board, in a refreshed dashboard with Lucide icons"
 started = 2026-10-12
-closed  = ""
+closed  = 2026-10-15
 out_of_scope = ["editing sprints from the UI (the dashboard stays read-only)", "drag and drop", "Phase 7 integrations"]
 
 [[ac]]
