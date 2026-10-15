@@ -242,8 +242,9 @@ app.js builds them with `createElementNS`. So there's no `innerHTML`, no SVG
 sprite request, and nothing the CSP has to allow. `docs/vendor_lucide.py`
 regenerates the file from a pinned `lucide-static` release (1.48.0). Lucide is
 ISC-licensed, with some icons from Feather (MIT); the full text ships as
-`sprintwarden/ui/LICENSE-lucide.txt`, and the footer credits it. The favicon is
-Lucide's shield-check too. Status marks are Lucide icons as well (D-028).
+`sprintwarden/ui/LICENSE-lucide.txt`, and the footer credits it. Status marks are
+Lucide icons as well (D-028). The header mark and favicon are not Lucide: they are
+the five-bar gate from `brand/` (D-031).
 
 ## D-026 · Sprints stays the default project tab
 
@@ -301,3 +302,14 @@ fail). Below: "Why it matters". A crosshair readout follows the pointer across
 both charts; the arrow keys, Home and End step through runs, and Enter or a click
 opens one. The Runs tab is the table view of the same data. No server change:
 everything comes from `/api/projects/<key>/runs`.
+
+## D-031 · The five-bar gate is the dashboard's mark and favicon
+
+The brand kit in `brand/` defines the mark: four tally bars with one red bar
+across them (a "five-bar gate", like `sprint gate`). The dashboard header draws
+it inline, with the bars in `currentColor` so they follow the theme, and the
+favicon is the kit's 16 px pixel-grid version. Both are written without the
+C2PA metadata block the exported files carry, because the static files must
+contain no `http://` URLs other than the SVG namespace (S05). With the human's
+OK, the S07 icon test now checks for the five-bar gate in both places instead
+of Lucide's shield-check.
