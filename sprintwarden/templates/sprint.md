@@ -1,7 +1,7 @@
 +++
 id      = $id
 title   = $title
-status  = $status          # planned | active | closed
+status  = $status          # planned | active | closed | parked
 goal    = $goal
 started = $started
 closed  = ""

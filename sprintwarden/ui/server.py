@@ -8,6 +8,7 @@ straight from its ``.sprint/`` folder on each request, so it is always current.
     GET /api/projects/<key>                 sprints, ACs, latest run, baseline, exceptions
     GET /api/projects/<key>/runs?limit=50   run history, newest first
     GET /api/projects/<key>/runs/<run-id>   one run record
+    GET /api/board                          every sprints-mode project's sprints, for the board
 
 Binds to 127.0.0.1 and rejects requests whose Host header isn't localhost, so a
 web page can't reach it through DNS rebinding.
@@ -37,6 +38,8 @@ STATIC = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/index.html": ("index.html", "text/html; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+    "/icons.js": ("icons.js", "text/javascript; charset=utf-8"),
+    "/theme.js": ("theme.js", "text/javascript; charset=utf-8"),
     "/style.css": ("style.css", "text/css; charset=utf-8"),
     "/favicon.svg": ("favicon.svg", "image/svg+xml"),
 }
@@ -89,6 +92,10 @@ def _summary(key: str, path: Path) -> dict[str, Any]:
         status = "stale"
     else:
         status = "pass"
+    counts = {s: 0 for s in ("planned", "active", "closed", "parked")}
+    for s in st.get("sprints") or []:
+        counts[s["status"]] = counts.get(s["status"], 0) + 1
+    upcoming = next((s for s in st.get("sprints") or [] if s["status"] == "planned"), None)
     return base | {
         "name": st["project"],
         "project_key": st["key"],
@@ -114,6 +121,12 @@ def _summary(key: str, path: Path) -> dict[str, Any]:
         else None,
         "baseline": st.get("baseline"),
         "branch": (st.get("git") or {}).get("branch"),
+        "board": counts,
+        "next": {"id": upcoming["id"], "title": upcoming["title"]} if upcoming else None,
+        "roadmap": [
+            {"id": s["id"], "title": s["title"], "status": s["status"]}
+            for s in st.get("sprints") or []
+        ],
     }
 
 
@@ -125,6 +138,78 @@ def list_projects() -> list[dict[str, Any]]:
 
 def _find(key: str) -> Path | None:
     return next((p for k, p in _keyed_projects() if k.lower() == key.lower()), None)
+
+
+def board_sprints(cfg, latest: dict[str, Any]) -> list[dict[str, Any]]:
+    """Every sprint with what a board card needs, oldest first.
+
+    ``stats`` are the sprint's test counts in the latest run. A closed sprint is
+    ``regressed`` when any of its tests now fail or have gone missing. The first
+    planned sprint (lowest number) is ``next``.
+    """
+    if not cfg.sprints_mode:
+        return []
+    acs_all = {(a["sprint"], a["id"]): a for a in latest.get("acs_all", [])}
+    by_sprint = latest.get("by_sprint") or {}
+    failing: dict[str, int] = {}
+    for f in latest.get("failing") or []:
+        failing[f.get("sprint")] = failing.get(f.get("sprint"), 0) + 1
+    missing: dict[str, int] = {}
+    for m in latest.get("missing") or []:
+        missing[m.get("sprint")] = missing.get(m.get("sprint"), 0) + 1
+    out: list[dict[str, Any]] = []
+    next_seen = False
+    for s in load_sprints(cfg.paths.sprints, strict=False)[0]:
+        data = s.to_json()
+        data.pop("body", None)
+        data["acs"] = [
+            a | {"result": acs_all.get((s.id, a["id"]), {"state": "no-tests", "tests": []})}
+            for a in data["acs"]
+        ]
+        states = [a["result"].get("state", "no-tests") for a in data["acs"]]
+        data["ac_summary"] = {
+            "total": len(states),
+            "satisfied": states.count("satisfied"),
+            "failing": states.count("failing"),
+            "no_tests": states.count("no-tests"),
+        }
+        stats = by_sprint.get(s.id) or {"total": 0, "passed": 0, "failed": 0, "skipped": 0}
+        data["stats"] = stats
+        data["failing"] = max(failing.get(s.id, 0), stats.get("failed", 0))
+        data["missing"] = missing.get(s.id, 0)
+        data["regressed"] = s.status == "closed" and bool(data["failing"] or data["missing"])
+        data["next"] = s.status == "planned" and not next_seen
+        next_seen = next_seen or data["next"]
+        out.append(data)
+    return out
+
+
+def board() -> dict[str, Any]:
+    """Sprints of every sprints-mode project, for the all-projects board."""
+    projects: list[dict[str, Any]] = []
+    other = 0
+    for key, path in _keyed_projects():
+        try:
+            cfg = load_config(path)
+        except SprintError:
+            other += 1
+            continue
+        if not cfg.sprints_mode:
+            other += 1
+            continue
+        summary = _summary(key, path)
+        latest = runs.load_latest(cfg.paths) or {}
+        projects.append(
+            {
+                "key": key,
+                "name": summary.get("name", path.name),
+                "project_key": summary.get("project_key"),
+                "status": summary["status"],
+                "sprints": board_sprints(cfg, latest),
+            }
+        )
+    projects.sort(key=lambda p: p["name"].lower())
+    return {"projects": projects, "without_sprints": other, "version": __version__}
 
 
 def project_detail(key: str) -> dict[str, Any] | None:
@@ -139,17 +224,7 @@ def project_detail(key: str) -> dict[str, Any] | None:
     cfg = load_config(path)
     st = project_status(cfg)
     latest = runs.load_latest(cfg.paths) or {}
-    acs_all = {(a["sprint"], a["id"]): a for a in latest.get("acs_all", [])}
-    sprints = []
-    if cfg.sprints_mode:
-        for s in reversed(load_sprints(cfg.paths.sprints, strict=False)[0]):
-            data = s.to_json()
-            data["acs"] = [
-                a | {"result": acs_all.get((s.id, a["id"]), {"state": "no-tests", "tests": []})}
-                for a in data["acs"]
-            ]
-            data.pop("body", None)
-            sprints.append(data)
+    sprints = list(reversed(board_sprints(cfg, latest)))  # newest first
     return summary | {
         "status_detail": st,
         "sprints": sprints,
@@ -253,6 +328,9 @@ class Handler(BaseHTTPRequestHandler):
     def _api(self, parts: list[str], query: dict[str, list[str]]) -> None:
         if parts == ["projects"]:
             self._json({"projects": list_projects(), "version": __version__})
+            return
+        if parts == ["board"]:
+            self._json(board())
             return
         if parts == ["version"]:
             self._json({"version": __version__})

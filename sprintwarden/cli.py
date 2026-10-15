@@ -107,6 +107,13 @@ def build_parser() -> argparse.ArgumentParser:
     sp = cmd("start", _lazy(lc, "cmd_start"), "activate a sprint and make it current")
     sp.add_argument("id")
 
+    sp = cmd("park", _lazy(lc, "cmd_park"), "set a planned or active sprint aside (status parked)")
+    sp.add_argument("id")
+    sp.add_argument("--reason", default="", help="why it's parked (shown on the board)")
+
+    sp = cmd("unpark", _lazy(lc, "cmd_unpark"), "move a parked sprint back to planned")
+    sp.add_argument("id")
+
     cmd("status", _lazy(c, "cmd_status"), "current sprint, ACs, last gate, baseline")
 
     sp = cmd("gate", _lazy(c, "cmd_gate"), "run tests and check the ratchet (exit 1 on failure)")

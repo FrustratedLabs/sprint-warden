@@ -6,17 +6,31 @@
 <title>sprintwarden</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<script src="theme.js"></script>
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#/"><span class="logo" aria-hidden="true">◆</span> sprintwarden</a>
-  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <a class="brand" href="#/" aria-label="sprintwarden, all projects"><span class="brand-mark" data-icon="shield-check"></span><span>sprintwarden</span></a>
+  <nav class="primary" id="primary" aria-label="Main">
+    <a href="#/" data-nav="projects"><span data-icon="layout-grid"></span>Projects</a>
+    <a href="#/board" data-nav="board"><span data-icon="square-kanban"></span>Board</a>
+  </nav>
   <div class="spacer"></div>
-  <label class="refresh"><input type="checkbox" id="autorefresh" checked> auto-refresh 15s</label>
+  <button type="button" class="icon-btn theme" id="theme" aria-label="Theme: match system. Click for light" title="Theme: match system"><span data-icon="sun-moon"></span></button>
+  <label class="switch" title="Reload the data every 15 seconds">
+    <input type="checkbox" id="autorefresh" checked>
+    <span class="track" aria-hidden="true"></span>
+    <span>Auto-refresh</span>
+  </label>
   <span class="updated" id="updated" aria-live="polite"></span>
 </header>
 <main id="app" tabindex="-1"><p class="muted">Loading…</p></main>
-<footer class="foot">Local, read-only dashboard · data from each project's <code>.sprint/</code> · <span id="version"></span></footer>
+<footer class="foot">
+  <span>Local and read-only. Everything here comes from each project's <code>.sprint/</code> folder.</span>
+  <span id="version"></span>
+  <span>Icons: Lucide (ISC)</span>
+</footer>
+<script src="icons.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

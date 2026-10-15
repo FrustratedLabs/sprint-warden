@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4          # whatever your tests need
         with: { distribution: temurin, java-version: "21" }
-      - uses: sprintwarden/sprintwarden@v1
+      - uses: FrustratedLabs/sprint-warden@v0
 ```
 
 The action installs sprintwarden, runs `sprint gate --json`, writes a **job

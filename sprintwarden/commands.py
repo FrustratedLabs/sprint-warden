@@ -633,12 +633,15 @@ def render_status(s: dict[str, Any], st: Style) -> str:
                 lines.append(st.dim("Out of scope: " + ", ".join(sp["out_of_scope"])))
         else:
             planned = [x["id"] for x in s["sprints"] if x["status"] == "planned"]
+            parked = [x["id"] for x in s["sprints"] if x["status"] == "parked"]
             hint = (
                 f"start one with `sprint start {planned[0]}`"
                 if planned
                 else "create one with `sprint new <title>`"
             )
             lines.append(f"No active sprint; {hint}")
+            if parked:
+                lines.append(st.dim(f"Parked: {', '.join(parked)} (`sprint unpark <id>`)"))
     for err in s.get("sprint_errors") or []:
         lines.append(f"{st.bad} {err}")
     latest = s.get("latest")

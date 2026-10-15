@@ -5,6 +5,7 @@ from __future__ import annotations
 import http.client
 import json
 import os
+import re
 import shutil
 
 import pytest
@@ -244,7 +245,11 @@ def test_S05_browser_five_views_render(world):
         page.wait_for_selector(".card")
         cards = page.locator(".card h3").all_inner_texts()
         assert cards[:2] == ["broken", "gone"] or cards[0] in ("broken", "gone"), cards
-        assert page.locator(".card.fail .pill").first.inner_text().startswith("✗")
+        pill = page.locator(".card.fail .pill").first
+        assert (
+            pill.locator('svg[data-lucide="x"]').count() == 1
+            and pill.inner_text().strip() == "FAIL"
+        )
         # 2. sprint timeline
         page.click("a.card.fail")
         page.wait_for_selector(".sprint")
@@ -313,6 +318,13 @@ def _dump(world, route: str) -> str:
     return proc.stdout
 
 
+def _mark(cls: str, icon: str, word: str) -> re.Pattern[str]:
+    """An element showing a status: its Lucide icon, then the word (never colour alone)."""
+    return re.compile(
+        rf'<span class="{cls}"><svg [^>]*data-lucide="{icon}"[^>]*>.*?</svg>{word}</span>', re.S
+    )
+
+
 @pytest.mark.browser
 @pytest.mark.skipif(_chrome() is None, reason="needs Chrome/Chromium")
 def test_S05_browser_views_render_in_headless_chrome(world):
@@ -321,9 +333,19 @@ def test_S05_browser_views_render_in_headless_chrome(world):
     views = {
         "portfolio": (
             "#/",
-            ["Portfolio", "billing", "✗ FAIL", "⏱ STALE", "✓ PASS", "1 regression"],
+            [
+                "Portfolio",
+                "billing",
+                _mark("pill fail", "x", "FAIL"),
+                _mark("pill stale", "clock", "STALE"),
+                _mark("pill pass", "check", "PASS"),
+                "1 regression",
+            ],
         ),
-        "timeline": ("#/p/BILL/timeline", ["S01 · Auth", "✓ done", "<strong>bcrypt</strong>"]),
+        "timeline": (
+            "#/p/BILL/timeline",
+            ["S01 · Auth", _mark("st st-satisfied", "check", "done"), "<strong>bcrypt</strong>"],
+        ),
         "matrix": ("#/p/BILL/matrix", ["table", 'class="matrix"', "cell bad", "REGRESSION"]),
         "trends": ("#/p/BILL/trends", ["<polyline", "pass rate", "total tests"]),
         # S01 is the current sprint here, so its own broken test "was passing in baseline"
@@ -340,5 +362,6 @@ def test_S05_browser_views_render_in_headless_chrome(world):
     for name, (route, needles) in views.items():
         dom = _dump(world, route)
         for needle in needles:
-            assert needle in dom, f"{name}: {needle!r} not rendered"
+            found = needle.search(dom) if isinstance(needle, re.Pattern) else needle in dom
+            assert found, f"{name}: {needle!r} not rendered"
         assert "Couldn't load" not in dom, name
