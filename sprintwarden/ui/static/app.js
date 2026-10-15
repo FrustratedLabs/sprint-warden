@@ -649,7 +649,7 @@ function trendFacts(pts, bypassed) {
 // One measure per chart (never two y-axes), on a shared run axis.
 function runChart(pts, o) {
   // drawn at the page's real width, so 11px text stays 11px
-  const W = Math.round(Math.min(1600, Math.max(560, (app.clientWidth || 1000) - 90))), H = 196, L = 44, R = 92, T = 26, B = 26;
+  const W = Math.round(Math.min(1600, Math.max(560, (app.clientWidth || 1000) - 90))), H = 196, L = 44, R = 112, T = 26, B = 26;
   const iw = W - L - R, ih = H - T - B, n = pts.length;
   const x = (i) => L + (n === 1 ? iw / 2 : (iw * i) / (n - 1));
   const y = (v) => T + ih - (ih * v) / o.max;
