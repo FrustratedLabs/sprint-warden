@@ -195,6 +195,18 @@ def _short(text: str, limit: int) -> str:
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
+def environment_problem(record: dict[str, Any]) -> bool:
+    """The gate failed only because the test command couldn't start."""
+    from sprintwarden.toolchain import is_environment_failure
+
+    runners = record.get("runner") or []
+    return (
+        bool(runners)
+        and any(is_environment_failure(r) for r in runners)
+        and not record.get("failing")
+    )
+
+
 def render_agent(record: dict[str, Any], *, max_items: int = 20) -> str:
     """Compact, agent-actionable failure report (for Stop hooks)."""
     lines = [
@@ -208,6 +220,12 @@ def render_agent(record: dict[str, Any], *, max_items: int = 20) -> str:
         lines.append(f"\nTEST RUN PROBLEM: {runner['summary']}")
         if runner.get("detail"):
             lines += ["  " + d for d in runner["detail"].splitlines()[:25]]
+        if environment_problem(record):
+            lines.append(
+                "\nThis is an environment problem, not a test failure: the test command could "
+                "not start. Don't change tests or .sprint/. Fix the environment if you can "
+                "(e.g. create .venv with the test dependencies); otherwise tell the human what is wrong."
+            )
     failing = record.get("failing", [])
     regressions = [f for f in failing if f.get("regression")]
     others = [f for f in failing if not f.get("regression")]

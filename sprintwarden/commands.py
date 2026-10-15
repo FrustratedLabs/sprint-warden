@@ -754,6 +754,11 @@ def cmd_doctor(env: Env, args: Any) -> Outcome:
         add("error", f"config.toml: {exc}", exc.hint)
         return _doctor_outcome(checks, st)
 
+    from sprintwarden import toolchain
+
+    tc = toolchain.build(cfg)
+    if tc.prepended:
+        add("ok", "test PATH starts with " + ", ".join(f"{f} ({why})" for f, why in tc.prepended))
     for suite in cfg.suites:
         first = (
             suite.effective_command().strip().split()[0]
@@ -764,12 +769,19 @@ def cmd_doctor(env: Env, args: Any) -> Outcome:
         if first.startswith("./"):
             ok = (cfg.root / suite.cwd / first[2:]).exists()
         else:
-            ok = shutil.which(exe) is not None
-        add(
-            "ok" if ok else "warn",
-            f"suite {suite.name!r}: `{suite.effective_command()}`",
-            "" if ok else f"`{first}` was not found on PATH (fine if your shell provides it)",
-        )
+            ok = shutil.which(exe, path=tc.env.get("PATH", "")) is not None
+        problem = toolchain.python_problem(suite.effective_command(), tc.env)
+        if problem:
+            add("error", f"suite {suite.name!r}: {problem}", toolchain.FIX_HINT)
+        else:
+            add(
+                "ok" if ok else "warn",
+                f"suite {suite.name!r}: `{suite.effective_command()}`",
+                "" if ok else f"`{first}` was not found on PATH (fine if your shell provides it)",
+            )
+            found = toolchain.describe(suite.effective_command(), tc.env)
+            if found:
+                add("ok", f"suite {suite.name!r}: {found}")
         from sprintwarden.globs import find_files
 
         files = find_files(cfg.root, suite.reports)
