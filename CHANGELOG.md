@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Sprint S07: Sprint board and dashboard refresh (2026-10-15)
+
+Goal: See what is planned, in progress, done and parked on a kanban board, in a refreshed dashboard with Lucide icons
+
+- AC1: A sprint can be parked and brought back: `sprint park` / `sprint unpark`, `start` works from parked, status and doctor understand it
+- AC2: The API gives every sprint its board data: test counts, regressed flag for done sprints, up-next marker
+- AC3: Each project has a Board view with Planned / In progress / Done / Parked columns and a sprint detail panel
+- AC4: One board across all registered projects
+- AC5: Refreshed design with vendored Lucide icons: no network, license notice shipped, the five S05 views still render
+
+Tests: 342 (+22 since the previous baseline) · tag `sprint-S07`
+
 ### Added
 
 - **Sprint board**: a kanban of sprints in four columns (Planned, In progress,
