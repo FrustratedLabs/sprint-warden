@@ -105,6 +105,7 @@ class FakeProject:
         env.pop("CI", None)
         env.pop("GITHUB_ACTIONS", None)
         env.pop("GITHUB_HEAD_REF", None)
+        env.pop("VIRTUAL_ENV", None)  # the gate running these tests sets it for itself
         env["SPRINT_HOME"] = str(self.home)
         env["SPRINT_AGENT"] = agent
         env["NO_COLOR"] = "1"

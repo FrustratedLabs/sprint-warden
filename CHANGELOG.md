@@ -6,6 +6,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- **The test command uses the project's own Python.** The gate puts the project's
+  virtualenv (`.venv/`, `venv/`, or `$VIRTUAL_ENV`) first on PATH before running the
+  tests, so hooks, git pushes and CI no longer pick up a system `python` (Python 2,
+  none at all, or one without the test dependencies). `[test] path` adds other
+  folders; `[test] use_venv = false` turns the lookup off.
+- A missing or Python 2 `python`, or a runner module that isn't installed, is now
+  named in plain words with how to fix it, instead of "no JUnit XML found".
+  `sprint doctor` shows the interpreter the gate will use.
+- The Stop hook no longer blocks every reply over a problem the agent can't fix:
+  an environment problem is reported once, then the session may end on an
+  unchanged tree (the human is told). Build and test failures still block.
+
 ### Sprint S07: Sprint board and dashboard refresh (2026-10-15)
 
 Goal: See what is planned, in progress, done and parked on a kanban board, in a refreshed dashboard with Lucide icons

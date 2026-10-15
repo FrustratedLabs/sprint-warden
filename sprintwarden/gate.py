@@ -191,6 +191,8 @@ def check_runner(ctx: Context, ev: Evaluation) -> Check:
     for sr, r in zip(
         ctx.collected.suites, ctx.runner or [None] * len(ctx.collected.suites), strict=False
     ):
+        if not sr.files and r is not None and r.environment and r.error:
+            continue  # it never started; the reason is already listed
         if not sr.files:
             globs = ", ".join(next(s.reports for s in ctx.cfg.suites if s.name == sr.name))
             problems.append(f"suite {sr.name!r}: no JUnit XML found matching {globs}")
@@ -223,6 +225,9 @@ def check_runner(ctx: Context, ev: Evaluation) -> Check:
     for r in tails:
         detail_lines.append(f"--- last lines of {r.suite!r} output ({r.command}) ---")
         detail_lines.extend(r.tail[-20:])
+    for r in ctx.runner:
+        if r.environment and r.hint:
+            detail_lines.append(f"How to fix ({r.suite!r}): {r.hint}")
     if parse.ignored:
         detail_lines.append("ignored non-JUnit XML: " + ", ".join(f for f, _ in parse.ignored[:5]))
     summary = base if files else "no test results"

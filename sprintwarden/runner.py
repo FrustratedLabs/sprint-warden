@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TextIO
 
-from sprintwarden import gitutil
+from sprintwarden import gitutil, toolchain
 from sprintwarden.config import Config, Suite
 from sprintwarden.globs import find_files
 
@@ -30,9 +30,13 @@ class RunnerResult:
     timed_out: bool = False
     error: str = ""
     tail: list[str] = field(default_factory=list)
+    # the command couldn't start (wrong or missing interpreter, runner not installed)
+    environment: bool = False
+    hint: str = ""
+    path: list[str] = field(default_factory=list)  # folders put first on PATH
 
     def to_json(self) -> dict:
-        return {
+        data = {
             "suite": self.suite,
             "command": self.command,
             "exit_code": self.exit_code,
@@ -40,6 +44,12 @@ class RunnerResult:
             "timed_out": self.timed_out,
             "error": self.error,
         }
+        if self.environment:
+            data["environment"] = True
+            data["hint"] = self.hint
+        if self.path:
+            data["path"] = self.path
+        return data
 
 
 def _looks_like_junit(path: Path) -> bool:
@@ -102,12 +112,29 @@ def run_suite(
 ) -> RunnerResult:
     command = suite.effective_command()
     cwd = (cfg.root / suite.cwd).resolve() if suite.cwd else cfg.root
-    env = dict(os.environ)
+    tc = toolchain.build(cfg)
+    env = tc.env
     env.update(suite.env)
     env["SPRINT_GATE"] = "1"
+    path = [folder for folder, _ in tc.prepended]
     (cfg.root / ".sprint" / "out").mkdir(parents=True, exist_ok=True)
+    if path:
+        log.write(f"# PATH starts with {os.pathsep.join(path)}\n")
     log.write(f"$ {command}\n")
     log.flush()
+    problem = toolchain.python_problem(command, env)
+    if problem:
+        log.write(f"[not run: {problem}]\n")
+        return RunnerResult(
+            suite.name,
+            command,
+            None,
+            0.0,
+            error=problem,
+            environment=True,
+            hint=toolchain.FIX_HINT,
+            path=path,
+        )
     start = time.monotonic()
     kwargs: dict = {}
     if os.name == "nt":
@@ -126,7 +153,16 @@ def run_suite(
             **kwargs,
         )
     except OSError as exc:
-        return RunnerResult(suite.name, command, None, 0.0, error=f"could not start: {exc}")
+        return RunnerResult(
+            suite.name,
+            command,
+            None,
+            0.0,
+            error=f"could not start: {exc}",
+            environment=True,
+            hint=toolchain.FIX_HINT,
+            path=path,
+        )
 
     tail: deque[str] = deque(maxlen=TAIL_LINES)
 
@@ -159,6 +195,15 @@ def run_suite(
     log.write(f"[exit {proc.returncode} after {duration:.1f}s]\n")
     log.flush()
     error = f"timed out after {suite.timeout_minutes:g} min" if timed_out else ""
+    hint = ""
+    module = toolchain.missing_runner(command, list(tail))
+    if module:
+        hint = (
+            f"`{module}` isn't installed for this interpreter: install the test dependencies "
+            "into the project's environment. " + toolchain.FIX_HINT
+        )
+    elif proc.returncode in (126, 127):
+        hint = f"`{toolchain.first_word(command)}` could not be started. " + toolchain.FIX_HINT
     return RunnerResult(
         suite.name,
         command,
@@ -167,6 +212,9 @@ def run_suite(
         timed_out=timed_out,
         error=error,
         tail=list(tail),
+        environment=bool(hint),
+        hint=hint,
+        path=path,
     )
 
 

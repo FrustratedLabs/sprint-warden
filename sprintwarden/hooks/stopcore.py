@@ -20,7 +20,7 @@ from typing import Any
 from sprintwarden import gitutil, runs
 from sprintwarden.config import Config, find_root, load_config
 from sprintwarden.gate import run_gate
-from sprintwarden.report import render_agent
+from sprintwarden.report import environment_problem, render_agent
 from sprintwarden.util import SprintError, read_json, write_json
 
 MAX_SESSIONS = 30
@@ -129,6 +129,22 @@ def evaluate_stop(
         _save_state(cfg, state)
         return StopDecision(False, record=record, cached=cached)
 
+    if environment_problem(record) and sess.get("env_reported") == record.get("id"):
+        # The agent already got this report and nothing has changed since. It can't
+        # fix a missing or wrong interpreter by retrying, so let the session end.
+        sess["last"] = now
+        _save_state(cfg, state)
+        return StopDecision(
+            False,
+            notice=(
+                "sprintwarden: the tests couldn't run, so the gate can't pass: "
+                + _runner_summary(record)
+                + ". The agent was told once; fix the environment, then run `sprint gate`."
+            ),
+            record=record,
+            cached=cached,
+        )
+
     if not continuing:
         sess["blocks"] = 0
     duplicate = (
@@ -153,11 +169,20 @@ def evaluate_stop(
         sess["blocks"] = int(sess.get("blocks", 0)) + 1
     sess["event"] = event_key
     sess["last"] = now
+    if environment_problem(record):
+        sess["env_reported"] = record.get("id")
     _save_state(cfg, state)
     reason = render_agent(record)
     if cached:
         reason += "\n(Nothing changed since this gate run, so it was not re-run.)"
     return StopDecision(True, reason=reason, record=record, cached=cached)
+
+
+def _runner_summary(record: dict[str, Any]) -> str:
+    for check in record.get("checks", []):
+        if check.get("id") == "runner":
+            return str(check.get("summary", "")).rstrip(".")
+    return "the test command could not start"
 
 
 def _block_with_guard(

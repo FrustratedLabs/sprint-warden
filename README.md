@@ -25,6 +25,11 @@ sprint init --ratchet-only         # detects the stack, runs the suite, writes t
 git add -A && git commit -m "Add sprintwarden test ratchet"
 ```
 
+**Python projects:** the gate runs your tests with the project's virtualenv
+(`.venv/` or `venv/`) first on PATH, as if it were activated, even when it's started
+by a hook, git or CI. No activation needed; `sprint doctor` shows which `python`
+it will use.
+
 That's it. From now on:
 
 | | |
@@ -267,7 +272,8 @@ keeping baselines and sprint closes.
 ## Configuration
 
 Everything lives in `.sprint/config.toml`; `sprint doctor` validates it. Key
-settings: `[test] command / reports / timeout_minutes`, `[[test.suites]]`,
+settings: `[test] command / reports / timeout_minutes`, `[test] path` (folders put
+first on PATH for the test command) and `use_venv` (default true), `[[test.suites]]`,
 `[sprint] id_pattern`, `[gate] fail_on_new_skips / fail_on_missing_tests /
 require_current_sprint_tests / fail_on_runner_error`, `[hooks] …`,
 `[history] in_git / keep`, `[ui] allure_url`. Design notes:
