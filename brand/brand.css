@@ -1,0 +1,24 @@
+/* sprintwarden brand tokens. Copy what you need; nothing here is required by the mark SVGs. */
+
+@font-face {
+  font-family: "Martian Mono";
+  src: url("fonts/MartianMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --sw-ink: #151515;      /* bars of the mark on light grounds; the app-icon and favicon tile */
+  --sw-paper: #f6f3ee;    /* bars of the mark on dark grounds */
+  --sw-red: #ff4433;      /* the gate bar. Same in light and dark. Never for status colours */
+  --sw-red-text: #bf2e1d; /* red text under 24px on light grounds (4.7:1) */
+}
+
+/* The wordmark: one word, lowercase, Martian Mono Medium, tracked in. */
+.sw-wordmark {
+  font-family: "Martian Mono", ui-monospace, Menlo, monospace;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+}

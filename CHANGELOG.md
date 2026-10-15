@@ -33,7 +33,9 @@ All notable changes to this project are documented here. The format follows
   roadmap. Light and dark follow the system, and a top-bar button forces either
   one (remembered per browser).
 - Every status mark in the dashboard is a Lucide icon next to a word, instead of
-  ✓ ✗ ⏱ ○ ● ‖ ∅ ⊘ ◆ ⚠ text glyphs; the favicon is Lucide's shield-check.
+  ✓ ✗ ⏱ ○ ● ‖ ∅ ⊘ ◆ ⚠ text glyphs.
+- New brand mark, the five-bar gate (`brand/`), in the dashboard header and as
+  the favicon.
 - Trends shows tests and pass rate as two charts on a shared run axis instead of
   one chart with two y-axes.
 
