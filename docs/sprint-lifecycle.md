@@ -12,7 +12,14 @@ sprint gate               →  checks + AC state, any time
 sprint close S03          →  (human) gate passes on a clean HEAD + all ACs satisfied
                               → baseline, status closed, CHANGELOG entry,
                                 commit + tag sprint-S03
+
+sprint park S05 --reason "not this quarter"   →  status parked (from planned or active)
+sprint unpark S05                             →  back to planned
+sprint start S05                              →  or straight back to active
 ```
+
+On the dashboard's board these are the four columns: **Planned**, **In progress**
+(active), **Done** (closed) and **Parked**.
 
 ## Sprint file
 
@@ -20,7 +27,7 @@ sprint close S03          →  (human) gate passes on a clean HEAD + all ACs sat
 +++
 id      = "S03"
 title   = "Reports"
-status  = "active"          # planned | active | closed
+status  = "active"          # planned | active | closed | parked
 goal    = "User can export the monthly report as PDF"
 started = 2026-10-06
 closed  = ""
@@ -73,6 +80,19 @@ run if it matches the current tree), then:
    otherwise newest first;
 4. commits `.sprint/` and `CHANGELOG.md` (`--no-commit` to skip) and creates the
    annotated tag `sprint-S03` (`--no-tag` to skip).
+
+## Parking
+
+Plans change. `sprint park <id> --reason "…"` moves a planned or active sprint to
+`status = "parked"` and records `parked = <today>` and `parked_reason` in its
+front matter, plus a dated line in its notes. Parking the active sprint also
+clears `sprint.current`, so no sprint is active until you `sprint start` one.
+`sprint unpark <id>` returns it to `planned`, and `sprint start <id>` works
+straight from parked. Closed sprints can't be parked: they're done.
+
+Parking changes nothing in the ratchet. Tests a parked sprint already has stay in
+the baseline, so deleting or skipping them still fails the gate. Like planned
+sprints, parked ones may list ACs that have no tests yet.
 
 ## Long-running projects
 

@@ -32,10 +32,10 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/sprintwarden/sprintwarden"
-Documentation = "https://github.com/sprintwarden/sprintwarden#readme"
-Issues = "https://github.com/sprintwarden/sprintwarden/issues"
-Changelog = "https://github.com/sprintwarden/sprintwarden/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/FrustratedLabs/sprint-warden"
+Documentation = "https://github.com/FrustratedLabs/sprint-warden#readme"
+Issues = "https://github.com/FrustratedLabs/sprint-warden/issues"
+Changelog = "https://github.com/FrustratedLabs/sprint-warden/blob/main/CHANGELOG.md"
 
 [project.scripts]
 sprint = "sprintwarden.cli:main"

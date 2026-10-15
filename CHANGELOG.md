@@ -6,6 +6,37 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Sprint board**: a kanban of sprints in four columns (Planned, In progress,
+  Done, Parked), per project and across every registered project
+  (`GET /api/board`). Done sprints whose tests fail again are flagged
+  "regressed", the lowest planned sprint is "Up next", and each card opens a
+  panel with its ACs, matched tests, notes and the command that moves it on.
+- **Parked sprints**: `sprint park <id> --reason "…"` and `sprint unpark <id>`;
+  `sprint start` works straight from parked. A parked sprint's tests stay in the
+  ratchet.
+- **Compact board cards**: a Full / Compact switch on both boards. Compact cards
+  show the sprint ID, title and AC bar only; the choice is remembered, and
+  `?cards=compact` links to it.
+- **Trends explained**: headline numbers, "What this tells you" (plain sentences
+  worked out from the runs), "Why it matters", and a hover / keyboard readout
+  for each run.
+- `docs/make_screenshots.py` rebuilds the README screenshots from a synthetic
+  demo portfolio.
+
+### Changed
+
+- The dashboard is redesigned: neutral paper and ink surfaces, colour only for
+  status, serif page titles, Lucide icons (vendored, ISC), a Projects/Board top
+  bar, and portfolio cards that show what's up next and a compact sprint
+  roadmap. Light and dark follow the system, and a top-bar button forces either
+  one (remembered per browser).
+- Every status mark in the dashboard is a Lucide icon next to a word, instead of
+  ✓ ✗ ⏱ ○ ● ‖ ∅ ⊘ ◆ ⚠ text glyphs; the favicon is Lucide's shield-check.
+- Trends shows tests and pass rate as two charts on a shared run axis instead of
+  one chart with two y-axes.
+
 ## [0.2.0] - 2026-10-12
 
 The full layer cake: sprints and computed "done", the dashboard, and proof on
@@ -61,7 +92,7 @@ First release: the **test ratchet**, usable on its own (`sprint init --ratchet-o
   `/sprintwarden:sprint-status`.
 - Experimental stop hooks for Cursor, Codex, Gemini CLI and Copilot
   (`sprint install-hooks --agent ...`), and an MCP server (`sprint mcp`).
-- Reusable GitHub Action (`uses: sprintwarden/sprintwarden@v1`) with a job
+- Reusable GitHub Action (`uses: FrustratedLabs/sprint-warden@v0`) with a job
   summary, annotations and `--baseline-ref` against the PR's base branch; shell,
   GitLab and Jenkins snippets.
 

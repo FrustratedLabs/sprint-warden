@@ -52,7 +52,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
-      - name: Move the major tag (uses: sprintwarden/sprintwarden@v1)
+      - name: Move the major tag (uses: FrustratedLabs/sprint-warden@v0)
         run: |
           major="${GITHUB_REF_NAME%%.*}"
           git tag -f "$major" "$GITHUB_SHA"
