@@ -356,10 +356,14 @@ def test_S07_icons_every_status_mark_is_lucide_not_a_text_glyph():
         text = STATIC.joinpath(name).read_text(encoding="utf-8")
         found = sorted({ch for ch in text if ch in GLYPHS})
         assert not found, f"{name} draws marks with text glyphs: {found}"
+    # the brand mark (brand/README.md): four bars and the red gate, in the header and the tab
     favicon = STATIC.joinpath("favicon.svg").read_text(encoding="utf-8")
-    icons = STATIC.joinpath("icons.js").read_text(encoding="utf-8")
-    shield = re.search(r'"shield-check": \[\["path",\{"d":"([^"]+)"', icons).group(1)
-    assert shield in favicon, "the favicon is Lucide's shield-check, like the brand mark"
+    assert favicon.count('height="10" fill="#F6F3EE"') == 4, "four tally bars"
+    assert 'd="M2 12L14 5" stroke="#FF4433"' in favicon, "the red gate across them"
+    html = STATIC.joinpath("index.html").read_text(encoding="utf-8")
+    header = re.search(r'<a class="brand".*?</a>', html, re.S).group(0)
+    assert '<svg class="brand-mark" viewBox="0 0 120 120"' in header and 'fill="#FF4433"' in header
+    assert "data-icon" not in header, "app.js must not swap the mark for a Lucide icon"
 
 
 @pytest.mark.browser
