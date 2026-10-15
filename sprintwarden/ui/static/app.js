@@ -887,6 +887,14 @@ function route() {
   return { nav: "projects", base: "", view: renderPortfolio };
 }
 
+// The first-load screen (index.html) goes once the first view, or its error, is on the page.
+function hideSplash() {
+  const splash = document.getElementById("splash");
+  if (!splash || splash.classList.contains("done")) return;
+  splash.classList.toggle("done", true);
+  setTimeout(() => splash.remove(), 250);
+}
+
 async function render(focus) {
   if (rendering) { pending = pending || focus; return; }
   rendering = true;
@@ -914,6 +922,7 @@ async function render(focus) {
   } catch (err) {
     app.replaceChildren(emptyState("octagon-alert", `Couldn't load: ${err.message}`, [h("a", { class: "link", href: "#/", text: "Back to all projects" })]));
   } finally {
+    hideSplash();
     rendering = false;
     if (pending !== null) { const f = pending; pending = null; render(f); }
   }
