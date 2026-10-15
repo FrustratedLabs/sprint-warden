@@ -362,7 +362,8 @@ def test_S07_icons_every_status_mark_is_lucide_not_a_text_glyph():
     assert 'd="M2 12L14 5" stroke="#FF4433"' in favicon, "the red gate across them"
     html = STATIC.joinpath("index.html").read_text(encoding="utf-8")
     header = re.search(r'<a class="brand".*?</a>', html, re.S).group(0)
-    assert '<svg class="brand-mark" viewBox="0 0 120 120"' in header and 'fill="#FF4433"' in header
+    assert '<svg class="brand-mark" viewBox="0 0 1024 1024"' in header, "the app-icon tile"
+    assert 'class="brand-tile"' in header and 'fill="#FF4433"' in header
     assert "data-icon" not in header, "app.js must not swap the mark for a Lucide icon"
 
 
@@ -434,3 +435,26 @@ def test_S07_design_trends_explain_what_the_charts_show_in_plain_words(world):
     assert 'href="#/p/PLAN/runs"' in dom and "Every run as a table" in dom, (
         "a table view of the same data"
     )
+
+
+def test_S07_design_first_load_shows_the_icon_and_a_progress_bar():
+    html = STATIC.joinpath("index.html").read_text(encoding="utf-8")
+    splash = re.search(r'<div class="splash" id="splash" role="status".*?</div>\n<main', html, re.S)
+    assert splash, "a loading screen is in the page before any script runs"
+    assert '<svg class="splash-icon"' in splash.group(0) and 'class="brand-tile"' in splash.group(0)
+    assert 'class="splash-bar"' in splash.group(0) and "Loading sprintwarden" in splash.group(0)
+    css = STATIC.joinpath("style.css").read_text(encoding="utf-8")
+    assert "@keyframes splash-slide" in css and ".splash-bar span { animation: none" in css, (
+        "the bar moves, except for people who asked for reduced motion"
+    )
+    js = STATIC.joinpath("app.js").read_text(encoding="utf-8")
+    assert "hideSplash();" in js.split("} finally {", 1)[1][:80], (
+        "it goes after success or error alike"
+    )
+
+
+@pytest.mark.browser
+@needs_chrome
+def test_S07_design_the_loading_screen_is_gone_once_the_page_renders(world):
+    dom = _dump(world, "#/")
+    assert 'id="splash"' not in dom and "Portfolio" in dom

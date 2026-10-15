@@ -34,8 +34,9 @@ All notable changes to this project are documented here. The format follows
   one (remembered per browser).
 - Every status mark in the dashboard is a Lucide icon next to a word, instead of
   ✓ ✗ ⏱ ○ ● ‖ ∅ ⊘ ◆ ⚠ text glyphs.
-- New brand mark, the five-bar gate (`brand/`), in the dashboard header and as
-  the favicon.
+- New brand mark, the five-bar gate (`brand/`), as the app icon in the dashboard
+  header and as the favicon, plus a first-load screen with the icon and a
+  progress bar.
 - Trends shows tests and pass rate as two charts on a shared run axis instead of
   one chart with two y-axes.
 

@@ -307,8 +307,11 @@ everything comes from `/api/projects/<key>/runs`.
 
 The brand kit in `brand/` defines the mark: four tally bars with one red bar
 across them (a "five-bar gate", like `sprint gate`). The dashboard header draws
-it inline, with the bars in `currentColor` so they follow the theme, and the
-favicon is the kit's 16 px pixel-grid version. Both are written without the
+the kit's app icon inline (the ink squircle, 30 px); on a dark page the tile is
+lifted one step (`#2a2926`) so its shape still shows, without an outline. The
+favicon is the kit's 16 px pixel-grid version. On first load, a centred screen
+shows the same icon with a progress bar until the first view (or its error) has
+rendered; with reduced motion the bar doesn't move. Both are written without the
 C2PA metadata block the exported files carry, because the static files must
 contain no `http://` URLs other than the SVG namespace (S05). With the human's
 OK, the S07 icon test now checks for the five-bar gate in both places instead

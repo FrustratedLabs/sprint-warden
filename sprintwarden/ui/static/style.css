@@ -169,7 +169,27 @@ code { background: var(--sunken); border: 1px solid var(--rule); border-radius: 
   display: flex; align-items: center; gap: 8px;
   font-weight: 650; font-size: 15px; letter-spacing: -0.01em; color: var(--ink);
 }
-.brand .brand-mark { width: 22px; height: 22px; flex: none; }
+.brand .brand-mark { width: 30px; height: 30px; flex: none; }
+/* on a dark page the ink tile is lifted one step, so the squircle still shows */
+:root[data-theme="dark"] .brand-tile { fill: #2a2926; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .brand-tile { fill: #2a2926; } }
+
+/* first load: the app icon and a progress bar, until the first view renders */
+.splash {
+  position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 22px; background: var(--paper);
+  transition: opacity 0.2s ease-out;
+}
+.splash.done { opacity: 0; pointer-events: none; }
+.splash-icon { width: 72px; height: 72px; }
+.splash-bar { width: 132px; height: 3px; border-radius: 3px; background: var(--rule); overflow: hidden; }
+.splash-bar span { display: block; width: 40%; height: 100%; border-radius: 3px; background: var(--ink); animation: splash-slide 1.1s ease-in-out infinite; }
+@keyframes splash-slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+@media (prefers-reduced-motion: reduce) {
+  .splash-bar span { animation: none; width: 100%; opacity: 0.5; }
+  .splash { transition: none; }
+}
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .primary { display: flex; gap: 4px; }
 .primary a {
   display: flex; align-items: center; gap: 7px;
