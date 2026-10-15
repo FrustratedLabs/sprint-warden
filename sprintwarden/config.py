@@ -125,6 +125,9 @@ class Config:
     history_keep: int
     allure_url: str
     warnings: list[str] = field(default_factory=list)
+    # folders put first on PATH for the test command (relative to the repo root)
+    test_path: list[str] = field(default_factory=list)
+    use_venv: bool = True
 
     @property
     def paths(self) -> Paths:
@@ -175,6 +178,8 @@ _KNOWN: dict[str, set[str]] = {
         "cwd",
         "sources",
         "suites",
+        "path",
+        "use_venv",
     },
     "sprint": {"current", "id_pattern"},
     "gate": {
@@ -297,6 +302,13 @@ def config_from_dict(root: Path, raw: dict[str, Any], source: str = "config.toml
     if current:
         current = normalize_sprint_id(current)
 
+    test_path = _str_list(test, "path", source)
+    for d in test_path:
+        if os.path.isabs(d) or d.replace("\\", "/").split("/")[0] == "..":
+            raise SprintError(
+                f"{source}: test.path entry {d!r} must be a folder inside the repo (relative path)"
+            )
+
     pretool_mode = _str(hooks, "pretool_mode", "warn", source)
     if pretool_mode not in ("warn", "block"):
         raise SprintError(f"{source}: hooks.pretool_mode must be 'warn' or 'block'")
@@ -328,6 +340,8 @@ def config_from_dict(root: Path, raw: dict[str, Any], source: str = "config.toml
         history_keep=int(_num(history, "keep", 0, source)),
         allure_url=_str(ui, "allure_url", "", source),
         warnings=warnings,
+        test_path=test_path,
+        use_venv=_bool(test, "use_venv", True, source),
     )
 
 

@@ -316,3 +316,27 @@ C2PA metadata block the exported files carry, because the static files must
 contain no `http://` URLs other than the SVG namespace (S05). With the human's
 OK, the S07 icon test now checks for the five-bar gate in both places instead
 of Lucide's shield-check.
+
+## D-032 · The gate finds the project's toolchain
+
+The test command runs through a plain shell with the PATH of whatever started the
+gate: a Claude hook, git's pre-push, an MCP client, CI. So `python -m pytest` meant
+"the first `python` on that PATH", which on a Mac is often a system Python 2 or
+nothing, and almost never the project's activated virtualenv. Asking every user to
+start their agent from an activated venv doesn't scale, so the runner does what
+activation does: it puts the project's virtualenv first on PATH (`.venv/`, then
+`venv/`, then `$VIRTUAL_ENV`; `Scripts\` on Windows) and sets `VIRTUAL_ENV`. Project
+folders win over `$VIRTUAL_ENV` because a hook can inherit a venv activated for a
+different project. `[test] path` puts other folders first (Poetry, conda, custom
+layouts) and must stay inside the repo; `[test] use_venv = false` opts out.
+
+Before running, a leading `python`/`python3` is checked: missing or Python 2 is
+reported as such (the suite is not run), with the fix. After running, exit 126/127
+or "No module named <runner>" for `python -m <runner>` marks the suite as an
+*environment* failure with a hint. Interpreter paths in messages use `~` for the
+home folder so run logs don't carry the username.
+
+The Stop hook reports an environment failure to the agent once per gate run. If
+the agent stops again with nothing changed, the hook lets it go and tells the
+human, even across new user turns, because retrying can't fix an interpreter.
+Build and test failures keep the old behaviour (block, with the loop guard).
