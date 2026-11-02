@@ -15,6 +15,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
+from sprintwarden import redact
 from sprintwarden.config import Paths
 from sprintwarden.util import atomic_write_text, dumps_json, read_json, write_json
 
@@ -115,13 +116,14 @@ def history_record(record: dict[str, Any]) -> dict[str, Any]:
 def write_run(
     paths: Paths, record: dict[str, Any], *, latest_extra: dict[str, Any] | None = None
 ) -> Path:
+    clean = redact.for_root(paths.root).value  # no machine paths in what may be committed (D-033)
     path = run_file(paths, record["id"])
-    atomic_write_text(path, dumps_json(history_record(record), compact=True) + "\n")
+    atomic_write_text(path, dumps_json(clean(history_record(record)), compact=True) + "\n")
     latest = cap_lists(record)
     latest.pop("new_tests", None)  # can be huge on the first run; counts are kept
     if latest_extra:
         latest.update(latest_extra)
-    write_json(paths.latest, latest)
+    write_json(paths.latest, clean(latest))
     return path
 
 

@@ -8,6 +8,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- **Run records no longer name the machine they ran on.** Before a gate run is
+  written to `.sprint/runs/` or `latest.json`, the project's folder becomes a
+  relative path, the home folder `~`, temp folders `$TMPDIR`, folder names made
+  from a path (`-Users-ada-proj`) `<project>` or `~`, and the login and host name
+  inside a path `$USER` and `$HOST`, also where a test framework cut a path short.
+  Test and run IDs are kept, and the terminal still shows the full paths.
 - **The test command uses the project's own Python.** The gate puts the project's
   virtualenv (`.venv/`, `venv/`, or `$VIRTUAL_ENV`) first on PATH before running the
   tests, so hooks, git pushes and CI no longer pick up a system `python` (Python 2,

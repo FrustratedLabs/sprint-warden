@@ -26,7 +26,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from sprintwarden import __version__, agentdetect, gitutil, runs
+from sprintwarden import __version__, agentdetect, gitutil, redact, runs
 from sprintwarden import baseline as bl
 from sprintwarden.attribution import (
     LEGACY,
@@ -672,7 +672,8 @@ def record_bypass(cfg: Config, *, trigger: str, reason: str = "SPRINT_SKIP=1") -
         "version": __version__,
     }
     path = runs.run_file(cfg.paths, record["id"])
-    runs.atomic_write_text(path, runs.dumps_json(record, compact=True) + "\n")
+    clean = redact.for_root(cfg.root).value(record)  # D-033
+    runs.atomic_write_text(path, runs.dumps_json(clean, compact=True) + "\n")
     return path
 
 
