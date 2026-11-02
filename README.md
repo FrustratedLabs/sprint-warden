@@ -265,6 +265,11 @@ failed.
 **Does anything leave my machine?** No. No telemetry, no network calls; the
 dashboard binds to localhost.
 
+**Do committed run records give my machine away?** No. Before a record is written,
+the project's folder becomes a relative path, the home folder `~`, a temp folder
+`$TMPDIR`, and the login and host name inside a path `$USER` and `$HOST`, even
+where a test framework cut the path short. The terminal still shows the full paths.
+
 **Years-long projects?** Sprint IDs go past S99, run history is sharded by month,
 committed run records are capped, and `[history] keep` prunes old runs while
 keeping baselines and sprint closes.

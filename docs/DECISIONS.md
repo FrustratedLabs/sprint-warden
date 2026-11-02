@@ -340,3 +340,27 @@ The Stop hook reports an environment failure to the agent once per gate run. If
 the agent stops again with nothing changed, the hook lets it go and tells the
 human, even across new user turns, because retrying can't fix an interpreter.
 Build and test failures keep the old behaviour (block, with the loop guard).
+
+## D-033 · Records name no machine
+
+Run records are committed, often to a public repo, and test output names the
+machine it ran on all the time: the project's folder in a stack trace, a temp
+folder in an assertion, the login in `pytest-of-<login>`, the folder Claude Code
+makes from a path (`-Users-ada-proj`). D-032's `~` covered only the interpreter
+paths sprintwarden writes itself. So before a record is written (`runs/`,
+`latest.json`, a bypass record), every string in it except test and run IDs is
+rewritten (`redact.py`): a path in the project becomes relative to the root (the
+root itself `.`), another path in the home folder `~/…`, a path in a temp folder
+(TMPDIR, `/tmp`, `/var/tmp`, and macOS's `/private` forms) `$TMPDIR/…`, a folder
+name made from the project's path `<project>` and from another home path `~`, and
+the login and host name inside a path `$USER` and `$HOST`. A path a test framework
+cut short with `…` or `...` is rewritten as far as it goes. The login and host
+name are only rewritten inside something path-like, so a login that is also a word
+(`runner` on CI) stays a word in a sentence.
+
+Test and run IDs are kept, because the baseline and other runs match on them. The
+terminal report is printed before the record is written, so the person or agent
+at the keyboard still sees the full paths, and `.sprint/out/` (raw reports,
+`latest-full.json`) is gitignored and left as is. Folder names between the home
+folder and the project stay readable in `~/…` paths outside the project. Records
+committed before this are not rewritten; a project cleans those once by hand.

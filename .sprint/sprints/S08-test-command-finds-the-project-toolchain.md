@@ -1,7 +1,7 @@
 +++
 id      = "S08"
 title   = "Test command finds the project toolchain"
-status  = "active"          # planned | active | closed | parked
+status  = "parked"          # planned | active | closed | parked
 goal    = "The gate runs a project's tests with the project's own environment (its .venv), says clearly when the interpreter is wrong, and the Stop hook stops nagging about a problem the agent can't fix"
 started = 2026-10-15
 closed  = ""
@@ -9,6 +9,8 @@ out_of_scope = ["managing or creating virtualenvs (sprintwarden only finds them)
 
 # Acceptance criteria. An AC is satisfied when at least one test matches and
 # every matching test passed in the latest `sprint gate` run.
+parked = 2026-11-02
+parked_reason = "ready to close: all five ACs passed at its last gate (2026-10-15); parked so S09 can start"
 [[ac]]
 id    = "AC1"
 desc  = "The test command runs with the project's virtualenv first on PATH (.venv/, venv/, or $VIRTUAL_ENV), as if it were activated, with no config change"
@@ -38,3 +40,4 @@ tests = ["/test_S08_hook_/"]
 
 ## Notes / decisions
 - 2026-10-15: Gate puts the project venv (.venv, venv, $VIRTUAL_ENV) first on PATH, checks a leading python before running, marks environment failures; Stop hook reports those once per gate run (D-032). Planned ACs written into the S08 file before sprint start. (agent: claude-code)
+- 2026-11-02: Parked (was active): ready to close: all five ACs passed at its last gate (2026-10-15); parked so S09 can start (agent: claude-code)
